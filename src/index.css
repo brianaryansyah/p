@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #09090b;
+    color: #f4f4f5;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Custom Scrollbar for Artfolio Dark Theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #09090b;
+}
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
+}
+
+/* Artfolio Matte Dark Glass Card Utilities */
+.artfolio-card {
+  background: #131316;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.artfolio-card:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-4px);
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.9), 0 0 30px -10px rgba(255, 255, 255, 0.05);
+}
+
+.artfolio-card-glow {
+  background: radial-gradient(circle at 50% 100%, rgba(16, 185, 129, 0.15) 0%, #131316 70%);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  box-shadow: 0 0 60px -10px rgba(16, 185, 129, 0.2), 0 20px 40px -15px rgba(0, 0, 0, 0.8);
+}
+
+.font-serif-italic {
+  font-family: 'Newsreader', 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.btn-white-pill {
+  background-color: #ffffff;
+  color: #09090b;
+  border-radius: 9999px;
+  font-weight: 700;
+  box-shadow: 0 10px 25px -5px rgba(255, 255, 255, 0.15);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-white-pill:hover {
+  background-color: #e4e4e7;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 15px 30px -5px rgba(255, 255, 255, 0.25);
+}
