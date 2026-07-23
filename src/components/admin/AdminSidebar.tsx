@@ -7,7 +7,12 @@ import {
 import { useAuth } from '../../context/AuthContext';
 import { useData } from '../../context/DataContext';
 
-export const AdminSidebar = ({ mobileOpen, setMobileOpen }) => {
+interface AdminSidebarProps {
+  mobileOpen: boolean;
+  setMobileOpen: (open: boolean) => void;
+}
+
+export const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, setMobileOpen }) => {
   const { logout } = useAuth();
   const { messages } = useData();
 
@@ -72,7 +77,7 @@ export const AdminSidebar = ({ mobileOpen, setMobileOpen }) => {
                     <Icon className="w-4 h-4" />
                     <span>{item.name}</span>
                   </div>
-                  {item.badge > 0 && (
+                  {!!item.badge && item.badge > 0 && (
                     <span className="bg-emerald-500 text-black font-bold text-[10px] px-2 py-0.5 rounded-full">
                       {item.badge}
                     </span>

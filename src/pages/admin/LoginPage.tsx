@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Shield, Lock, User, ArrowRight, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
-export const LoginPage = () => {
+export const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('admin');
   const [password, setPassword] = useState('admin123');
   const [error, setError] = useState('');
@@ -13,7 +13,7 @@ export const LoginPage = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
@@ -21,7 +21,7 @@ export const LoginPage = () => {
     try {
       await login(username, password);
       navigate('/admin');
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message || 'Login gagal!');
     } finally {
       setLoading(false);
@@ -29,8 +29,7 @@ export const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-white flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Background ambient lighting */}
+    <div className="min-h-screen bg-[#08080a] text-white flex items-center justify-center p-4 relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
 
       <motion.div
@@ -39,7 +38,6 @@ export const LoginPage = () => {
         transition={{ duration: 0.4 }}
         className="w-full max-w-md artfolio-card rounded-3xl p-8 shadow-2xl relative z-10"
       >
-        {/* Header Branding */}
         <div className="flex flex-col items-center text-center mb-8">
           <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-emerald-400 mb-4 shadow-lg">
             <Shield className="w-7 h-7" />
@@ -52,7 +50,6 @@ export const LoginPage = () => {
           </p>
         </div>
 
-        {/* Demo Creds Alert Box */}
         <div className="mb-6 p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 text-xs text-emerald-400 flex items-center justify-between font-mono font-semibold">
           <span>Demo Access:</span>
           <span>admin / admin123</span>

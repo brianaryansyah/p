@@ -1,22 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import { Wrench, Plus, Trash2 } from 'lucide-react';
 import { useData } from '../../context/DataContext';
+import { SkillItem } from '../../types/portfolio';
 
-export const ManageSkills = () => {
+export const ManageSkills: React.FC = () => {
   const { skills, addSkill, deleteSkill } = useData();
   const [isAdding, setIsAdding] = useState(false);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<Omit<SkillItem, 'id'>>({
     name: '',
     category: 'Frontend',
     level: 'Advanced',
     icon: 'Code2',
     description: '',
+    featured: true,
     size: 'col-span-12 md:col-span-6 lg:col-span-4'
   });
 
-  const handleCreate = async (e) => {
+  const handleCreate = async (e: FormEvent) => {
     e.preventDefault();
     if (!formData.name) return;
     await addSkill(formData);
@@ -26,12 +28,13 @@ export const ManageSkills = () => {
       level: 'Advanced',
       icon: 'Code2',
       description: '',
+      featured: true,
       size: 'col-span-12 md:col-span-6 lg:col-span-4'
     });
     setIsAdding(false);
   };
 
-  const handleDelete = async (id, name) => {
+  const handleDelete = async (id: string, name: string) => {
     if (window.confirm(`Hapus keahlian "${name}"?`)) {
       await deleteSkill(id);
     }
@@ -52,7 +55,7 @@ export const ManageSkills = () => {
 
         <button
           onClick={() => setIsAdding(!isAdding)}
-          className="btn-white-pill inline-flex items-center gap-2 px-5 py-3 text-xs shrink-0"
+          className="btn-white-pill inline-flex items-center gap-2 px-5 py-3 text-xs shrink-0 font-bold"
         >
           <Plus className="w-4 h-4" />
           <span>{isAdding ? 'BATAL' : 'TAMBAH KEAHLIAN BARU'}</span>

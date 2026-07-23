@@ -2,11 +2,15 @@ import React from 'react';
 import { Menu, LogOut, Globe } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
-export const AdminTopbar = ({ setMobileOpen }) => {
+interface AdminTopbarProps {
+  setMobileOpen: (open: boolean) => void;
+}
+
+export const AdminTopbar: React.FC<AdminTopbarProps> = ({ setMobileOpen }) => {
   const { user, logout } = useAuth();
 
   return (
-    <header className="h-16 bg-[#09090b]/90 backdrop-blur-md border-b border-white/10 sticky top-0 z-30 px-4 sm:px-6 flex items-center justify-between">
+    <header className="h-16 bg-[#08080a]/90 backdrop-blur-md border-b border-white/10 sticky top-0 z-30 px-4 sm:px-6 flex items-center justify-between">
       <div className="flex items-center gap-4">
         <button
           onClick={() => setMobileOpen(true)}
@@ -16,7 +20,7 @@ export const AdminTopbar = ({ setMobileOpen }) => {
         </button>
         <div className="flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-xs font-mono text-zinc-400 font-semibold">Admin Control Panel Mode</span>
+          <span className="text-xs font-mono text-zinc-400 font-semibold">Admin Control Panel</span>
         </div>
       </div>
 
@@ -37,7 +41,7 @@ export const AdminTopbar = ({ setMobileOpen }) => {
           </div>
           <div className="hidden sm:flex flex-col">
             <span className="text-xs font-bold text-white leading-none">{user?.name || 'Brian Aryansyah'}</span>
-            <span className="text-[10px] text-zinc-400 font-mono font-medium">Lead Administrator</span>
+            <span className="text-[10px] text-zinc-400 font-mono font-medium">Administrator</span>
           </div>
 
           <button

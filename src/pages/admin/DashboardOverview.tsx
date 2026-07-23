@@ -6,7 +6,7 @@ import {
 import { Link } from 'react-router-dom';
 import { useData } from '../../context/DataContext';
 
-export const DashboardOverview = () => {
+export const DashboardOverview: React.FC = () => {
   const { projects, skills, messages, profile } = useData();
 
   const unreadMessages = messages.filter(m => !m.read);
@@ -64,7 +64,7 @@ export const DashboardOverview = () => {
         <div className="flex items-center gap-3">
           <Link
             to="/admin/projects"
-            className="btn-white-pill inline-flex items-center gap-2 px-5 py-3 text-xs"
+            className="btn-white-pill inline-flex items-center gap-2 px-5 py-3 text-xs font-bold"
           >
             <Plus className="w-4 h-4" />
             <span>TAMBAH PROYEK BARU</span>

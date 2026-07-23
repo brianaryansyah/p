@@ -2,10 +2,10 @@ import React from 'react';
 import { Mail, Trash2, Clock } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 
-export const ManageMessages = () => {
+export const ManageMessages: React.FC = () => {
   const { messages, deleteMessage } = useData();
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: string) => {
     if (window.confirm('Hapus pesan ini dari inbox?')) {
       await deleteMessage(id);
     }

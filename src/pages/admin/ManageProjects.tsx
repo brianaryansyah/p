@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { FolderKanban, Plus, Search, Edit3, Trash2, ExternalLink, Github } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 import { ProjectFormModal } from '../../components/admin/ProjectFormModal';
+import { ProjectItem } from '../../types/portfolio';
 
-export const ManageProjects = () => {
+export const ManageProjects: React.FC = () => {
   const { projects, addProject, updateProject, deleteProject } = useData();
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingProject, setEditingProject] = useState(null);
+  const [editingProject, setEditingProject] = useState<ProjectItem | null>(null);
 
   const filteredProjects = projects.filter(p =>
     p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -20,20 +21,20 @@ export const ManageProjects = () => {
     setIsModalOpen(true);
   };
 
-  const handleOpenEdit = (project) => {
+  const handleOpenEdit = (project: ProjectItem) => {
     setEditingProject(project);
     setIsModalOpen(true);
   };
 
-  const handleSaveProject = async (formData) => {
+  const handleSaveProject = async (formData: Partial<ProjectItem>) => {
     if (editingProject) {
       await updateProject(editingProject.id, formData);
     } else {
-      await addProject(formData);
+      await addProject(formData as Omit<ProjectItem, 'id'>);
     }
   };
 
-  const handleDelete = async (id, title) => {
+  const handleDelete = async (id: string, title: string) => {
     if (window.confirm(`Apakah Anda yakin ingin menghapus proyek "${title}"?`)) {
       await deleteProject(id);
     }
@@ -55,7 +56,7 @@ export const ManageProjects = () => {
 
         <button
           onClick={handleOpenAdd}
-          className="btn-white-pill inline-flex items-center gap-2 px-5 py-3 text-xs shrink-0"
+          className="btn-white-pill inline-flex items-center gap-2 px-5 py-3 text-xs shrink-0 font-bold"
         >
           <Plus className="w-4 h-4" />
           <span>TAMBAH PROYEK BARU</span>

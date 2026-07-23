@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
 import { UserCog, Save } from 'lucide-react';
 import { useData } from '../../context/DataContext';
+import { ProfileData } from '../../types/portfolio';
 
-export const ManageProfile = () => {
+export const ManageProfile: React.FC = () => {
   const { profile, updateProfile } = useData();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<Partial<ProfileData>>({
     name: '',
     tagline: '',
     university: '',
@@ -26,7 +27,7 @@ export const ManageProfile = () => {
     }
   }, [profile]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setSaving(true);
     try {
@@ -57,7 +58,7 @@ export const ManageProfile = () => {
             <input
               type="text"
               required
-              value={formData.name}
+              value={formData.name || ''}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/30 font-medium"
             />
@@ -67,7 +68,7 @@ export const ManageProfile = () => {
             <label className="block text-xs font-mono font-bold text-zinc-300 mb-1">Status / Badge Header</label>
             <input
               type="text"
-              value={formData.status}
+              value={formData.status || ''}
               onChange={(e) => setFormData({ ...formData, status: e.target.value })}
               className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/30 font-medium"
             />
@@ -80,7 +81,7 @@ export const ManageProfile = () => {
             <input
               type="text"
               required
-              value={formData.university}
+              value={formData.university || ''}
               onChange={(e) => setFormData({ ...formData, university: e.target.value })}
               className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/30 font-medium"
             />
@@ -91,7 +92,7 @@ export const ManageProfile = () => {
             <input
               type="text"
               required
-              value={formData.major}
+              value={formData.major || ''}
               onChange={(e) => setFormData({ ...formData, major: e.target.value })}
               className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/30 font-medium"
             />
@@ -102,7 +103,7 @@ export const ManageProfile = () => {
             <input
               type="text"
               required
-              value={formData.location}
+              value={formData.location || ''}
               onChange={(e) => setFormData({ ...formData, location: e.target.value })}
               className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/30 font-medium"
             />
@@ -114,7 +115,7 @@ export const ManageProfile = () => {
           <textarea
             rows={4}
             required
-            value={formData.bio}
+            value={formData.bio || ''}
             onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
             className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/30 font-medium resize-none"
           />
@@ -125,7 +126,7 @@ export const ManageProfile = () => {
             <label className="block text-xs font-mono font-bold text-zinc-300 mb-1">Email Resmi</label>
             <input
               type="email"
-              value={formData.email}
+              value={formData.email || ''}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none font-mono text-xs font-medium"
             />
@@ -135,7 +136,7 @@ export const ManageProfile = () => {
             <label className="block text-xs font-mono font-bold text-zinc-300 mb-1">URL GitHub</label>
             <input
               type="url"
-              value={formData.github}
+              value={formData.github || ''}
               onChange={(e) => setFormData({ ...formData, github: e.target.value })}
               className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none font-mono text-xs font-medium"
             />

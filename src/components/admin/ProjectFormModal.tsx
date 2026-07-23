@@ -1,9 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Sparkles, Check } from 'lucide-react';
+import { ProjectItem } from '../../types/portfolio';
 
-export const ProjectFormModal = ({ isOpen, onClose, onSave, projectToEdit }) => {
-  const [formData, setFormData] = useState({
+interface ProjectFormModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (data: Partial<ProjectItem>) => void;
+  projectToEdit?: ProjectItem | null;
+}
+
+export const ProjectFormModal: React.FC<ProjectFormModalProps> = ({ isOpen, onClose, onSave, projectToEdit }) => {
+  const [formData, setFormData] = useState<Partial<ProjectItem>>({
     title: '',
     category: 'Fullstack Web',
     description: '',
@@ -42,23 +50,25 @@ export const ProjectFormModal = ({ isOpen, onClose, onSave, projectToEdit }) => 
 
   if (!isOpen) return null;
 
-  const handleToggleTech = (tech) => {
-    if (formData.techStack.includes(tech)) {
-      setFormData({ ...formData, techStack: formData.techStack.filter(t => t !== tech) });
+  const handleToggleTech = (tech: string) => {
+    const currentTech = formData.techStack || [];
+    if (currentTech.includes(tech)) {
+      setFormData({ ...formData, techStack: currentTech.filter(t => t !== tech) });
     } else {
-      setFormData({ ...formData, techStack: [...formData.techStack, tech] });
+      setFormData({ ...formData, techStack: [...currentTech, tech] });
     }
   };
 
-  const handleAddCustomTech = (e) => {
+  const handleAddCustomTech = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (techInput.trim() && !formData.techStack.includes(techInput.trim())) {
-      setFormData({ ...formData, techStack: [...formData.techStack, techInput.trim()] });
+    const currentTech = formData.techStack || [];
+    if (techInput.trim() && !currentTech.includes(techInput.trim())) {
+      setFormData({ ...formData, techStack: [...currentTech, techInput.trim()] });
       setTechInput('');
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     onSave(formData);
     onClose();
@@ -105,7 +115,7 @@ export const ProjectFormModal = ({ isOpen, onClose, onSave, projectToEdit }) => 
                 <input
                   type="text"
                   required
-                  value={formData.title}
+                  value={formData.title || ''}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   placeholder="Misal: SiCASA - CataractScan AI"
                   className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/30 font-medium"
@@ -115,7 +125,7 @@ export const ProjectFormModal = ({ isOpen, onClose, onSave, projectToEdit }) => 
               <div>
                 <label className="block text-xs font-mono font-bold text-zinc-300 mb-1">Kategori Proyek *</label>
                 <select
-                  value={formData.category}
+                  value={formData.category || 'Fullstack Web'}
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                   className="w-full bg-[#131316] border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/30 font-medium"
                 >
@@ -132,7 +142,7 @@ export const ProjectFormModal = ({ isOpen, onClose, onSave, projectToEdit }) => 
               <textarea
                 rows={2}
                 required
-                value={formData.description}
+                value={formData.description || ''}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 placeholder="Penjelasan singkat proyek untuk tampilan kartu..."
                 className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/30 font-medium resize-none"
@@ -143,7 +153,7 @@ export const ProjectFormModal = ({ isOpen, onClose, onSave, projectToEdit }) => 
               <label className="block text-xs font-mono font-bold text-zinc-300 mb-1">Deskripsi Lengkap (Modal View)</label>
               <textarea
                 rows={3}
-                value={formData.longDescription}
+                value={formData.longDescription || ''}
                 onChange={(e) => setFormData({ ...formData, longDescription: e.target.value })}
                 placeholder="Rincian fitur, arsitektur MVC/YOLO, serta manfaat proyek..."
                 className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/30 font-medium resize-none"
@@ -156,7 +166,7 @@ export const ProjectFormModal = ({ isOpen, onClose, onSave, projectToEdit }) => 
                 <input
                   type="url"
                   required
-                  value={formData.image}
+                  value={formData.image || ''}
                   onChange={(e) => setFormData({ ...formData, image: e.target.value })}
                   placeholder="https://images.unsplash.com/..."
                   className="flex-1 bg-white/[0.03] border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/30 font-mono text-xs font-medium"
@@ -173,7 +183,7 @@ export const ProjectFormModal = ({ isOpen, onClose, onSave, projectToEdit }) => 
               </label>
               <div className="flex flex-wrap gap-2 mb-3">
                 {availableTechPresets.map((tech) => {
-                  const isSelected = formData.techStack.includes(tech);
+                  const isSelected = (formData.techStack || []).includes(tech);
                   return (
                     <button
                       type="button"
@@ -215,7 +225,7 @@ export const ProjectFormModal = ({ isOpen, onClose, onSave, projectToEdit }) => 
                 <label className="block text-xs font-mono font-bold text-zinc-300 mb-1">Link Repository GitHub</label>
                 <input
                   type="url"
-                  value={formData.githubUrl}
+                  value={formData.githubUrl || ''}
                   onChange={(e) => setFormData({ ...formData, githubUrl: e.target.value })}
                   placeholder="https://github.com/brianaryansyah/..."
                   className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-4 py-3 text-xs text-white focus:outline-none font-mono font-medium"
@@ -226,7 +236,7 @@ export const ProjectFormModal = ({ isOpen, onClose, onSave, projectToEdit }) => 
                 <label className="block text-xs font-mono font-bold text-zinc-300 mb-1">Link Live Demo (Opsional)</label>
                 <input
                   type="text"
-                  value={formData.demoUrl}
+                  value={formData.demoUrl || ''}
                   onChange={(e) => setFormData({ ...formData, demoUrl: e.target.value })}
                   placeholder="https://demo-app.com"
                   className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-4 py-3 text-xs text-white focus:outline-none font-mono font-medium"
