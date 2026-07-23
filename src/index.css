@@ -3,71 +3,111 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --bg-dark: #08080a;
+    --accent-emerald: #10b981;
+    --accent-cyan: #06b6d4;
+  }
+
   body {
-    background-color: #09090b;
+    background-color: var(--bg-dark);
     color: #f4f4f5;
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Smooth Scrolling */
+  html {
+    scroll-behavior: smooth;
   }
 }
 
 /* Custom Scrollbar for Artfolio Dark Theme */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #09090b;
+  background: #08080a;
 }
 ::-webkit-scrollbar-thumb {
   background: #27272a;
-  border-radius: 4px;
+  border-radius: 5px;
+  border: 2px solid #08080a;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #3f3f46;
 }
 
-/* Artfolio Matte Dark Glass Card Utilities */
-.artfolio-card {
-  background: #131316;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.artfolio-card:hover {
-  border-color: rgba(255, 255, 255, 0.25);
-  transform: translateY(-4px);
-  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.9), 0 0 30px -10px rgba(255, 255, 255, 0.05);
-}
-
-.artfolio-card-glow {
-  background: radial-gradient(circle at 50% 100%, rgba(16, 185, 129, 0.15) 0%, #131316 70%);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  box-shadow: 0 0 60px -10px rgba(16, 185, 129, 0.2), 0 20px 40px -15px rgba(0, 0, 0, 0.8);
-}
-
+/* Typography Accent Utility */
 .font-serif-italic {
   font-family: 'Newsreader', 'Playfair Display', Georgia, serif;
   font-style: italic;
   font-weight: 400;
 }
 
+/* Artfolio Matte Dark Glass Card Utilities with Generous Spacing & Smooth Physics */
+.artfolio-card {
+  background: #111114;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.75);
+  transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.artfolio-card:hover {
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 35px 70px -20px rgba(0, 0, 0, 0.95), 0 0 40px -10px rgba(255, 255, 255, 0.08);
+}
+
+/* Glowing Aura Feature Card */
+.artfolio-card-glow {
+  background: radial-gradient(circle at 50% 100%, rgba(16, 185, 129, 0.18) 0%, #111114 75%);
+  border: 1px solid rgba(16, 185, 129, 0.38);
+  box-shadow: 0 0 65px -10px rgba(16, 185, 129, 0.25), 0 25px 50px -15px rgba(0, 0, 0, 0.85);
+  transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.artfolio-card-glow:hover {
+  border-color: rgba(16, 185, 129, 0.6);
+  box-shadow: 0 0 80px -5px rgba(16, 185, 129, 0.35), 0 35px 70px -20px rgba(0, 0, 0, 0.95);
+}
+
 .bento-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 1.25rem;
+  gap: 1.5rem;
 }
 
 .btn-white-pill {
   background-color: #ffffff;
-  color: #09090b;
+  color: #08080a;
   border-radius: 9999px;
-  font-weight: 700;
-  box-shadow: 0 10px 25px -5px rgba(255, 255, 255, 0.15);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  font-weight: 800;
+  box-shadow: 0 12px 30px -5px rgba(255, 255, 255, 0.22);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .btn-white-pill:hover {
-  background-color: #e4e4e7;
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 15px 30px -5px rgba(255, 255, 255, 0.25);
+  background-color: #f4f4f5;
+  transform: translateY(-3px) scale(1.025);
+  box-shadow: 0 18px 40px -5px rgba(255, 255, 255, 0.35);
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 22s linear infinite;
 }
