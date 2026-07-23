@@ -1,25 +1,28 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { apiService } from '../services/api';
+import { DataContextType, ProfileData, SkillItem, ProjectItem, MessageItem } from '../types/portfolio';
 
-const DataContext = createContext();
+const DataContext = createContext<DataContextType | null>(null);
 
-export const DataProvider = ({ children }) => {
-  const [profile, setProfile] = useState(null);
-  const [skills, setSkills] = useState([]);
-  const [projects, setProjects] = useState([]);
-  const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [toast, setToast] = useState(null);
+interface DataProviderProps {
+  children: ReactNode;
+}
 
-  // Show Toast Helper
-  const showToast = (message, type = 'success') => {
+export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
+  const [profile, setProfile] = useState<ProfileData | null>(null);
+  const [skills, setSkills] = useState<SkillItem[]>([]);
+  const [projects, setProjects] = useState<ProjectItem[]>([]);
+  const [messages, setMessages] = useState<MessageItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info'; id: number } | null>(null);
+
+  const showToast = (message: string, type: 'success' | 'error' | 'info' = 'success') => {
     setToast({ message, type, id: Date.now() });
     setTimeout(() => {
       setToast(null);
     }, 4000);
   };
 
-  // Fetch all initial data
   const refreshData = async () => {
     setLoading(true);
     try {
@@ -44,33 +47,29 @@ export const DataProvider = ({ children }) => {
     refreshData();
   }, []);
 
-  // Profile actions
-  const updateProfile = async (updatedData) => {
+  const updateProfile = async (updatedData: Partial<ProfileData>) => {
     try {
       const res = await apiService.updateProfile(updatedData);
       setProfile(res);
       showToast('Profil berhasil diperbarui!');
-      return res;
     } catch (err) {
       showToast('Gagal memperbarui profil!', 'error');
       throw err;
     }
   };
 
-  // Project CRUD
-  const addProject = async (projData) => {
+  const addProject = async (projData: Omit<ProjectItem, 'id'>) => {
     try {
       const newProj = await apiService.addProject(projData);
       setProjects(prev => [newProj, ...prev]);
       showToast('Proyek baru berhasil ditambahkan!');
-      return newProj;
     } catch (err) {
       showToast('Gagal menambahkan proyek!', 'error');
       throw err;
     }
   };
 
-  const updateProject = async (id, projData) => {
+  const updateProject = async (id: string, projData: Partial<ProjectItem>) => {
     try {
       await apiService.updateProject(id, projData);
       setProjects(prev => prev.map(p => p.id === id ? { ...p, ...projData } : p));
@@ -81,7 +80,7 @@ export const DataProvider = ({ children }) => {
     }
   };
 
-  const deleteProject = async (id) => {
+  const deleteProject = async (id: string) => {
     try {
       await apiService.deleteProject(id);
       setProjects(prev => prev.filter(p => p.id !== id));
@@ -92,20 +91,18 @@ export const DataProvider = ({ children }) => {
     }
   };
 
-  // Skill CRUD
-  const addSkill = async (skillData) => {
+  const addSkill = async (skillData: Omit<SkillItem, 'id'>) => {
     try {
       const newSkill = await apiService.addSkill(skillData);
       setSkills(prev => [newSkill, ...prev]);
       showToast('Skill baru berhasil ditambahkan!');
-      return newSkill;
     } catch (err) {
       showToast('Gagal menambahkan skill!', 'error');
       throw err;
     }
   };
 
-  const updateSkill = async (id, skillData) => {
+  const updateSkill = async (id: string, skillData: Partial<SkillItem>) => {
     try {
       await apiService.updateSkill(id, skillData);
       setSkills(prev => prev.map(s => s.id === id ? { ...s, ...skillData } : s));
@@ -116,7 +113,7 @@ export const DataProvider = ({ children }) => {
     }
   };
 
-  const deleteSkill = async (id) => {
+  const deleteSkill = async (id: string) => {
     try {
       await apiService.deleteSkill(id);
       setSkills(prev => prev.filter(s => s.id !== id));
@@ -127,20 +124,22 @@ export const DataProvider = ({ children }) => {
     }
   };
 
-  // Contact Message Action
-  const sendMessage = async (msgData) => {
+  const sendMessage = async (msgData: { name: string; email: string; subject: string; message: string }) => {
     try {
       const newMsg = await apiService.sendMessage(msgData);
       setMessages(prev => [newMsg, ...prev]);
       showToast('Pesan Anda berhasil terkirim! Terima kasih.');
-      return newMsg;
     } catch (err) {
       showToast('Gagal mengirim pesan.', 'error');
       throw err;
     }
   };
 
-  const deleteMessage = async (id) => {
+  const markMessageRead = async (id: string) => {
+    setMessages(prev => prev.map(m => m.id === id ? { ...m, read: true } : m));
+  };
+
+  const deleteMessage = async (id: string) => {
     try {
       await apiService.deleteMessage(id);
       setMessages(prev => prev.filter(m => m.id !== id));
@@ -151,16 +150,30 @@ export const DataProvider = ({ children }) => {
     }
   };
 
+  const defaultProfile: ProfileData = {
+    name: 'Brian Aryansyah Pamungkas',
+    tagline: 'Building High-Performance Web & AI Systems',
+    roles: ['Fullstack Web Developer', 'Machine Learning Enthusiast'],
+    university: 'Universitas Dian Nuswantoro',
+    major: 'Teknik Informatika',
+    semester: 4,
+    location: 'Semarang, Indonesia',
+    bio: '',
+    email: 'brianaryansyahp@gmail.com',
+    github: 'https://github.com/brianaryansyah',
+    linkedin: 'https://linkedin.com/in/brianaryansyah',
+    instagram: 'https://instagram.com/brianaryansyah',
+    status: 'Terbuka untuk Projek & Kolaborasi'
+  };
+
   return (
     <DataContext.Provider value={{
-      profile,
+      profile: profile || defaultProfile,
       skills,
       projects,
       messages,
-      loading,
       toast,
       showToast,
-      refreshData,
       updateProfile,
       addProject,
       updateProject,
@@ -169,6 +182,7 @@ export const DataProvider = ({ children }) => {
       updateSkill,
       deleteSkill,
       sendMessage,
+      markMessageRead,
       deleteMessage
     }}>
       {children}
@@ -176,4 +190,10 @@ export const DataProvider = ({ children }) => {
   );
 };
 
-export const useData = () => useContext(DataContext);
+export const useData = () => {
+  const context = useContext(DataContext);
+  if (!context) {
+    throw new Error('useData must be used within a DataProvider');
+  }
+  return context;
+};
