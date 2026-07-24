@@ -13,7 +13,7 @@ export const Navbar: React.FC = () => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 25);
 
-      const sections = ['about', 'skills', 'terminal', 'projects', 'contact'];
+      const sections = ['about', 'skills', 'experience', 'projects', 'github', 'contact'];
       const current = sections.find(section => {
         const el = document.getElementById(section);
         if (el) {
@@ -32,8 +32,9 @@ export const Navbar: React.FC = () => {
   const navLinks = [
     { name: 'Tentang', href: '#about', id: 'about' },
     { name: 'Keahlian', href: '#skills', id: 'skills' },
-    { name: 'Terminal CLI', href: '#terminal', id: 'terminal' },
+    { name: 'Pengalaman', href: '#experience', id: 'experience' },
     { name: 'Proyek', href: '#projects', id: 'projects' },
+    { name: 'GitHub', href: '#github', id: 'github' },
     { name: 'Kontak', href: '#contact', id: 'contact' },
   ];
 

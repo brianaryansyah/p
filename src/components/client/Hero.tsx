@@ -1,13 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Code2, Eye, Sparkles, Terminal, ChevronRight, ArrowUpRight, BrainCircuit, CheckCircle2 } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 import { MagneticButton } from '../common/MagneticButton';
 
+const typingRoles = [
+  'Fullstack Web Developer',
+  'Computer Vision Engineer',
+  'Machine Learning Researcher',
+  'UI/UX Architecture Designer',
+  'Open Source Contributor',
+];
+
+const useTypingEffect = (roles: string[], typingSpeed = 80, deletingSpeed = 40, pauseTime = 2000) => {
+  const [displayText, setDisplayText] = useState('');
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const currentRole = roles[roleIndex];
+    
+    const timeout = setTimeout(() => {
+      if (!isDeleting) {
+        if (displayText.length < currentRole.length) {
+          setDisplayText(currentRole.slice(0, displayText.length + 1));
+        } else {
+          setTimeout(() => setIsDeleting(true), pauseTime);
+        }
+      } else {
+        if (displayText.length > 0) {
+          setDisplayText(displayText.slice(0, -1));
+        } else {
+          setIsDeleting(false);
+          setRoleIndex((prev) => (prev + 1) % roles.length);
+        }
+      }
+    }, isDeleting ? deletingSpeed : typingSpeed);
+
+    return () => clearTimeout(timeout);
+  }, [displayText, isDeleting, roleIndex, roles, typingSpeed, deletingSpeed, pauseTime]);
+
+  return displayText;
+};
+
 export const Hero: React.FC = () => {
   const { profile } = useData();
   const [activeYoloBox, setActiveYoloBox] = useState(true);
   const [activeTab, setActiveTab] = useState<'preview' | 'code'>('preview');
+  const typedRole = useTypingEffect(typingRoles);
 
   const codeSnippet = `// CodeIgniter 4 + Flask ML Microservice Integration
 public function predictCataract() {
@@ -24,6 +64,7 @@ public function predictCataract() {
       {/* Background Ambient Radial Glow Mesh */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[750px] bg-emerald-500/10 rounded-full blur-[160px] pointer-events-none" />
       <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-500/8 rounded-full blur-[130px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 text-center flex flex-col items-center">
         
@@ -39,7 +80,7 @@ public function predictCataract() {
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
           </span>
           <span className="font-mono text-xs uppercase tracking-wider text-emerald-400 font-bold">
-            {profile?.status || "Mahasiswa Teknik Informatika UDINUS"}
+            {profile?.status || "Open for Projects & Collaboration"}
           </span>
         </motion.div>
 
@@ -48,10 +89,29 @@ public function predictCataract() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.12] max-w-5xl mb-8"
+          className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.12] max-w-5xl mb-4"
         >
-          Merancang <span className="font-serif-italic text-zinc-300 font-normal">Arsitektur Web</span> & Model <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">Computer Vision</span>
+          Merancang <span className="font-serif-italic text-zinc-300 font-normal">Arsitektur Web</span> & Model{' '}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
+            Computer Vision
+          </span>
         </motion.h1>
+
+        {/* Typing Role Animation */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          className="h-8 flex items-center justify-center mb-8"
+        >
+          <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md">
+            <span className="text-xs font-mono text-zinc-500 font-bold">I am a</span>
+            <span className="text-sm font-mono font-bold text-emerald-400 min-w-[220px] text-left">
+              {typedRole}
+              <span className="animate-pulse text-emerald-300">|</span>
+            </span>
+          </div>
+        </motion.div>
 
         {/* Subtitle Paragraph */}
         <motion.p
@@ -230,7 +290,7 @@ public function predictCataract() {
               </div>
               <h3 className="text-2xl font-extrabold text-white mb-3">Python & Data Pipeline</h3>
               <p className="text-sm text-zinc-300 leading-relaxed font-normal">
-                Ekstraksi fitur lexical URL, pemprosesan citra medis OpenCV, dan pengklasifikasian ancaman cyber security.
+                Ekstraksi fitur lexical URL, pemrosesan citra medis OpenCV, dan pengklasifikasian ancaman cyber security.
               </p>
             </div>
             <div className="mt-10 pt-5 border-t border-white/10 flex items-center justify-between text-xs font-mono text-zinc-400 font-bold">
