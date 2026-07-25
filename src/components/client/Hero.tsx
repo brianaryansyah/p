@@ -175,8 +175,8 @@ public function predictCataract() {
       <div className="absolute bottom-1/4 right-1/5 w-[500px] h-[500px] bg-purple-500/12 rounded-full blur-[160px] pointer-events-none animate-float-reverse" />
       <div className="absolute top-2/3 right-1/3 w-[450px] h-[450px] bg-indigo-500/10 rounded-full blur-[140px] pointer-events-none" />
 
-      {/* Main Full-Screen Hero Viewport Container */}
-      <div className="min-h-screen pt-36 pb-16 flex flex-col items-center justify-center relative z-10">
+      {/* Main Full-Screen Hero Viewport Container (Section 1) */}
+      <div className="min-h-screen pt-32 pb-12 flex flex-col items-center justify-center relative z-10">
         
         <div ref={heroContentRef} className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center flex flex-col items-center relative transition-transform duration-200">
           
@@ -323,8 +323,14 @@ public function predictCataract() {
         </div>
       </div>
 
-      {/* Feature Highlight Cards Section with 3D Stacked Coverflow Carousel */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 text-center pb-28">
+      {/* Feature Highlight Cards Section (Section 2) with Scroll Entrance Animation */}
+      <motion.div
+        initial={{ opacity: 0, y: 55 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 text-center pt-16 pb-28"
+      >
         
         {/* Desktop/Tablet 3D Stacked Carousel */}
         <div className="hidden md:flex relative items-center justify-center min-h-[520px] w-full">
@@ -597,7 +603,7 @@ public function predictCataract() {
           </div>
         </div>
 
-      </div>
+      </motion.div>
     </section>
   );
 };
