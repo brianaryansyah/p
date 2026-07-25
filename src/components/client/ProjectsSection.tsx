@@ -10,7 +10,7 @@ export const ProjectsSection: React.FC = () => {
   const [selectedFilter, setSelectedFilter] = useState<string>('All');
   const [activeModalProject, setActiveModalProject] = useState<ProjectItem | null>(null);
 
-  const categories = ['All', 'Machine Learning', 'Fullstack Web'];
+  const categories = ['All', 'Machine Learning', 'Fullstack Web', 'Cyber Security'];
 
   const filteredProjects = selectedFilter === 'All'
     ? projects
