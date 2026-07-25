@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import { 
-  Code2, Eye, Sparkles, Terminal, ChevronRight, ArrowUpRight, 
+  Code2, Eye, Sparkles, Terminal, ChevronRight, ChevronLeft, ArrowUpRight, 
   BrainCircuit, CheckCircle2 
 } from 'lucide-react';
 import { useData } from '../../context/DataContext';
@@ -85,6 +85,7 @@ export const Hero: React.FC = () => {
   const { profile } = useData();
   const [activeYoloBox, setActiveYoloBox] = useState(true);
   const [activeTab, setActiveTab] = useState<'preview' | 'code'>('preview');
+  const [activeCardIndex, setActiveCardIndex] = useState(1);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const typedRole = useTypingEffect(typingRoles);
 
@@ -322,176 +323,279 @@ public function predictCataract() {
         </div>
       </div>
 
-      {/* Feature Highlight Cards Section */}
+      {/* Feature Highlight Cards Section with 3D Stacked Coverflow Carousel */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 text-center pb-28">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-7 w-full text-left"
-        >
-          {/* Card 1: Fullstack Architecture (Ref 2 Style with Real SVGs) */}
-          <motion.div
-            whileHover={{ y: -8, scale: 1.015 }}
-            transition={{ type: "spring", stiffness: 260, damping: 20 }}
-            className="rounded-[32px] p-8 sm:p-9 flex flex-col justify-between border border-cyan-500/30 relative overflow-hidden group shadow-2xl"
-            style={{
-              background: 'radial-gradient(circle at 50% 100%, rgba(6, 182, 212, 0.24) 0%, rgba(6, 182, 212, 0.05) 55%, #101014 85%)'
-            }}
+        
+        {/* Desktop/Tablet 3D Stacked Carousel */}
+        <div className="hidden md:flex relative items-center justify-center min-h-[520px] w-full">
+          
+          {/* Left Arrow Nav Button */}
+          <button
+            onClick={() => setActiveCardIndex((prev) => (prev > 0 ? prev - 1 : 2))}
+            aria-label="Previous Card"
+            className="absolute left-2 lg:left-6 z-40 p-3.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/15 text-white backdrop-blur-xl transition-all shadow-xl hover:scale-110 active:scale-95"
           >
-            <div>
-              <div className="flex items-center justify-between mb-7">
-                <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/[0.06] border border-white/10 shadow-inner">
-                  <ReactLogo />
-                  <CodeIgniterLogo />
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+
+          {/* Right Arrow Nav Button */}
+          <button
+            onClick={() => setActiveCardIndex((prev) => (prev < 2 ? prev + 1 : 0))}
+            aria-label="Next Card"
+            className="absolute right-2 lg:right-6 z-40 p-3.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/15 text-white backdrop-blur-xl transition-all shadow-xl hover:scale-110 active:scale-95"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+
+          {/* Cards Stack Container */}
+          <div className="relative w-full max-w-4xl h-[470px] flex items-center justify-center">
+            
+            {/* Card 1: Fullstack Architecture */}
+            <motion.div
+              onClick={() => setActiveCardIndex(0)}
+              animate={{
+                x: activeCardIndex === 0 ? 0 : activeCardIndex === 1 ? -280 : -140,
+                scale: activeCardIndex === 0 ? 1.04 : 0.86,
+                zIndex: activeCardIndex === 0 ? 30 : 10,
+                filter: activeCardIndex === 0 ? 'blur(0px)' : 'blur(6px)',
+                opacity: activeCardIndex === 0 ? 1 : 0.6,
+              }}
+              transition={{ type: 'spring', stiffness: 280, damping: 26 }}
+              className={`absolute w-full max-w-[420px] rounded-[32px] p-8 flex flex-col justify-between border border-cyan-500/35 shadow-2xl transition-all ${
+                activeCardIndex !== 0 ? 'cursor-pointer hover:opacity-80' : ''
+              }`}
+              style={{
+                background: 'radial-gradient(circle at 50% 100%, rgba(6, 182, 212, 0.26) 0%, rgba(6, 182, 212, 0.06) 55%, #101014 85%)'
+              }}
+            >
+              <div>
+                <div className="flex items-center justify-between mb-7">
+                  <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/[0.06] border border-white/10 shadow-inner">
+                    <ReactLogo />
+                    <CodeIgniterLogo />
+                  </div>
+                  <span className="text-xs font-mono text-cyan-400 bg-cyan-500/10 px-4 py-1.5 rounded-full border border-cyan-500/25 font-bold tracking-wider uppercase">
+                    Fullstack MVC
+                  </span>
                 </div>
-                <span className="text-xs font-mono text-cyan-400 bg-cyan-500/10 px-4 py-1.5 rounded-full border border-cyan-500/25 font-bold tracking-wider uppercase">
-                  Fullstack MVC
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-white mb-3 tracking-tight">React & CodeIgniter 4</h3>
+                <p className="text-sm text-zinc-300 leading-relaxed font-normal">
+                  Pengembangan Single Page Application terstruktur dan RESTful API terisolasi berbasis standar Clean Code.
+                </p>
+              </div>
+              <div className="mt-10 pt-5 border-t border-white/10 flex items-center justify-between text-xs font-mono text-zinc-400 font-bold">
+                <span className="px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10">Clean Architecture</span>
+                <span className="text-cyan-400 font-bold flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20">
+                  <CheckCircle2 className="w-3.5 h-3.5" /> Production Ready
                 </span>
               </div>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-white mb-3 tracking-tight">React & CodeIgniter 4</h3>
-              <p className="text-sm text-zinc-300 leading-relaxed font-normal">
-                Pengembangan Single Page Application terstruktur dan RESTful API terisolasi berbasis standar Clean Code.
-              </p>
-            </div>
-            <div className="mt-10 pt-5 border-t border-white/10 flex items-center justify-between text-xs font-mono text-zinc-400 font-bold">
-              <span className="px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10">Clean Architecture</span>
-              <span className="text-cyan-400 font-bold flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20">
-                <CheckCircle2 className="w-3.5 h-3.5" /> Production Ready
-              </span>
-            </div>
-          </motion.div>
+            </motion.div>
 
-          {/* Card 2: SiCASA CataractScan AI (Highlight Card matching Ref 2 with Real SVGs & Volumetric Emerald Glow) */}
-          <motion.div
-            whileHover={{ y: -8, scale: 1.015 }}
-            transition={{ type: "spring", stiffness: 260, damping: 20 }}
-            className="rounded-[32px] p-8 sm:p-9 flex flex-col justify-between relative overflow-hidden group border border-emerald-500/45 shadow-[0_0_65px_rgba(16,185,129,0.22)]"
-            style={{
-              background: 'radial-gradient(circle at 50% 100%, rgba(16, 185, 129, 0.32) 0%, rgba(16, 185, 129, 0.08) 55%, #101014 90%)'
-            }}
-          >
-            <div>
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-2.5 px-3.5 py-2 rounded-full bg-emerald-500/20 border border-emerald-500/30 shadow-inner">
-                  <PyTorchLogo />
-                  <span className="text-xs font-mono text-emerald-300 font-bold">YOLOv8</span>
+            {/* Card 2: SiCASA CataractScan AI */}
+            <motion.div
+              onClick={() => setActiveCardIndex(1)}
+              animate={{
+                x: activeCardIndex === 1 ? 0 : activeCardIndex === 0 ? 280 : -280,
+                scale: activeCardIndex === 1 ? 1.04 : 0.86,
+                zIndex: activeCardIndex === 1 ? 30 : 10,
+                filter: activeCardIndex === 1 ? 'blur(0px)' : 'blur(6px)',
+                opacity: activeCardIndex === 1 ? 1 : 0.6,
+              }}
+              transition={{ type: 'spring', stiffness: 280, damping: 26 }}
+              className={`absolute w-full max-w-[420px] rounded-[32px] p-8 flex flex-col justify-between border border-emerald-500/45 shadow-[0_0_65px_rgba(16,185,129,0.22)] ${
+                activeCardIndex !== 1 ? 'cursor-pointer hover:opacity-80' : ''
+              }`}
+              style={{
+                background: 'radial-gradient(circle at 50% 100%, rgba(16, 185, 129, 0.32) 0%, rgba(16, 185, 129, 0.08) 55%, #101014 90%)'
+              }}
+            >
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-2.5 px-3.5 py-2 rounded-full bg-emerald-500/20 border border-emerald-500/30 shadow-inner">
+                    <PyTorchLogo />
+                    <span className="text-xs font-mono text-emerald-300 font-bold">YOLOv8</span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setActiveTab(activeTab === 'preview' ? 'code' : 'preview'); }}
+                      className="text-xs font-mono px-3.5 py-1.5 rounded-full bg-white/5 text-zinc-300 border border-white/10 hover:bg-white/10 transition-colors font-bold"
+                    >
+                      {activeTab === 'preview' ? 'Code View' : 'Live View'}
+                    </button>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setActiveYoloBox(!activeYoloBox); }}
+                      className="text-xs font-mono px-3.5 py-1.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/30 transition-colors flex items-center gap-1.5 font-bold"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      <span>{activeYoloBox ? "Hide Box" : "Show Box"}</span>
+                    </button>
+                  </div>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setActiveTab(activeTab === 'preview' ? 'code' : 'preview')}
-                    className="text-xs font-mono px-3.5 py-1.5 rounded-full bg-white/5 text-zinc-300 border border-white/10 hover:bg-white/10 transition-colors font-bold"
-                  >
-                    {activeTab === 'preview' ? 'Code View' : 'Live View'}
-                  </button>
-                  <button
-                    onClick={() => setActiveYoloBox(!activeYoloBox)}
-                    className="text-xs font-mono px-3.5 py-1.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/30 transition-colors flex items-center gap-1.5 font-bold"
-                  >
-                    <Eye className="w-3.5 h-3.5" />
-                    <span>{activeYoloBox ? "Hide Box" : "Show Box"}</span>
-                  </button>
-                </div>
-              </div>
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-white mb-2 tracking-tight">SiCASA CataractScan AI</h3>
+                <p className="text-sm text-zinc-300 leading-relaxed font-normal mb-5">
+                  Deteksi dan pengenalan citra medis katarak real-time berbasis arsitektur Computer Vision YOLOv8.
+                </p>
 
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-white mb-2 tracking-tight">SiCASA CataractScan AI</h3>
-              <p className="text-sm text-zinc-300 leading-relaxed font-normal mb-5">
-                Deteksi dan pengenalan citra medis katarak real-time berbasis arsitektur Computer Vision YOLOv8.
-              </p>
-
-              {/* Interactive Image Box vs Code View */}
-              <AnimatePresence mode="wait">
-                {activeTab === 'preview' ? (
-                  <motion.div
-                    key="preview"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="relative rounded-2xl overflow-hidden aspect-[16/10] bg-black border border-white/10 shadow-inner"
-                  >
-                    <img
-                      src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800&auto=format&fit=crop"
-                      alt="YOLO Medical Eye Scan"
-                      className="w-full h-full object-cover opacity-85 group-hover:scale-105 transition-transform duration-500"
-                    />
-
-                    {/* Animated Vertical Scan Laser Beam */}
+                {/* Interactive Image Box vs Code View */}
+                <AnimatePresence mode="wait">
+                  {activeTab === 'preview' ? (
                     <motion.div
-                      animate={{ y: ["0%", "100%", "0%"] }}
-                      transition={{ duration: 2.8, repeat: Infinity, ease: "linear" }}
-                      className="absolute inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_12px_#10b981] pointer-events-none z-10"
-                    />
+                      key="preview"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="relative rounded-2xl overflow-hidden aspect-[16/10] bg-black border border-white/10 shadow-inner"
+                    >
+                      <img
+                        src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800&auto=format&fit=crop"
+                        alt="YOLO Medical Eye Scan"
+                        className="w-full h-full object-cover opacity-85 group-hover:scale-105 transition-transform duration-500"
+                      />
 
-                    {activeYoloBox && (
+                      {/* Animated Vertical Scan Laser Beam */}
                       <motion.div
-                        initial={{ opacity: 0, scale: 0.85 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="absolute inset-x-[18%] inset-y-[18%] border-2 border-emerald-400 bg-emerald-500/20 rounded-xl flex items-start p-1.5 shadow-lg shadow-emerald-500/25 z-20"
-                      >
-                        <span className="bg-emerald-500 text-black font-mono font-bold text-[10px] px-2 py-0.5 rounded-md flex items-center gap-1 shadow-sm">
-                          <CheckCircle2 className="w-3 h-3" />
-                          <span>Cataract 96.8%</span>
-                        </span>
-                      </motion.div>
-                    )}
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="code"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="rounded-2xl overflow-hidden aspect-[16/10] bg-[#0c0c0e] border border-white/10 p-4 font-mono text-xs text-emerald-400 overflow-x-auto"
-                  >
-                    <pre className="text-zinc-300 leading-relaxed">{codeSnippet}</pre>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+                        animate={{ y: ["0%", "100%", "0%"] }}
+                        transition={{ duration: 2.8, repeat: Infinity, ease: "linear" }}
+                        className="absolute inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_12px_#10b981] pointer-events-none z-10"
+                      />
 
-            <div className="mt-7 pt-5 border-t border-emerald-500/20 flex items-center justify-between text-xs font-mono text-emerald-400 font-bold">
-              <span className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-                <Sparkles className="w-4 h-4 animate-pulse" />
-                <span>Featured ML Model</span>
-              </span>
-              <span className="px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-zinc-300">YOLOv8 & PyTorch</span>
-            </div>
-          </motion.div>
+                      {activeYoloBox && (
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.85 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          className="absolute inset-x-[18%] inset-y-[18%] border-2 border-emerald-400 bg-emerald-500/20 rounded-xl flex items-start p-1.5 shadow-lg shadow-emerald-500/25 z-20"
+                        >
+                          <span className="bg-emerald-500 text-black font-mono font-bold text-[10px] px-2 py-0.5 rounded-md flex items-center gap-1 shadow-sm">
+                            <CheckCircle2 className="w-3 h-3" />
+                            <span>Cataract 96.8%</span>
+                          </span>
+                        </motion.div>
+                      )}
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="code"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="rounded-2xl overflow-hidden aspect-[16/10] bg-[#0c0c0e] border border-white/10 p-4 font-mono text-xs text-emerald-400 overflow-x-auto"
+                    >
+                      <pre className="text-zinc-300 leading-relaxed">{codeSnippet}</pre>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
 
-          {/* Card 3: Cyber Security & Data Analysis (Ref 2 Style with Real SVGs) */}
-          <motion.div
-            whileHover={{ y: -8, scale: 1.015 }}
-            transition={{ type: "spring", stiffness: 260, damping: 20 }}
-            className="rounded-[32px] p-8 sm:p-9 flex flex-col justify-between border border-purple-500/30 relative overflow-hidden group shadow-2xl"
-            style={{
-              background: 'radial-gradient(circle at 50% 100%, rgba(168, 85, 247, 0.24) 0%, rgba(168, 85, 247, 0.05) 55%, #101014 85%)'
-            }}
-          >
-            <div>
-              <div className="flex items-center justify-between mb-7">
-                <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/[0.06] border border-white/10 shadow-inner">
-                  <PythonLogo />
-                  <span className="text-xs font-mono text-purple-300 font-bold">OpenCV</span>
+              <div className="mt-7 pt-5 border-t border-emerald-500/20 flex items-center justify-between text-xs font-mono text-emerald-400 font-bold">
+                <span className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+                  <Sparkles className="w-4 h-4 animate-pulse" />
+                  <span>Featured ML Model</span>
+                </span>
+                <span className="px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-zinc-300">YOLOv8 & PyTorch</span>
+              </div>
+            </motion.div>
+
+            {/* Card 3: Cyber Security & Data Analysis */}
+            <motion.div
+              onClick={() => setActiveCardIndex(2)}
+              animate={{
+                x: activeCardIndex === 2 ? 0 : activeCardIndex === 1 ? 280 : 140,
+                scale: activeCardIndex === 2 ? 1.04 : 0.86,
+                zIndex: activeCardIndex === 2 ? 30 : 10,
+                filter: activeCardIndex === 2 ? 'blur(0px)' : 'blur(6px)',
+                opacity: activeCardIndex === 2 ? 1 : 0.6,
+              }}
+              transition={{ type: 'spring', stiffness: 280, damping: 26 }}
+              className={`absolute w-full max-w-[420px] rounded-[32px] p-8 flex flex-col justify-between border border-purple-500/35 shadow-2xl transition-all ${
+                activeCardIndex !== 2 ? 'cursor-pointer hover:opacity-80' : ''
+              }`}
+              style={{
+                background: 'radial-gradient(circle at 50% 100%, rgba(168, 85, 247, 0.26) 0%, rgba(168, 85, 247, 0.06) 55%, #101014 85%)'
+              }}
+            >
+              <div>
+                <div className="flex items-center justify-between mb-7">
+                  <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/[0.06] border border-white/10 shadow-inner">
+                    <PythonLogo />
+                    <span className="text-xs font-mono text-purple-300 font-bold">OpenCV</span>
+                  </div>
+                  <span className="text-xs font-mono text-purple-400 bg-purple-500/10 px-4 py-1.5 rounded-full border border-purple-500/25 font-bold tracking-wider uppercase">
+                    AI & Security
+                  </span>
                 </div>
-                <span className="text-xs font-mono text-purple-400 bg-purple-500/10 px-4 py-1.5 rounded-full border border-purple-500/25 font-bold tracking-wider uppercase">
-                  AI & Security
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-white mb-3 tracking-tight">Python & Data Pipeline</h3>
+                <p className="text-sm text-zinc-300 leading-relaxed font-normal">
+                  Ekstraksi fitur lexical URL, pemrosesan citra medis OpenCV, dan pengklasifikasian ancaman cyber security.
+                </p>
+              </div>
+              <div className="mt-10 pt-5 border-t border-white/10 flex items-center justify-between text-xs font-mono text-zinc-400 font-bold">
+                <span className="px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10">Scikit-Learn / OpenCV</span>
+                <span className="text-purple-400 font-bold px-3.5 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20">
+                  Advanced Pipeline
                 </span>
               </div>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-white mb-3 tracking-tight">Python & Data Pipeline</h3>
-              <p className="text-sm text-zinc-300 leading-relaxed font-normal">
-                Ekstraksi fitur lexical URL, pemrosesan citra medis OpenCV, dan pengklasifikasian ancaman cyber security.
-              </p>
+            </motion.div>
+
+          </div>
+
+        </div>
+
+        {/* Dots Navigation for Desktop Carousel */}
+        <div className="hidden md:flex items-center justify-center gap-3 mt-6">
+          {[0, 1, 2].map((idx) => (
+            <button
+              key={idx}
+              onClick={() => setActiveCardIndex(idx)}
+              className={`h-3 rounded-full transition-all duration-300 ${
+                activeCardIndex === idx
+                  ? 'w-9 bg-emerald-400 shadow-[0_0_15px_#10b981]'
+                  : 'w-3 bg-white/20 hover:bg-white/40'
+              }`}
+              aria-label={`Go to card ${idx + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Mobile View: Clean Grid Layout */}
+        <div className="md:hidden grid grid-cols-1 gap-6 text-left">
+          <div className="rounded-[28px] p-7 border border-cyan-500/30 bg-gradient-to-b from-[#111116] to-cyan-950/20">
+            <div className="flex items-center justify-between mb-5">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
+                <ReactLogo />
+                <CodeIgniterLogo />
+              </div>
+              <span className="text-xs font-mono text-cyan-400 font-bold">Fullstack MVC</span>
             </div>
-            <div className="mt-10 pt-5 border-t border-white/10 flex items-center justify-between text-xs font-mono text-zinc-400 font-bold">
-              <span className="px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10">Scikit-Learn / OpenCV</span>
-              <span className="text-purple-400 font-bold px-3.5 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20">
-                Advanced Pipeline
-              </span>
+            <h3 className="text-xl font-bold text-white mb-2">React & CodeIgniter 4</h3>
+            <p className="text-sm text-zinc-300 leading-relaxed">Pengembangan Single Page Application terstruktur dan RESTful API terisolasi berbasis standar Clean Code.</p>
+          </div>
+
+          <div className="rounded-[28px] p-7 border border-emerald-500/40 bg-gradient-to-b from-[#111116] to-emerald-950/30 shadow-lg">
+            <div className="flex items-center justify-between mb-5">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/30">
+                <PyTorchLogo />
+                <span className="text-xs font-mono text-emerald-300 font-bold">YOLOv8</span>
+              </div>
+              <span className="text-xs font-mono text-emerald-400 font-bold">Featured ML</span>
             </div>
-          </motion.div>
-        </motion.div>
+            <h3 className="text-xl font-bold text-white mb-2">SiCASA CataractScan AI</h3>
+            <p className="text-sm text-zinc-300 leading-relaxed mb-4">Deteksi dan pengenalan citra medis katarak real-time berbasis arsitektur Computer Vision YOLOv8.</p>
+          </div>
+
+          <div className="rounded-[28px] p-7 border border-purple-500/30 bg-gradient-to-b from-[#111116] to-purple-950/20">
+            <div className="flex items-center justify-between mb-5">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
+                <PythonLogo />
+                <span className="text-xs font-mono text-purple-300 font-bold">OpenCV</span>
+              </div>
+              <span className="text-xs font-mono text-purple-400 font-bold">AI & Security</span>
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">Python & Data Pipeline</h3>
+            <p className="text-sm text-zinc-300 leading-relaxed">Ekstraksi fitur lexical URL, pemrosesan citra medis OpenCV, dan pengklasifikasian ancaman cyber security.</p>
+          </div>
+        </div>
 
       </div>
     </section>
