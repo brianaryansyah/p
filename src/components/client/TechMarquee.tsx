@@ -15,6 +15,11 @@ const TechLogos: Record<string, React.FC> = {
       <circle cx="12" cy="12" r="1.5" fill="currentColor" />
     </svg>
   ),
+  'Next.js': () => (
+    <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.77 17.51L10.3 7.85v8.5H8.7V7h1.66l7.41 9.66c-.63.32-1.3.56-2 .85z"/>
+    </svg>
+  ),
   'TypeScript': () => (
     <svg className="w-5 h-5 text-blue-400" viewBox="0 0 24 24" fill="currentColor">
       <path d="M3 3h18v18H3V3zm10.5 7.5h-2v7.5h2v-7.5zm-5 0H6v2h1.25v5.5h2V12.5H10.5v-2zM15 13.5c-.83 0-1.5.67-1.5 1.5v4c0 .83.67 1.5 1.5 1.5h3c.83 0 1.5-.67 1.5-1.5v-2h-2v1.5h-2v-3.5h3.5v-1.5H15z" />
@@ -52,11 +57,21 @@ const TechLogos: Record<string, React.FC> = {
       <path d="M13.5 2.5a.75.75 0 0 1 .75.75v1.272a8.502 8.502 0 1 1-6.737 13.912.75.75 0 1 1 1.109-1.01 7.002 7.002 0 1 0 5.542-11.458V7.5a.75.75 0 0 1-1.5 0V3.25a.75.75 0 0 1 .736-.75zM16.5 6a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
     </svg>
   ),
+  'TensorFlow': () => (
+    <svg className="w-5 h-5 text-amber-500" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M1.29 5.86L11.5 0l10.21 5.86v11.72L11.5 23.44 1.29 17.58V5.86zm10.21.61v5.71h5.36V7.27l-5.36-.8z"/>
+    </svg>
+  ),
   'OpenCV': () => (
     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
       <circle cx="12" cy="6" r="4.5" fill="#ef4444" />
       <circle cx="6" cy="17" r="4.5" fill="#3b82f6" />
       <circle cx="18" cy="17" r="4.5" fill="#22c55e" />
+    </svg>
+  ),
+  'Docker': () => (
+    <svg className="w-5 h-5 text-sky-400" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M13.98 11.08h1.86v1.83h-1.86v-1.83zm-2.45 0h1.86v1.83h-1.86v-1.83zm-2.46 0h1.86v1.83H9.07v-1.83zm-2.45 0h1.85v1.83H6.62v-1.83zm-2.45 0h1.85v1.83H4.17v-1.83zm4.9-2.45h1.86v1.83H9.07V8.63zm2.46 0h1.86v1.83h-1.86V8.63zm2.45 0h1.86v1.83h-1.86V8.63zm-2.45-2.45h1.86v1.83h-1.86V6.18zM24 13.06c-.46.3-.96.53-1.49.71-1.07.36-2.19.46-3.3.3-1.07-.15-2.08-.6-2.95-1.28-1.57 1.25-3.55 1.95-5.59 1.97H2.86v.73c.09 1.13.56 2.19 1.34 3.01 1.07 1.12 2.53 1.77 4.07 1.83 4.22.18 8.44.18 12.66 0 1.26-.06 2.47-.56 3.42-1.4.92-.81 1.5-1.92 1.65-3.13.11-.91-.12-1.84-.6-2.61.19-.05.41-.09.6-.13z"/>
     </svg>
   ),
   'Flask': () => (
@@ -75,6 +90,11 @@ const TechLogos: Record<string, React.FC> = {
       <path d="M4.5 3L12 7.5L19.5 3L12 1.5L4.5 3ZM12 9L4.5 4.5V14.5L12 19L19.5 14.5V4.5L12 9ZM12 21.5L2 15.5V6L4.5 7.5V14.2L12 18.7L19.5 14.2V7.5L22 6V15.5L12 21.5Z" />
     </svg>
   ),
+  'PostgreSQL': () => (
+    <svg className="w-5 h-5 text-sky-300" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5h-2v-4h2v4zm0-6h-2v-2h2v2z"/>
+    </svg>
+  ),
   'MySQL': () => (
     <svg className="w-5 h-5 text-blue-500" viewBox="0 0 24 24" fill="currentColor">
       <path d="M12 2C6.48 2 2 4.48 2 7.5v9C2 19.52 6.48 22 12 22s10-2.48 10-5.5v-9C22 4.48 17.52 2 12 2zm0 3c4.41 0 8 1.79 8 3s-3.59 3-8 3-8-1.79-8-3 3.59-3 8-3zm0 15c-4.41 0-8-1.79-8-3v-2.2c1.78 1.34 4.68 2.2 8 2.2s6.22-.86 8-2.2V17c0 1.21-3.59 3-8 3z" />
@@ -88,6 +108,11 @@ const TechLogos: Record<string, React.FC> = {
   'JavaScript': () => (
     <svg className="w-5 h-5 text-amber-400" viewBox="0 0 24 24" fill="currentColor">
       <path d="M3 3h18v18H3V3zm11.5 14.5c.83 0 1.5-.67 1.5-1.5v-3.5h-1.5v3.5h-1.5v-5h3v-1.5h-4.5v8h3zm-6-1.5c0 .83.67 1.5 1.5 1.5h2v-1.5h-2v-1.5h2v-1.5h-2c-.83 0-1.5.67-1.5 1.5v1.5z" />
+    </svg>
+  ),
+  'Vercel': () => (
+    <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 1L24 22H0L12 1Z" />
     </svg>
   ),
   'Linux': () => (
@@ -120,21 +145,28 @@ const TechLogos: Record<string, React.FC> = {
   )
 };
 
-const techStack: TechItem[] = [
+const firstRowStack: TechItem[] = [
   { name: 'React', color: 'text-cyan-400' },
+  { name: 'Next.js', color: 'text-white' },
   { name: 'TypeScript', color: 'text-blue-400' },
   { name: 'Tailwind CSS', color: 'text-sky-400' },
   { name: 'Vite', color: 'text-yellow-400' },
   { name: 'Python', color: 'text-green-400' },
   { name: 'YOLOv8', color: 'text-emerald-400' },
   { name: 'PyTorch', color: 'text-orange-400' },
+  { name: 'TensorFlow', color: 'text-amber-500' },
   { name: 'OpenCV', color: 'text-blue-300' },
-  { name: 'Flask', color: 'text-white' },
+  { name: 'Docker', color: 'text-sky-400' },
+];
+
+const secondRowStack: TechItem[] = [
   { name: 'CodeIgniter 4', color: 'text-amber-400' },
   { name: 'Laravel', color: 'text-rose-500' },
+  { name: 'PostgreSQL', color: 'text-sky-300' },
   { name: 'MySQL', color: 'text-blue-500' },
   { name: 'PHP 8', color: 'text-indigo-400' },
   { name: 'JavaScript', color: 'text-amber-400' },
+  { name: 'Vercel', color: 'text-white' },
   { name: 'Linux', color: 'text-zinc-300' },
   { name: 'Git', color: 'text-rose-400' },
   { name: 'Framer Motion', color: 'text-pink-400' },
@@ -157,9 +189,6 @@ const TechBadge: React.FC<{ tech: TechItem }> = ({ tech }) => {
 };
 
 export const TechMarquee: React.FC = () => {
-  const firstRow = techStack.slice(0, 10);
-  const secondRow = techStack.slice(10);
-
   return (
     <section className="py-20 relative z-10 bg-[#08080a] border-t border-white/5 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
@@ -170,33 +199,33 @@ export const TechMarquee: React.FC = () => {
         </div>
       </div>
 
-      {/* First Row - Left to Right */}
+      {/* First Row - Seamless Left to Right Continuous Loop */}
       <div className="relative mb-4">
         <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#08080a] to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#08080a] to-transparent z-10 pointer-events-none" />
         
         <motion.div
           animate={{ x: ['0%', '-50%'] }}
-          transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+          transition={{ duration: 24, repeat: Infinity, ease: 'linear' }}
           className="flex gap-4 w-max"
         >
-          {[...firstRow, ...firstRow, ...firstRow].map((tech, i) => (
+          {[...firstRowStack, ...firstRowStack].map((tech, i) => (
             <TechBadge key={`row1-${i}`} tech={tech} />
           ))}
         </motion.div>
       </div>
 
-      {/* Second Row - Right to Left */}
+      {/* Second Row - Seamless Right to Left Continuous Loop */}
       <div className="relative">
         <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#08080a] to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#08080a] to-transparent z-10 pointer-events-none" />
         
         <motion.div
           animate={{ x: ['-50%', '0%'] }}
-          transition={{ duration: 35, repeat: Infinity, ease: 'linear' }}
+          transition={{ duration: 26, repeat: Infinity, ease: 'linear' }}
           className="flex gap-4 w-max"
         >
-          {[...secondRow, ...secondRow, ...secondRow].map((tech, i) => (
+          {[...secondRowStack, ...secondRowStack].map((tech, i) => (
             <TechBadge key={`row2-${i}`} tech={tech} />
           ))}
         </motion.div>
@@ -204,4 +233,5 @@ export const TechMarquee: React.FC = () => {
     </section>
   );
 };
+
 

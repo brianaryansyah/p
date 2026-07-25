@@ -29,8 +29,9 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#08080a] text-white flex items-center justify-center p-4 relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
+    <div className="min-h-screen bg-[#09090c] text-white flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Subtle static grid pattern background */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-20 pointer-events-none z-0" />
 
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
