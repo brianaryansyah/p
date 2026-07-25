@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import gsap from 'gsap';
 import { 
   Code2, Eye, Sparkles, Terminal, ChevronRight, ArrowUpRight, 
   BrainCircuit, CheckCircle2 
@@ -87,12 +88,58 @@ export const Hero: React.FC = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const typedRole = useTypingEffect(typingRoles);
 
+  const heroContentRef = useRef<HTMLDivElement>(null);
+  const heroTitleRef = useRef<HTMLHeadingElement>(null);
+  const roleBadgeRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (heroTitleRef.current) {
+      gsap.fromTo(
+        heroTitleRef.current,
+        { opacity: 0, y: 45, scale: 0.96 },
+        { opacity: 1, y: 0, scale: 1, duration: 1.2, ease: 'power3.out' }
+      );
+    }
+    if (roleBadgeRef.current) {
+      gsap.fromTo(
+        roleBadgeRef.current,
+        { opacity: 0, y: 25, scale: 0.9 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.9, delay: 0.35, ease: 'back.out(1.5)' }
+      );
+    }
+  }, []);
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    setMousePos({ x, y });
+
+    if (heroContentRef.current) {
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -3.5;
+      const rotateY = ((x - centerX) / centerX) * 3.5;
+
+      gsap.to(heroContentRef.current, {
+        rotateX,
+        rotateY,
+        duration: 0.6,
+        ease: 'power2.out',
+        transformPerspective: 1200,
+      });
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (heroContentRef.current) {
+      gsap.to(heroContentRef.current, {
+        rotateX: 0,
+        rotateY: 0,
+        duration: 0.8,
+        ease: 'power3.out',
+      });
+    }
   };
 
   const codeSnippet = `// CodeIgniter 4 + Flask ML Microservice Integration
@@ -107,6 +154,7 @@ public function predictCataract() {
   return (
     <section 
       onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-[#08080a]"
     >
       {/* Interactive Cursor Spotlight Glow */}
@@ -129,9 +177,9 @@ public function predictCataract() {
       {/* Main Full-Screen Hero Viewport Container */}
       <div className="min-h-screen pt-36 pb-16 flex flex-col items-center justify-center relative z-10">
         
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center flex flex-col items-center relative">
+        <div ref={heroContentRef} className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center flex flex-col items-center relative transition-transform duration-200">
           
-          {/* Authentic Tech Badges (Docked Closely to Content for Perfectly Balanced Layout) */}
+          {/* Authentic Tech Badges */}
           <motion.div 
             animate={{ y: [0, -8, 0] }}
             transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' }}
@@ -189,10 +237,8 @@ public function predictCataract() {
           </motion.div>
 
           {/* Main Title with Signature Serif Accent & Vibrant Gradient */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          <h1
+            ref={heroTitleRef}
             className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-white leading-[1.08] max-w-6xl mb-6"
           >
             Welcome, I am{' '}
@@ -202,13 +248,11 @@ public function predictCataract() {
             <span className="font-serif-italic text-zinc-200 font-normal italic drop-shadow-[0_0_20px_rgba(255,255,255,0.15)]">
               Pamungkas
             </span>
-          </motion.h1>
+          </h1>
 
           {/* Ultra-Modern Interactive Tech Specialization Role Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          <div
+            ref={roleBadgeRef}
             className="h-11 flex items-center justify-center mb-9"
           >
             <div className="group relative inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-gradient-to-r from-emerald-500/10 via-cyan-500/10 to-purple-500/10 border border-emerald-500/30 backdrop-blur-2xl shadow-[0_0_25px_rgba(16,185,129,0.15)] hover:border-emerald-400/60 transition-all duration-300">
@@ -226,7 +270,7 @@ public function predictCataract() {
                 <span className="inline-block w-2 h-4 bg-emerald-400 ml-1.5 animate-pulse rounded-xs shadow-[0_0_8px_#10b981]" />
               </span>
             </div>
-          </motion.div>
+          </div>
 
           {/* Subtitle Paragraph in English */}
           <motion.p

@@ -1,5 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 
+const COLORS = [
+  'rgba(16, 185, 129, 0.45)', // Emerald
+  'rgba(6, 182, 212, 0.45)',  // Cyan
+  'rgba(168, 85, 247, 0.4)',  // Purple
+  'rgba(255, 255, 255, 0.3)'  // White
+];
+
 export const ParticleBackground: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -21,9 +28,9 @@ export const ParticleBackground: React.FC = () => {
 
     window.addEventListener('resize', handleResize);
 
-    const particlesCount = Math.min(Math.floor(width / 22), 70);
+    const particlesCount = Math.min(Math.floor(width / 20), 75);
     const particles: Particle[] = [];
-    const mouse = { x: null as number | null, y: null as number | null, radius: 150 };
+    const mouse = { x: null as number | null, y: null as number | null, radius: 170 };
 
     const handleMouseMove = (e: MouseEvent) => {
       mouse.x = e.clientX;
@@ -38,13 +45,15 @@ export const ParticleBackground: React.FC = () => {
       vx: number;
       vy: number;
       radius: number;
+      color: string;
 
       constructor() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
         this.vx = (Math.random() - 0.5) * 0.45;
         this.vy = (Math.random() - 0.5) * 0.45;
-        this.radius = Math.random() * 1.6 + 0.6;
+        this.radius = Math.random() * 1.8 + 0.8;
+        this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
       }
 
       update() {
@@ -61,8 +70,8 @@ export const ParticleBackground: React.FC = () => {
           if (dist < mouse.radius) {
             const angle = Math.atan2(dy, dx);
             const force = (mouse.radius - dist) / mouse.radius;
-            this.x -= Math.cos(angle) * force * 1.5;
-            this.y -= Math.sin(angle) * force * 1.5;
+            this.x -= Math.cos(angle) * force * 1.8;
+            this.y -= Math.sin(angle) * force * 1.8;
           }
         }
       }
@@ -71,7 +80,7 @@ export const ParticleBackground: React.FC = () => {
         if (!ctx) return;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.28)';
+        ctx.fillStyle = this.color;
         ctx.fill();
       }
     }
@@ -92,12 +101,13 @@ export const ParticleBackground: React.FC = () => {
           const dy = particles[i].y - particles[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
-          if (dist < 115) {
+          if (dist < 125) {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(255, 255, 255, ${0.09 * (1 - dist / 115)})`;
-            ctx.lineWidth = 0.6;
+            const alpha = 0.12 * (1 - dist / 125);
+            ctx.strokeStyle = `rgba(16, 185, 129, ${alpha})`;
+            ctx.lineWidth = 0.75;
             ctx.stroke();
           }
         }
@@ -118,7 +128,8 @@ export const ParticleBackground: React.FC = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="pointer-events-none fixed inset-0 z-0 opacity-60"
+      className="pointer-events-none fixed inset-0 z-0 opacity-70"
     />
   );
 };
+
