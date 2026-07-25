@@ -2,10 +2,44 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Code2, Eye, Sparkles, Terminal, ChevronRight, ArrowUpRight, 
-  BrainCircuit, CheckCircle2, Cpu, ChevronDown, Layers, ShieldCheck 
+  BrainCircuit, CheckCircle2 
 } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 import { MagneticButton } from '../common/MagneticButton';
+
+// Authentic Tech Stack SVG Logos
+const ReactLogo = () => (
+  <svg className="w-5 h-5 text-cyan-400 animate-spin-slow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(0 12 12)" />
+    <ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(60 12 12)" />
+    <ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(120 12 12)" />
+    <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+  </svg>
+);
+
+const CodeIgniterLogo = () => (
+  <svg className="w-5 h-5 text-amber-400" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12.8 2.2c-.4 1.5-1.5 3.3-2.6 4.6-1.5 1.8-3.2 3.8-3.2 6.4 0 3.3 2.7 6 6 6s6-2.7 6-6c0-3.5-2.8-6.7-4.2-9-1.2 2-2 4-2 5.5 0 1.1.9 2 2 2 .6 0 1.1-.3 1.5-.7.1 1.6-1.2 3.2-3 3.2-1.7 0-3-1.3-3-3 0-2.3 2.5-5.2 2.5-9z"/>
+  </svg>
+);
+
+const PyTorchLogo = () => (
+  <svg className="w-5 h-5 text-orange-400" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M13.5 2.5a.75.75 0 0 1 .75.75v1.272a8.502 8.502 0 1 1-6.737 13.912.75.75 0 1 1 1.109-1.01 7.002 7.002 0 1 0 5.542-11.458V7.5a.75.75 0 0 1-1.5 0V3.25a.75.75 0 0 1 .736-.75zM16.5 6a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+  </svg>
+);
+
+const PythonLogo = () => (
+  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
+    <path d="M11.87 2c-4.48 0-4.2 1.94-4.2 1.94l.01 2.01h4.27v.62H5.97S2 6.06 2 10.58c0 4.52 3.47 4.36 3.47 4.36h1.03v-1.47s-.06-1.75 1.73-1.75h2.95s1.66.02 1.66-1.63V7.24s.24-2.2-2.97-2.2c0 0-.84-.04-1.6.22v1.39s.41-.21 1.01-.21c.6 0 .99.35.99.8v1.07H6.94s-1.89.04-1.89 1.87c0 1.83 1.62 1.77 1.62 1.77h.96v-1.25s.03-1.42 1.48-1.42h3.91s1.39.09 1.39 1.43v2.88s.22 2.71-3.04 2.71H8.02s-1.92 0-1.92 1.9 1.87 1.83 1.87 1.83h3.87s4.25.1 4.25-4.27V12.1s0-2.02-1.91-2.02h-4.3v-.62h5.99s3.97.51 3.97-4.01C19.83 3.94 16.36 2 11.87 2z" fill="url(#python-grad)"/>
+    <defs>
+      <linearGradient id="python-grad" x1="2" y1="2" x2="20" y2="20" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#38bdf8"/>
+        <stop offset="1" stopColor="#facc15"/>
+      </linearGradient>
+    </defs>
+  </svg>
+);
 
 const typingRoles = [
   'Informatics Student @ UDINUS',
@@ -15,7 +49,7 @@ const typingRoles = [
   'Digital Solution Innovator',
 ];
 
-const useTypingEffect = (roles: string[], typingSpeed = 80, deletingSpeed = 40, pauseTime = 2000) => {
+const useTypingEffect = (roles: string[], typingSpeed = 75, deletingSpeed = 35, pauseTime = 2200) => {
   const [displayText, setDisplayText] = useState('');
   const [roleIndex, setRoleIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -93,67 +127,67 @@ public function predictCataract() {
       <div className="absolute top-2/3 right-1/3 w-[450px] h-[450px] bg-indigo-500/10 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Main Full-Screen Hero Viewport Container */}
-      <div className="min-h-screen pt-36 pb-12 flex flex-col items-center justify-center relative z-10">
+      <div className="min-h-screen pt-36 pb-16 flex flex-col items-center justify-center relative z-10">
         
-        {/* Floating Decorative Interactive Badges (Hidden on Small Screens) */}
-        <motion.div 
-          animate={{ y: [0, -12, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-          className="hidden xl:flex absolute top-40 left-12 items-center gap-3 px-4 py-2.5 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-xl shadow-xl hover:border-emerald-500/50 transition-all cursor-default group"
-        >
-          <div className="w-8 h-8 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 border border-emerald-500/30">
-            <Code2 className="w-4 h-4" />
-          </div>
-          <div>
-            <div className="text-[11px] font-mono text-zinc-400">Frontend Stack</div>
-            <div className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">React & Vite Ecosystem</div>
-          </div>
-        </motion.div>
-
-        <motion.div 
-          animate={{ y: [0, 12, 0] }}
-          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-          className="hidden xl:flex absolute top-44 right-12 items-center gap-3 px-4 py-2.5 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-xl shadow-xl hover:border-cyan-500/50 transition-all cursor-default group"
-        >
-          <div className="w-8 h-8 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 border border-cyan-500/30">
-            <BrainCircuit className="w-4 h-4" />
-          </div>
-          <div>
-            <div className="text-[11px] font-mono text-zinc-400">AI & Vision</div>
-            <div className="text-xs font-bold text-white group-hover:text-cyan-400 transition-colors">YOLOv8 & PyTorch</div>
-          </div>
-        </motion.div>
-
-        <motion.div 
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-          className="hidden xl:flex absolute bottom-36 left-16 items-center gap-3 px-4 py-2.5 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-xl shadow-xl hover:border-amber-500/50 transition-all cursor-default group"
-        >
-          <div className="w-8 h-8 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400 border border-amber-500/30">
-            <Layers className="w-4 h-4" />
-          </div>
-          <div>
-            <div className="text-[11px] font-mono text-zinc-400">Backend System</div>
-            <div className="text-xs font-bold text-white group-hover:text-amber-400 transition-colors">CodeIgniter 4 MVC</div>
-          </div>
-        </motion.div>
-
-        <motion.div 
-          animate={{ y: [0, -10, 0] }}
-          transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut' }}
-          className="hidden xl:flex absolute bottom-40 right-16 items-center gap-3 px-4 py-2.5 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-xl shadow-xl hover:border-purple-500/50 transition-all cursor-default group"
-        >
-          <div className="w-8 h-8 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400 border border-purple-500/30">
-            <ShieldCheck className="w-4 h-4" />
-          </div>
-          <div>
-            <div className="text-[11px] font-mono text-zinc-400">Analytics & ML</div>
-            <div className="text-xs font-bold text-white group-hover:text-purple-400 transition-colors">Python Security Pipeline</div>
-          </div>
-        </motion.div>
-
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center flex flex-col items-center">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center flex flex-col items-center relative">
           
+          {/* Authentic Tech Badges (Docked Closely to Content for Perfectly Balanced Layout) */}
+          <motion.div 
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' }}
+            className="hidden lg:flex absolute -top-10 -left-6 items-center gap-3 px-4 py-2 rounded-2xl bg-[#121216]/80 border border-cyan-500/30 backdrop-blur-xl shadow-xl hover:border-cyan-400 transition-all cursor-default group"
+          >
+            <div className="w-8 h-8 rounded-xl bg-cyan-500/15 flex items-center justify-center border border-cyan-500/30">
+              <ReactLogo />
+            </div>
+            <div className="text-left">
+              <div className="text-[10px] font-mono text-cyan-400 uppercase font-bold tracking-wider">Frontend</div>
+              <div className="text-xs font-bold text-white group-hover:text-cyan-300 transition-colors">React & Vite</div>
+            </div>
+          </motion.div>
+
+          <motion.div 
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+            className="hidden lg:flex absolute -top-10 -right-6 items-center gap-3 px-4 py-2 rounded-2xl bg-[#121216]/80 border border-orange-500/30 backdrop-blur-xl shadow-xl hover:border-orange-400 transition-all cursor-default group"
+          >
+            <div className="w-8 h-8 rounded-xl bg-orange-500/15 flex items-center justify-center border border-orange-500/30">
+              <PyTorchLogo />
+            </div>
+            <div className="text-left">
+              <div className="text-[10px] font-mono text-orange-400 uppercase font-bold tracking-wider">Computer Vision</div>
+              <div className="text-xs font-bold text-white group-hover:text-orange-300 transition-colors">YOLOv8 & PyTorch</div>
+            </div>
+          </motion.div>
+
+          <motion.div 
+            animate={{ y: [0, 7, 0] }}
+            transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut' }}
+            className="hidden lg:flex absolute bottom-24 -left-10 items-center gap-3 px-4 py-2 rounded-2xl bg-[#121216]/80 border border-amber-500/30 backdrop-blur-xl shadow-xl hover:border-amber-400 transition-all cursor-default group"
+          >
+            <div className="w-8 h-8 rounded-xl bg-amber-500/15 flex items-center justify-center border border-amber-500/30">
+              <CodeIgniterLogo />
+            </div>
+            <div className="text-left">
+              <div className="text-[10px] font-mono text-amber-400 uppercase font-bold tracking-wider">Backend MVC</div>
+              <div className="text-xs font-bold text-white group-hover:text-amber-300 transition-colors">CodeIgniter 4</div>
+            </div>
+          </motion.div>
+
+          <motion.div 
+            animate={{ y: [0, -7, 0] }}
+            transition={{ duration: 5.8, repeat: Infinity, ease: 'easeInOut' }}
+            className="hidden lg:flex absolute bottom-24 -right-10 items-center gap-3 px-4 py-2 rounded-2xl bg-[#121216]/80 border border-sky-500/30 backdrop-blur-xl shadow-xl hover:border-sky-400 transition-all cursor-default group"
+          >
+            <div className="w-8 h-8 rounded-xl bg-sky-500/15 flex items-center justify-center border border-sky-500/30">
+              <PythonLogo />
+            </div>
+            <div className="text-left">
+              <div className="text-[10px] font-mono text-sky-400 uppercase font-bold tracking-wider">Data & Security</div>
+              <div className="text-xs font-bold text-white group-hover:text-sky-300 transition-colors">Python AI Stack</div>
+            </div>
+          </motion.div>
+
           {/* Main Title with Signature Serif Accent & Vibrant Gradient */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -170,19 +204,26 @@ public function predictCataract() {
             </span>
           </motion.h1>
 
-          {/* Animated Typing Role Pill */}
+          {/* Ultra-Modern Interactive Tech Specialization Role Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="h-9 flex items-center justify-center mb-8"
+            className="h-11 flex items-center justify-center mb-9"
           >
-            <div className="flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/[0.05] border border-white/15 backdrop-blur-xl shadow-lg hover:border-emerald-500/40 transition-colors">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-              <span className="text-xs font-mono text-zinc-400 font-bold">I am an</span>
-              <span className="text-xs sm:text-sm font-mono font-bold text-emerald-300 min-w-[240px] text-left">
+            <div className="group relative inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-gradient-to-r from-emerald-500/10 via-cyan-500/10 to-purple-500/10 border border-emerald-500/30 backdrop-blur-2xl shadow-[0_0_25px_rgba(16,185,129,0.15)] hover:border-emerald-400/60 transition-all duration-300">
+              <div className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
+              </div>
+
+              <span className="text-[11px] font-mono uppercase tracking-widest text-zinc-400 font-bold flex items-center gap-1.5">
+                <span className="text-emerald-400 font-bold">&gt;</span> FOCUS:
+              </span>
+
+              <span className="text-xs sm:text-sm font-mono font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-teal-200 to-cyan-300 min-w-[250px] text-left flex items-center">
                 {typedRole}
-                <span className="animate-pulse text-emerald-400">|</span>
+                <span className="inline-block w-2 h-4 bg-emerald-400 ml-1.5 animate-pulse rounded-xs shadow-[0_0_8px_#10b981]" />
               </span>
             </div>
           </motion.div>
@@ -197,44 +238,41 @@ public function predictCataract() {
             Hello! I am <strong className="text-white font-bold px-2.5 py-1 rounded-lg bg-white/5 border border-white/10">{profile?.name || 'Brian Aryansyah Pamungkas'}</strong>, an Informatics Engineering student at <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300 font-bold">UDINUS</span>. Driven by deep analytical insight and technical enthusiasm, I thrive on exploring software engineering, intelligent systems, and emerging technologies to build impactful digital solutions.
           </motion.p>
 
-          {/* Action Buttons */}
+          {/* Ultra-Modern Action CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-wrap items-center justify-center gap-5"
           >
+            {/* Primary Button */}
             <MagneticButton>
               <a
                 href="#projects"
-                className="btn-white-pill inline-flex items-center gap-2.5 px-9 py-4.5 text-xs sm:text-sm tracking-wider uppercase font-extrabold shadow-2xl"
+                className="group relative inline-flex items-center gap-3 px-9 py-4 rounded-full bg-white text-zinc-950 font-black text-xs sm:text-sm tracking-wider uppercase shadow-[0_0_35px_rgba(255,255,255,0.3)] hover:shadow-[0_0_50px_rgba(255,255,255,0.5)] transition-all duration-300 overflow-hidden"
               >
-                <span>LIHAT PORTOFOLIO</span>
-                <ChevronRight className="w-4.5 h-4.5" />
+                <span className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/80 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-[300%] transition-transform duration-1000 ease-in-out pointer-events-none" />
+                <span className="relative z-10">LIHAT PORTOFOLIO</span>
+                <div className="relative z-10 w-7 h-7 rounded-full bg-zinc-950 text-white flex items-center justify-center group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-black transition-all">
+                  <ChevronRight className="w-4 h-4" />
+                </div>
               </a>
             </MagneticButton>
 
+            {/* Secondary Button */}
             <MagneticButton>
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2.5 px-9 py-4.5 rounded-full bg-white/[0.05] hover:bg-white/12 text-zinc-100 hover:text-white font-extrabold text-xs sm:text-sm border border-white/15 hover:border-emerald-500/40 transition-all backdrop-blur-xl shadow-lg"
+                className="group relative inline-flex items-center gap-3 px-9 py-4 rounded-full bg-white/[0.04] hover:bg-emerald-500/10 text-white font-extrabold text-xs sm:text-sm border border-white/15 hover:border-emerald-400/60 transition-all duration-300 backdrop-blur-xl shadow-lg hover:shadow-[0_0_35px_rgba(16,185,129,0.25)]"
               >
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+                </span>
                 <span>MULAI KOLABORASI</span>
-                <ArrowUpRight className="w-4.5 h-4.5 text-emerald-400" />
+                <ArrowUpRight className="w-4.5 h-4.5 text-emerald-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </a>
             </MagneticButton>
-          </motion.div>
-
-          {/* Interactive Bouncing Scroll Down Indicator */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: [0, 8, 0] }}
-            transition={{ opacity: { duration: 0.8, delay: 0.5 }, y: { duration: 2, repeat: Infinity, ease: 'easeInOut' } }}
-            className="mt-14 inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-white/[0.03] border border-white/10 text-xs font-mono text-zinc-400 backdrop-blur-md hover:border-emerald-500/40 hover:text-white transition-all cursor-pointer"
-            onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
-          >
-            <ChevronDown className="w-4 h-4 text-emerald-400 animate-bounce" />
-            <span>Explore Portfolio & Interactive Showcase</span>
           </motion.div>
 
         </div>
