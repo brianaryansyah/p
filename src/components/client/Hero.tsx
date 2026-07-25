@@ -331,44 +331,50 @@ public function predictCataract() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="grid grid-cols-1 md:grid-cols-3 gap-7 w-full text-left"
         >
-          {/* Card 1: Fullstack Architecture */}
+          {/* Card 1: Fullstack Architecture (Ref 2 Style) */}
           <motion.div
             whileHover={{ y: -8, scale: 1.015 }}
             transition={{ type: "spring", stiffness: 260, damping: 20 }}
-            className="artfolio-card-vibrant rounded-3xl p-7 sm:p-8 flex flex-col justify-between"
+            className="rounded-[32px] p-7 sm:p-8 flex flex-col justify-between border border-cyan-500/30 relative overflow-hidden group shadow-2xl"
+            style={{
+              background: 'radial-gradient(circle at 50% 100%, rgba(6, 182, 212, 0.22) 0%, rgba(6, 182, 212, 0.04) 55%, #101014 85%)'
+            }}
           >
             <div>
               <div className="flex items-center justify-between mb-7">
-                <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 shadow-inner">
-                  <Code2 className="w-6 h-6" />
+                <div className="w-10 h-10 rounded-full bg-white/[0.06] border border-white/10 flex items-center justify-center text-cyan-400 shadow-inner">
+                  <Code2 className="w-5 h-5" />
                 </div>
-                <span className="text-xs font-mono text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20 font-bold">
+                <span className="text-xs font-mono text-cyan-400 bg-cyan-500/10 px-3.5 py-1.5 rounded-full border border-cyan-500/25 font-bold">
                   Fullstack MVC
                 </span>
               </div>
-              <h3 className="text-2xl font-extrabold text-white mb-3">React & CodeIgniter 4</h3>
+              <h3 className="text-2xl font-extrabold text-white mb-3 tracking-tight">React & CodeIgniter 4</h3>
               <p className="text-sm text-zinc-300 leading-relaxed font-normal">
                 Pengembangan Single Page Application terstruktur dan RESTful API terisolasi berbasis standar Clean Code.
               </p>
             </div>
             <div className="mt-10 pt-5 border-t border-white/10 flex items-center justify-between text-xs font-mono text-zinc-400 font-bold">
-              <span>Clean Architecture</span>
-              <span className="text-cyan-400 font-bold flex items-center gap-1">
+              <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10">Clean Architecture</span>
+              <span className="text-cyan-400 font-bold flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20">
                 <CheckCircle2 className="w-3.5 h-3.5" /> Production Ready
               </span>
             </div>
           </motion.div>
 
-          {/* Card 2: Interactive YOLO AI Demo */}
+          {/* Card 2: SiCASA CataractScan AI (Highlight Card matching Ref 2 with Volumetric Emerald Ambient Glow) */}
           <motion.div
             whileHover={{ y: -8, scale: 1.015 }}
             transition={{ type: "spring", stiffness: 260, damping: 20 }}
-            className="artfolio-card-glow rounded-3xl p-7 sm:p-8 flex flex-col justify-between relative overflow-hidden group"
+            className="rounded-[32px] p-7 sm:p-8 flex flex-col justify-between relative overflow-hidden group border border-emerald-500/40 shadow-[0_0_60px_rgba(16,185,129,0.2)]"
+            style={{
+              background: 'radial-gradient(circle at 50% 100%, rgba(16, 185, 129, 0.28) 0%, rgba(16, 185, 129, 0.08) 55%, #101014 90%)'
+            }}
           >
             <div>
               <div className="flex items-center justify-between mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-inner">
-                  <BrainCircuit className="w-6 h-6" />
+                <div className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-inner">
+                  <BrainCircuit className="w-5 h-5" />
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -388,7 +394,7 @@ public function predictCataract() {
                 </div>
               </div>
 
-              <h3 className="text-2xl font-extrabold text-white mb-2">SiCASA CataractScan AI</h3>
+              <h3 className="text-2xl font-extrabold text-white mb-2 tracking-tight">SiCASA CataractScan AI</h3>
               <p className="text-sm text-zinc-300 leading-relaxed font-normal mb-5">
                 Deteksi dan pengenalan citra medis katarak real-time berbasis arsitektur Computer Vision YOLOv8.
               </p>
@@ -444,37 +450,42 @@ public function predictCataract() {
             </div>
 
             <div className="mt-7 pt-5 border-t border-emerald-500/20 flex items-center justify-between text-xs font-mono text-emerald-400 font-bold">
-              <span className="flex items-center gap-2">
+              <span className="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
                 <Sparkles className="w-4 h-4 animate-pulse" />
                 <span>Featured ML Model</span>
               </span>
-              <span>YOLOv8 & PyTorch</span>
+              <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-zinc-300">YOLOv8 & PyTorch</span>
             </div>
           </motion.div>
 
-          {/* Card 3: Cyber Security & Data Analysis */}
+          {/* Card 3: Cyber Security & Data Analysis (Ref 2 Style) */}
           <motion.div
             whileHover={{ y: -8, scale: 1.015 }}
             transition={{ type: "spring", stiffness: 260, damping: 20 }}
-            className="artfolio-card-vibrant rounded-3xl p-7 sm:p-8 flex flex-col justify-between"
+            className="rounded-[32px] p-7 sm:p-8 flex flex-col justify-between border border-purple-500/30 relative overflow-hidden group shadow-2xl"
+            style={{
+              background: 'radial-gradient(circle at 50% 100%, rgba(168, 85, 247, 0.22) 0%, rgba(168, 85, 247, 0.04) 55%, #101014 85%)'
+            }}
           >
             <div>
               <div className="flex items-center justify-between mb-7">
-                <div className="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 shadow-inner">
-                  <Terminal className="w-6 h-6" />
+                <div className="w-10 h-10 rounded-full bg-white/[0.06] border border-white/10 flex items-center justify-center text-purple-400 shadow-inner">
+                  <Terminal className="w-5 h-5" />
                 </div>
-                <span className="text-xs font-mono text-purple-400 bg-purple-500/10 px-3 py-1 rounded-full border border-purple-500/20 font-bold">
+                <span className="text-xs font-mono text-purple-400 bg-purple-500/10 px-3.5 py-1.5 rounded-full border border-purple-500/25 font-bold">
                   AI & Security
                 </span>
               </div>
-              <h3 className="text-2xl font-extrabold text-white mb-3">Python & Data Pipeline</h3>
+              <h3 className="text-2xl font-extrabold text-white mb-3 tracking-tight">Python & Data Pipeline</h3>
               <p className="text-sm text-zinc-300 leading-relaxed font-normal">
                 Ekstraksi fitur lexical URL, pemrosesan citra medis OpenCV, dan pengklasifikasian ancaman cyber security.
               </p>
             </div>
             <div className="mt-10 pt-5 border-t border-white/10 flex items-center justify-between text-xs font-mono text-zinc-400 font-bold">
-              <span>Scikit-Learn / OpenCV</span>
-              <span className="text-purple-400 font-bold">Advanced Pipeline</span>
+              <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10">Scikit-Learn / OpenCV</span>
+              <span className="text-purple-400 font-bold px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20">
+                Advanced Pipeline
+              </span>
             </div>
           </motion.div>
         </motion.div>
