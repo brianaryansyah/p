@@ -5,11 +5,11 @@ import { useData } from '../../context/DataContext';
 import { MagneticButton } from '../common/MagneticButton';
 
 const typingRoles = [
-  'Fullstack Web Developer',
-  'Computer Vision Engineer',
-  'Machine Learning Researcher',
-  'UI/UX Architecture Designer',
-  'Open Source Contributor',
+  'Informatics Student @ UDINUS',
+  'Technology Enthusiast & Researcher',
+  'Fullstack Software Developer',
+  'Intelligent Systems Explorer',
+  'Digital Solution Innovator',
 ];
 
 const useTypingEffect = (roles: string[], typingSpeed = 80, deletingSpeed = 40, pauseTime = 2000) => {
@@ -59,103 +59,94 @@ public function predictCataract() {
 }`;
 
   return (
-    <section className="relative min-h-screen pt-36 pb-28 flex flex-col items-center justify-center overflow-hidden bg-[#08080a]">
+    <section className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-[#08080a]">
       
       {/* Background Ambient Radial Glow Mesh */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[750px] bg-emerald-500/10 rounded-full blur-[160px] pointer-events-none" />
       <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-500/8 rounded-full blur-[130px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 text-center flex flex-col items-center">
-        
-        {/* Top Status Pill Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/[0.04] border border-white/10 text-zinc-200 text-xs font-bold mb-8 backdrop-blur-md shadow-xs hover:border-emerald-500/40 transition-colors cursor-default"
-        >
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-          </span>
-          <span className="font-mono text-xs uppercase tracking-wider text-emerald-400 font-bold">
-            {profile?.status || "Open for Projects & Collaboration"}
-          </span>
-        </motion.div>
+      {/* Main Full-Screen Hero Viewport Container */}
+      <div className="min-h-screen pt-36 pb-16 flex flex-col items-center justify-center relative z-10">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center flex flex-col items-center">
+          
+          {/* Main Title with Signature Serif Accent */}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.12] max-w-5xl mb-6"
+          >
+            Welcome, I am{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
+              Brian Aryansyah
+            </span>{' '}
+            <span className="font-serif-italic text-zinc-300 font-normal">Pamungkas</span>
+          </motion.h1>
 
-        {/* Main Title with Signature Serif Accent */}
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.12] max-w-5xl mb-4"
-        >
-          Merancang <span className="font-serif-italic text-zinc-300 font-normal">Arsitektur Web</span> & Model{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
-            Computer Vision
-          </span>
-        </motion.h1>
+          {/* Typing Role Animation */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="h-8 flex items-center justify-center mb-8"
+          >
+            <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md">
+              <span className="text-xs font-mono text-zinc-500 font-bold">I am an</span>
+              <span className="text-sm font-mono font-bold text-emerald-400 min-w-[240px] text-left">
+                {typedRole}
+                <span className="animate-pulse text-emerald-300">|</span>
+              </span>
+            </div>
+          </motion.div>
 
-        {/* Typing Role Animation */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="h-8 flex items-center justify-center mb-8"
-        >
-          <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md">
-            <span className="text-xs font-mono text-zinc-500 font-bold">I am a</span>
-            <span className="text-sm font-mono font-bold text-emerald-400 min-w-[220px] text-left">
-              {typedRole}
-              <span className="animate-pulse text-emerald-300">|</span>
-            </span>
-          </div>
-        </motion.div>
+          {/* Subtitle Paragraph in English */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="text-base sm:text-xl text-zinc-300 font-normal max-w-3xl leading-relaxed mb-12"
+          >
+            Hello! I am <strong className="text-white font-bold">{profile?.name || 'Brian Aryansyah Pamungkas'}</strong>, an Informatics Engineering student at <span className="text-white font-bold">UDINUS</span>. Driven by strong insight and enthusiasm for technology, I enjoy exploring software engineering, intelligent systems, and modern digital innovations to turn ideas into impactful solutions.
+          </motion.p>
 
-        {/* Subtitle Paragraph */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-base sm:text-xl text-zinc-300 font-normal max-w-3xl leading-relaxed mb-12"
-        >
-          Halo, Saya <strong className="text-white font-bold">{profile?.name}</strong>. Mahasiswa Teknik Informatika UDINUS yang berdedikasi membangun aplikasi web berskala enterprise (<span className="text-white font-bold">React, CodeIgniter 4 MVC</span>) serta eksplorasi kecerdasan buatan berbasis <span className="text-emerald-400 font-bold">YOLOv8 & PyTorch</span>.
-        </motion.p>
+          {/* Action Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-wrap items-center justify-center gap-5"
+          >
+            <MagneticButton>
+              <a
+                href="#projects"
+                className="btn-white-pill inline-flex items-center gap-2.5 px-8 py-4 text-xs tracking-wider uppercase font-bold"
+              >
+                <span>LIHAT PORTOFOLIO</span>
+                <ChevronRight className="w-4 h-4" />
+              </a>
+            </MagneticButton>
 
-        {/* Action Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-wrap items-center justify-center gap-5 mb-20"
-        >
-          <MagneticButton>
-            <a
-              href="#projects"
-              className="btn-white-pill inline-flex items-center gap-2.5 px-8 py-4 text-xs tracking-wider uppercase font-bold"
-            >
-              <span>LIHAT PORTOFOLIO</span>
-              <ChevronRight className="w-4 h-4" />
-            </a>
-          </MagneticButton>
+            <MagneticButton>
+              <a
+                href="#contact"
+                className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-white/[0.04] hover:bg-white/10 text-zinc-200 hover:text-white font-bold text-xs border border-white/10 transition-all backdrop-blur-md shadow-xs"
+              >
+                <span>MULAI KOLABORASI</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </a>
+            </MagneticButton>
+          </motion.div>
+        </div>
+      </div>
 
-          <MagneticButton>
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-white/[0.04] hover:bg-white/10 text-zinc-200 hover:text-white font-bold text-xs border border-white/10 transition-all backdrop-blur-md shadow-xs"
-            >
-              <span>MULAI KOLABORASI</span>
-              <ArrowUpRight className="w-4 h-4" />
-            </a>
-          </MagneticButton>
-        </motion.div>
-
-        {/* Three Feature Highlight Cards Grid with Generous Padding & Readable Fonts */}
+      {/* Feature Highlight Cards Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 text-center pb-28">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="grid grid-cols-1 md:grid-cols-3 gap-7 w-full text-left"
         >
           {/* Card 1: Fullstack Architecture */}

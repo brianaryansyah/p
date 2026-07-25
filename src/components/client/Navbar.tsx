@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Menu, X, ArrowUpRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { MagneticButton } from '../common/MagneticButton';
 
 export const Navbar: React.FC = () => {
@@ -53,24 +52,21 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center justify-between">
           
           {/* Logo / Brand */}
-          <a href="#" className="flex items-center gap-3.5 group">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-white/12 to-white/5 border border-white/15 flex items-center justify-center text-white font-mono font-extrabold text-sm group-hover:border-emerald-500/50 transition-all shadow-sm">
-              BP
-            </div>
+          <a href="#" className="flex items-center gap-3 group">
             <span className="font-extrabold text-2xl tracking-tighter text-white group-hover:text-zinc-200 transition-colors">
               brian<span className="font-serif-italic font-normal text-zinc-400">.folio</span>
             </span>
           </a>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-1.5 bg-white/[0.04] px-5 py-2 rounded-full border border-white/10 backdrop-blur-md">
+          <nav className="hidden md:flex items-center gap-2 lg:gap-3 bg-white/[0.04] px-4 py-2 rounded-full border border-white/10 backdrop-blur-md">
             {navLinks.map((link) => {
               const isActive = activeSection === link.id;
               return (
                 <a
                   key={link.name}
                   href={link.href}
-                  className={`relative px-4.5 py-2 text-xs sm:text-sm font-bold rounded-full transition-colors ${
+                  className={`relative px-4 py-2 text-xs sm:text-sm font-semibold rounded-full transition-colors ${
                     isActive ? 'text-white' : 'text-zinc-400 hover:text-zinc-100'
                   }`}
                 >
@@ -87,16 +83,8 @@ export const Navbar: React.FC = () => {
             })}
           </nav>
 
-          {/* CTA & Admin Link */}
-          <div className="hidden md:flex items-center gap-3.5">
-            <Link
-              to="/admin/login"
-              className="flex items-center gap-2 text-xs font-extrabold text-zinc-300 hover:text-white px-4.5 py-2.5 rounded-full border border-white/10 hover:border-white/25 transition-all bg-white/[0.03]"
-            >
-              <Shield className="w-4 h-4 text-emerald-400" />
-              <span>Admin CMS</span>
-            </Link>
-
+          {/* CTA Link */}
+          <div className="hidden md:flex items-center">
             <MagneticButton>
               <a
                 href="#contact"
@@ -137,16 +125,6 @@ export const Navbar: React.FC = () => {
                   {link.name}
                 </a>
               ))}
-              <div className="pt-4 border-t border-white/10 flex flex-col gap-2.5">
-                <Link
-                  to="/admin/login"
-                  onClick={() => setMobileMenu(false)}
-                  className="flex items-center gap-2.5 text-xs font-extrabold text-zinc-300 p-3.5 rounded-2xl hover:bg-white/5 border border-white/5"
-                >
-                  <Shield className="w-4 h-4 text-emerald-400" />
-                  <span>Admin Dashboard CMS</span>
-                </Link>
-              </div>
             </motion.div>
           )}
         </AnimatePresence>
