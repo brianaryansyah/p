@@ -119,8 +119,11 @@ export const apiService = {
   },
 
   login: async (username: string, password: string) => {
-    if (username === 'admin' && password === 'admin123') {
-      const token = 'mock_jwt_token_brian_' + Date.now();
+    const validUsername = import.meta.env.VITE_ADMIN_USERNAME || 'admin';
+    const validPassword = import.meta.env.VITE_ADMIN_PASSWORD || 'admin123';
+
+    if (username === validUsername && password === validPassword) {
+      const token = 'jwt_brian_' + Date.now();
       localStorage.setItem(STORAGE_KEYS.AUTH, token);
       return { success: true, token, user: { username: 'brian', role: 'admin', name: 'Brian Aryansyah' } };
     }
