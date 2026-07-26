@@ -45,6 +45,8 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
             <img
               src={project.image}
               alt={project.title}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#111115] via-transparent to-transparent" />

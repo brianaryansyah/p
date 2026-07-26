@@ -81,6 +81,8 @@ export const ProjectsSection: React.FC = () => {
                     <img
                       src={project.image}
                       alt={project.title}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                     />
 
@@ -179,7 +181,7 @@ export const ProjectsSection: React.FC = () => {
                 transition={{ type: "spring", stiffness: 280, damping: 20 }}
                 className="relative rounded-2xl overflow-hidden aspect-square border border-white/10 bg-black group cursor-pointer shadow-lg"
               >
-                <img src={tile.image} alt={tile.title} className="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition-opacity duration-300" />
+                <img src={tile.image} alt={tile.title} loading="lazy" decoding="async" className="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
                   <span className="text-xs font-mono text-white font-bold line-clamp-1">{tile.title}</span>
                 </div>

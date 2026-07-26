@@ -457,6 +457,8 @@ public function predictCataract() {
                       <img
                         src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800&auto=format&fit=crop"
                         alt="YOLO Medical Eye Scan"
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover opacity-85 group-hover:scale-105 transition-transform duration-500"
                       />
 
