@@ -68,7 +68,6 @@ export interface DataContextType {
   updateProject: (id: string, project: Partial<ProjectItem>) => Promise<void>;
   deleteProject: (id: string) => Promise<void>;
   sendMessage: (msg: { name: string; email: string; subject: string; message: string }) => Promise<void>;
-  markMessageRead: (id: string) => Promise<void>;
   deleteMessage: (id: string) => Promise<void>;
   showToast: (message: string, type?: 'success' | 'error' | 'info') => void;
 }

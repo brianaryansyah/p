@@ -135,10 +135,6 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     }
   };
 
-  const markMessageRead = async (id: string) => {
-    setMessages(prev => prev.map(m => m.id === id ? { ...m, read: true } : m));
-  };
-
   const deleteMessage = async (id: string) => {
     try {
       await apiService.deleteMessage(id);
@@ -182,7 +178,6 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       updateSkill,
       deleteSkill,
       sendMessage,
-      markMessageRead,
       deleteMessage
     }}>
       {children}

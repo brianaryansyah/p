@@ -19,13 +19,12 @@
     overflow-x: hidden;
   }
 
-  /* Smooth Scrolling */
   html {
     scroll-behavior: smooth;
   }
 }
 
-/* Custom Scrollbar for Artfolio Dark Theme */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -48,13 +47,13 @@
   font-weight: 400;
 }
 
-/* Artfolio Matte Dark Glass Card Utilities with Generous Spacing & Smooth Physics */
+/* Artfolio Card */
 .artfolio-card {
   background: #111114;
   border: 1px solid rgba(255, 255, 255, 0.09);
   box-shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.75);
-  transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+  transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
 }
@@ -64,21 +63,7 @@
   box-shadow: 0 35px 70px -20px rgba(0, 0, 0, 0.95), 0 0 40px -10px rgba(255, 255, 255, 0.08);
 }
 
-/* Glowing Aura Feature Card */
-.artfolio-card-glow {
-  background: radial-gradient(circle at 50% 100%, rgba(16, 185, 129, 0.18) 0%, #111114 75%);
-  border: 1px solid rgba(16, 185, 129, 0.38);
-  box-shadow: 0 0 65px -10px rgba(16, 185, 129, 0.25), 0 25px 50px -15px rgba(0, 0, 0, 0.85);
-  transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.artfolio-card-glow:hover {
-  border-color: rgba(16, 185, 129, 0.6);
-  box-shadow: 0 0 80px -5px rgba(16, 185, 129, 0.35), 0 35px 70px -20px rgba(0, 0, 0, 0.95);
-}
-
+/* White Pill Button */
 .btn-white-pill {
   background-color: #ffffff;
   color: #08080a;
@@ -94,184 +79,41 @@
   box-shadow: 0 18px 40px -5px rgba(255, 255, 255, 0.35);
 }
 
-/* Gradient Text Utility */
-.text-gradient-emerald {
-  background: linear-gradient(135deg, #10b981, #06b6d4);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.text-gradient-purple {
-  background: linear-gradient(135deg, #a855f7, #6366f1);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Glassmorphism Utility */
-.glass {
-  background: rgba(17, 17, 20, 0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-/* Noise Texture Overlay */
-.noise-overlay::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Glow Effects */
-.glow-emerald {
-  box-shadow: 0 0 30px -5px rgba(16, 185, 129, 0.3);
-}
-
-.glow-purple {
-  box-shadow: 0 0 30px -5px rgba(168, 85, 247, 0.3);
-}
-
-.glow-cyan {
-  box-shadow: 0 0 30px -5px rgba(6, 182, 212, 0.3);
-}
-
-/* Section Divider Gradient Line */
-.section-divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
-}
-
-/* Custom Focus Ring */
-.focus-ring:focus-visible {
-  outline: 2px solid rgba(16, 185, 129, 0.5);
-  outline-offset: 2px;
-}
-
-/* Animated Background Gradient & Text Gradient */
+/* Gradient Text Animation */
 @keyframes gradient-shift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
-.animate-gradient {
-  background-size: 200% 200%;
-  animation: gradient-shift 8s ease infinite;
+.animate-gradient-text {
+  background-size: 200% auto;
+  animation: gradient-shift 5s linear infinite;
 }
 
-/* Float Animation */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-/* Pulse Glow Animation */
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px -5px rgba(16, 185, 129, 0.3); }
-  50% { box-shadow: 0 0 40px -5px rgba(16, 185, 129, 0.5); }
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 3s ease-in-out infinite;
-}
-
+/* Spin Slow Animation */
 @keyframes spin-slow {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .animate-spin-slow {
   animation: spin-slow 22s linear infinite;
 }
 
-/* Marquee Animation */
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-.animate-marquee {
-  animation: marquee 30s linear infinite;
-}
-
-.animate-marquee-reverse {
-  animation: marquee 35s linear infinite reverse;
-}
-
-/* Stagger Animation Utility */
-.stagger-1 { animation-delay: 0.05s; }
-.stagger-2 { animation-delay: 0.1s; }
-.stagger-3 { animation-delay: 0.15s; }
-.stagger-4 { animation-delay: 0.2s; }
-.stagger-5 { animation-delay: 0.25s; }
-
-/* Animated Text Gradient (reuses gradient-shift keyframe) */
-.animate-gradient-text {
-  background-size: 200% auto;
-  animation: gradient-shift 5s linear infinite;
-}
-
-/* Background Dynamic Dot Grid Pattern */
+/* Background Grid Pattern */
 .bg-grid-pattern {
   background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 
-/* Background Radial Glow Mask for Grid */
+/* Background Radial Glow Mask */
 .grid-mask {
   mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 100%);
   -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 100%);
 }
 
-/* Multi-color Vibrant Card Hover System */
-.artfolio-card-vibrant {
-  background: rgba(17, 17, 20, 0.75);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.8);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-}
-
-.artfolio-card-vibrant::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.5), rgba(6, 182, 212, 0.5), rgba(168, 85, 247, 0.5));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-}
-
-.artfolio-card-vibrant:hover::before {
-  opacity: 1;
-}
-
-.artfolio-card-vibrant:hover {
-  transform: translateY(-8px) scale(1.01);
-  box-shadow: 0 30px 70px -15px rgba(16, 185, 129, 0.15), 0 0 40px -10px rgba(6, 182, 212, 0.15);
-}
-
-/* Floating Elements Keyframes */
+/* Floating Elements */
 @keyframes float-gentle {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
   50% { transform: translateY(-12px) rotate(1.5deg); }
@@ -290,40 +132,8 @@
   animation: float-reverse 8s ease-in-out infinite;
 }
 
-/* Glowing Border Pulse */
-@keyframes border-pulse {
-  0%, 100% { border-color: rgba(16, 185, 129, 0.3); }
-  50% { border-color: rgba(6, 182, 212, 0.6); }
-}
-
-.animate-border-pulse {
-  animation: border-pulse 4s ease-in-out infinite;
-}
-
 /* Selection Styling */
 ::selection {
   background-color: rgba(16, 185, 129, 0.3);
   color: white;
-}
-
-/* Responsive Typography Scale */
-@media (max-width: 640px) {
-  .text-hero {
-    font-size: 2.25rem;
-    line-height: 1.2;
-  }
-}
-
-@media (min-width: 641px) and (max-width: 1024px) {
-  .text-hero {
-    font-size: 3.75rem;
-    line-height: 1.15;
-  }
-}
-
-@media (min-width: 1025px) {
-  .text-hero {
-    font-size: 4.5rem;
-    line-height: 1.1;
-  }
 }
