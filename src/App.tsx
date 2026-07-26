@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { DataProvider } from './context/DataContext';
 import { AuthProvider } from './context/AuthContext';
+import { ProtectedRoute } from './components/common/ProtectedRoute';
 
 // Client Pages
 import { HomePage } from './pages/client/HomePage';
@@ -28,7 +29,11 @@ export function App() {
             <Route path="/admin/login" element={<LoginPage />} />
 
             {/* 3. Admin Dashboard Routes (Protected) */}
-            <Route path="/admin" element={<AdminLayout />}>
+            <Route path="/admin" element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }>
               <Route index element={<DashboardOverview />} />
               <Route path="projects" element={<ManageProjects />} />
               <Route path="skills" element={<ManageSkills />} />
