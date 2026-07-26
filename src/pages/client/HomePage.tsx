@@ -2,8 +2,6 @@ import React from 'react';
 import { Navbar } from '../../components/client/Navbar';
 import { Hero } from '../../components/client/Hero';
 import { TechMarquee } from '../../components/client/TechMarquee';
-import { About } from '../../components/client/About';
-import { BentoSkills } from '../../components/client/BentoSkills';
 import { ExperienceTimeline } from '../../components/client/ExperienceTimeline';
 import { InteractiveTerminal } from '../../components/client/InteractiveTerminal';
 import { ProjectsSection } from '../../components/client/ProjectsSection';
@@ -25,8 +23,6 @@ export const HomePage: React.FC = () => {
       <main className="relative z-10">
         <Hero />
         <TechMarquee />
-        <About />
-        <BentoSkills />
         <ExperienceTimeline />
         <InteractiveTerminal />
         <ProjectsSection />
