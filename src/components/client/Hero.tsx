@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import { 
-  Code2, Eye, Sparkles, Terminal, ChevronRight, ChevronLeft, ArrowUpRight, 
-  BrainCircuit, CheckCircle2 
+  Eye, Sparkles, ChevronRight, ChevronLeft, ArrowUpRight, 
+  CheckCircle2 
 } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 import { MagneticButton } from '../common/MagneticButton';

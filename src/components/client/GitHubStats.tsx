@@ -69,35 +69,7 @@ export const GitHubStats: React.FC = () => {
       } catch (err) {
         console.error('Failed to fetch GitHub data:', err);
         setError(true);
-        setRepos([
-          {
-            name: 'sicasa-cataractscan',
-            description: 'AI-powered cataract detection system using YOLOv8 computer vision with Flask REST API and React frontend',
-            language: 'Python',
-            languageColor: 'bg-blue-400',
-            stars: 0,
-            forks: 0,
-            url: `https://github.com/${GITHUB_USERNAME}/sicasa-cataractscan`
-          },
-          {
-            name: 'sipintar-app',
-            description: 'Academic management ERP with CodeIgniter 4 MVC, multi-role RBAC authentication, and automated reporting',
-            language: 'PHP',
-            languageColor: 'bg-purple-400',
-            stars: 0,
-            forks: 0,
-            url: `https://github.com/${GITHUB_USERNAME}/sipintar-app`
-          },
-          {
-            name: 'phishing-url-detection',
-            description: 'Lexical URL threat classifier using 18+ feature extraction with Random Forest and XGBoost ensemble',
-            language: 'Python',
-            languageColor: 'bg-blue-400',
-            stars: 0,
-            forks: 0,
-            url: `https://github.com/${GITHUB_USERNAME}/phishing-url-detection`
-          }
-        ]);
+        setRepos([]);
       } finally {
         setLoading(false);
       }
