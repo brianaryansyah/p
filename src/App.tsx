@@ -3,9 +3,11 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { DataProvider } from './context/DataContext';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
 
 // Client Pages
 import { HomePage } from './pages/client/HomePage';
+const NotFoundPage = lazy(() => import('./pages/client/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 
 // Admin Pages (Lazy Loaded)
 const LoginPage = lazy(() => import('./pages/admin/LoginPage').then(m => ({ default: m.LoginPage })));
@@ -27,37 +29,39 @@ const AdminLoader = () => (
 
 export function App() {
   return (
-    <AuthProvider>
-      <DataProvider>
-        <Router>
-          <Suspense fallback={<AdminLoader />}>
-            <Routes>
-              {/* 1. Client Portfolio Routes */}
-              <Route path="/" element={<HomePage />} />
+    <ErrorBoundary>
+      <AuthProvider>
+        <DataProvider>
+          <Router>
+            <Suspense fallback={<AdminLoader />}>
+              <Routes>
+                {/* 1. Client Portfolio Routes */}
+                <Route path="/" element={<HomePage />} />
 
-              {/* 2. Admin Auth Route */}
-              <Route path="/admin/login" element={<LoginPage />} />
+                {/* 2. Admin Auth Route */}
+                <Route path="/admin/login" element={<LoginPage />} />
 
-              {/* 3. Admin Dashboard Routes (Protected) */}
-              <Route path="/admin" element={
-                <ProtectedRoute>
-                  <AdminLayout />
-                </ProtectedRoute>
-              }>
-                <Route index element={<DashboardOverview />} />
-                <Route path="projects" element={<ManageProjects />} />
-                <Route path="skills" element={<ManageSkills />} />
-                <Route path="profile" element={<ManageProfile />} />
-                <Route path="messages" element={<ManageMessages />} />
-              </Route>
+                {/* 3. Admin Dashboard Routes (Protected) */}
+                <Route path="/admin" element={
+                  <ProtectedRoute>
+                    <AdminLayout />
+                  </ProtectedRoute>
+                }>
+                  <Route index element={<DashboardOverview />} />
+                  <Route path="projects" element={<ManageProjects />} />
+                  <Route path="skills" element={<ManageSkills />} />
+                  <Route path="profile" element={<ManageProfile />} />
+                  <Route path="messages" element={<ManageMessages />} />
+                </Route>
 
-              {/* Fallback Catch-all Route */}
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </Suspense>
-        </Router>
-      </DataProvider>
-    </AuthProvider>
+                {/* 4. 404 Not Found Route */}
+                <Route path="*" element={<NotFoundPage />} />
+              </Routes>
+            </Suspense>
+          </Router>
+        </DataProvider>
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }
 
