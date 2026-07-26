@@ -8,7 +8,6 @@ import { ExperienceTimeline } from '../../components/client/ExperienceTimeline';
 import { InteractiveTerminal } from '../../components/client/InteractiveTerminal';
 import { ProjectsSection } from '../../components/client/ProjectsSection';
 import { GitHubStats } from '../../components/client/GitHubStats';
-import { Testimonials } from '../../components/client/Testimonials';
 import { ContactSection } from '../../components/client/ContactSection';
 import { Footer } from '../../components/client/Footer';
 import { Toast } from '../../components/common/Toast';
@@ -32,7 +31,6 @@ export const HomePage: React.FC = () => {
         <InteractiveTerminal />
         <ProjectsSection />
         <GitHubStats />
-        <Testimonials />
         <ContactSection />
       </main>
       <Footer />
