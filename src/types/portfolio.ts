@@ -17,9 +17,9 @@ export interface ProfileData {
 export interface SkillItem {
   id: string;
   name: string;
-  category: 'Frontend' | 'Backend' | 'Machine Learning' | 'Database' | 'DevOps' | 'Data Science & AI' | string;
+  category: 'Frontend' | 'Backend' | 'Machine Learning' | 'Database' | 'DevOps' | 'Data Science & AI';
   icon: string;
-  level: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert' | string;
+  level: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
   description: string;
   featured: boolean;
   size?: string;
@@ -54,12 +54,18 @@ export interface MessageItem {
   read: boolean;
 }
 
+export interface ToastItem {
+  message: string;
+  type: 'success' | 'error' | 'info';
+  id: number;
+}
+
 export interface DataContextType {
   profile: ProfileData;
   skills: SkillItem[];
   projects: ProjectItem[];
   messages: MessageItem[];
-  toast: { message: string; type: 'success' | 'error' | 'info' } | null;
+  toast: ToastItem | null;
   updateProfile: (data: Partial<ProfileData>) => Promise<void>;
   addSkill: (skill: Omit<SkillItem, 'id'>) => Promise<void>;
   updateSkill: (id: string, skill: Partial<SkillItem>) => Promise<void>;
