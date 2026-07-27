@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FolderGit2, Github, ExternalLink, ArrowUpRight, Eye, Sparkles } from 'lucide-react';
 import { useData } from '../../context/DataContext';
@@ -12,9 +12,10 @@ export const ProjectsSection: React.FC = () => {
 
   const categories = ['All', 'Machine Learning', 'Fullstack Web', 'Cyber Security'];
 
-  const filteredProjects = selectedFilter === 'All'
+  const filteredProjects = useMemo(() => selectedFilter === 'All'
     ? projects
-    : projects.filter(p => p.category.toLowerCase().includes(selectedFilter.toLowerCase()));
+    : projects.filter(p => p.category.toLowerCase().includes(selectedFilter.toLowerCase()))
+  , [projects, selectedFilter]);
 
   const galleryTiles = [
     { title: "SiCASA Eye AI", image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=400&auto=format&fit=crop" },

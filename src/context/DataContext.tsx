@@ -1,6 +1,22 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useMemo, useCallback, ReactNode } from 'react';
 import { apiService } from '../services/api';
 import { DataContextType, ProfileData, SkillItem, ProjectItem, MessageItem } from '../types/portfolio';
+
+const defaultProfile: ProfileData = {
+  name: 'Brian Aryansyah Pamungkas',
+  tagline: 'Building High-Performance Web & AI Systems',
+  roles: ['Fullstack Web Developer', 'Machine Learning Enthusiast'],
+  university: 'Universitas Dian Nuswantoro',
+  major: 'Teknik Informatika',
+  semester: 4,
+  location: 'Semarang, Indonesia',
+  bio: '',
+  email: 'brianaryansyahp@gmail.com',
+  github: 'https://github.com/brianaryansyah',
+  linkedin: 'https://linkedin.com/in/brianaryansyah',
+  instagram: 'https://instagram.com/brianaryansyah',
+  status: 'Terbuka untuk Projek & Kolaborasi'
+};
 
 const DataContext = createContext<DataContextType | null>(null);
 
@@ -16,14 +32,14 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info'; id: number } | null>(null);
 
-  const showToast = (message: string, type: 'success' | 'error' | 'info' = 'success') => {
+  const showToast = useCallback((message: string, type: 'success' | 'error' | 'info' = 'success') => {
     setToast({ message, type, id: Date.now() });
     setTimeout(() => {
       setToast(null);
     }, 4000);
-  };
+  }, []);
 
-  const refreshData = async () => {
+  const refreshData = useCallback(async () => {
     setLoading(true);
     try {
       const [profData, skData, projData, msgData] = await Promise.all([
@@ -41,13 +57,13 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     refreshData();
-  }, []);
+  }, [refreshData]);
 
-  const updateProfile = async (updatedData: Partial<ProfileData>) => {
+  const updateProfile = useCallback(async (updatedData: Partial<ProfileData>) => {
     try {
       const res = await apiService.updateProfile(updatedData);
       setProfile(res);
@@ -56,9 +72,9 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       showToast('Gagal memperbarui profil!', 'error');
       throw err;
     }
-  };
+  }, [showToast]);
 
-  const addProject = async (projData: Omit<ProjectItem, 'id'>) => {
+  const addProject = useCallback(async (projData: Omit<ProjectItem, 'id'>) => {
     try {
       const newProj = await apiService.addProject(projData);
       setProjects(prev => [newProj, ...prev]);
@@ -67,9 +83,9 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       showToast('Gagal menambahkan proyek!', 'error');
       throw err;
     }
-  };
+  }, [showToast]);
 
-  const updateProject = async (id: string, projData: Partial<ProjectItem>) => {
+  const updateProject = useCallback(async (id: string, projData: Partial<ProjectItem>) => {
     try {
       await apiService.updateProject(id, projData);
       setProjects(prev => prev.map(p => p.id === id ? { ...p, ...projData } : p));
@@ -78,9 +94,9 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       showToast('Gagal memperbarui proyek!', 'error');
       throw err;
     }
-  };
+  }, [showToast]);
 
-  const deleteProject = async (id: string) => {
+  const deleteProject = useCallback(async (id: string) => {
     try {
       await apiService.deleteProject(id);
       setProjects(prev => prev.filter(p => p.id !== id));
@@ -89,9 +105,9 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       showToast('Gagal menghapus proyek!', 'error');
       throw err;
     }
-  };
+  }, [showToast]);
 
-  const addSkill = async (skillData: Omit<SkillItem, 'id'>) => {
+  const addSkill = useCallback(async (skillData: Omit<SkillItem, 'id'>) => {
     try {
       const newSkill = await apiService.addSkill(skillData);
       setSkills(prev => [newSkill, ...prev]);
@@ -100,9 +116,9 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       showToast('Gagal menambahkan skill!', 'error');
       throw err;
     }
-  };
+  }, [showToast]);
 
-  const updateSkill = async (id: string, skillData: Partial<SkillItem>) => {
+  const updateSkill = useCallback(async (id: string, skillData: Partial<SkillItem>) => {
     try {
       await apiService.updateSkill(id, skillData);
       setSkills(prev => prev.map(s => s.id === id ? { ...s, ...skillData } : s));
@@ -111,9 +127,9 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       showToast('Gagal memperbarui skill!', 'error');
       throw err;
     }
-  };
+  }, [showToast]);
 
-  const deleteSkill = async (id: string) => {
+  const deleteSkill = useCallback(async (id: string) => {
     try {
       await apiService.deleteSkill(id);
       setSkills(prev => prev.filter(s => s.id !== id));
@@ -122,9 +138,9 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       showToast('Gagal menghapus skill!', 'error');
       throw err;
     }
-  };
+  }, [showToast]);
 
-  const sendMessage = async (msgData: { name: string; email: string; subject: string; message: string }) => {
+  const sendMessage = useCallback(async (msgData: { name: string; email: string; subject: string; message: string }) => {
     try {
       const newMsg = await apiService.sendMessage(msgData);
       setMessages(prev => [newMsg, ...prev]);
@@ -133,9 +149,9 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       showToast('Gagal mengirim pesan.', 'error');
       throw err;
     }
-  };
+  }, [showToast]);
 
-  const deleteMessage = async (id: string) => {
+  const deleteMessage = useCallback(async (id: string) => {
     try {
       await apiService.deleteMessage(id);
       setMessages(prev => prev.filter(m => m.id !== id));
@@ -144,42 +160,28 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       showToast('Gagal menghapus pesan.', 'error');
       throw err;
     }
-  };
+  }, [showToast]);
 
-  const defaultProfile: ProfileData = {
-    name: 'Brian Aryansyah Pamungkas',
-    tagline: 'Building High-Performance Web & AI Systems',
-    roles: ['Fullstack Web Developer', 'Machine Learning Enthusiast'],
-    university: 'Universitas Dian Nuswantoro',
-    major: 'Teknik Informatika',
-    semester: 4,
-    location: 'Semarang, Indonesia',
-    bio: '',
-    email: 'brianaryansyahp@gmail.com',
-    github: 'https://github.com/brianaryansyah',
-    linkedin: 'https://linkedin.com/in/brianaryansyah',
-    instagram: 'https://instagram.com/brianaryansyah',
-    status: 'Terbuka untuk Projek & Kolaborasi'
-  };
+  const value = useMemo(() => ({
+    profile: profile || defaultProfile,
+    skills,
+    projects,
+    messages,
+    toast,
+    showToast,
+    updateProfile,
+    addProject,
+    updateProject,
+    deleteProject,
+    addSkill,
+    updateSkill,
+    deleteSkill,
+    sendMessage,
+    deleteMessage
+  }), [profile, skills, projects, messages, toast, showToast, updateProfile, addProject, updateProject, deleteProject, addSkill, updateSkill, deleteSkill, sendMessage, deleteMessage]);
 
   return (
-    <DataContext.Provider value={{
-      profile: profile || defaultProfile,
-      skills,
-      projects,
-      messages,
-      toast,
-      showToast,
-      updateProfile,
-      addProject,
-      updateProject,
-      deleteProject,
-      addSkill,
-      updateSkill,
-      deleteSkill,
-      sendMessage,
-      deleteMessage
-    }}>
+    <DataContext.Provider value={value}>
       {children}
     </DataContext.Provider>
   );

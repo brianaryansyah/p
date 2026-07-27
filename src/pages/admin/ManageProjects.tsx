@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { FolderKanban, Plus, Search, Edit3, Trash2, ExternalLink, Github } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 import { ProjectFormModal } from '../../components/admin/ProjectFormModal';
@@ -10,11 +10,11 @@ export const ManageProjects: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<ProjectItem | null>(null);
 
-  const filteredProjects = projects.filter(p =>
+  const filteredProjects = useMemo(() => projects.filter(p =>
     p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     p.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
     p.techStack?.some(t => t.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+  ), [projects, searchTerm]);
 
   const handleOpenAdd = () => {
     setEditingProject(null);

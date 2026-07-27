@@ -1,4 +1,4 @@
-import React from 'react';
+import { useMemo } from 'react';
 import { NavLink } from 'react-router-dom';
 import { 
   LayoutDashboard, FolderKanban, Wrench, UserCog, Mail, 
@@ -16,7 +16,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, setMobil
   const { logout } = useAuth();
   const { messages } = useData();
 
-  const unreadMessagesCount = messages.filter(m => !m.read).length;
+  const unreadMessagesCount = useMemo(() => messages.filter(m => !m.read).length, [messages]);
 
   const menuItems = [
     { name: 'Dashboard Overview', path: '/admin', icon: LayoutDashboard, exact: true },
