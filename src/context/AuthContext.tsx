@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useMemo, useCallback, ReactNode } from 'react';
 import { apiService } from '../services/api';
 
 interface UserType {
@@ -26,28 +26,36 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const isAuth = apiService.isAuthenticated();
     if (isAuth) {
       setIsAuthenticated(true);
-      setUser({ username: 'brian', role: 'admin', name: 'Brian Aryansyah' });
+      setUser({ username: 'admin', role: 'admin', name: 'Brian Aryansyah' });
     }
     setLoading(false);
   }, []);
 
-  const login = async (username: string, password: string) => {
+  const login = useCallback(async (username: string, password: string) => {
     const result = await apiService.login(username, password);
     if (result.success) {
       setIsAuthenticated(true);
       setUser(result.user);
     }
     return result;
-  };
+  }, []);
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     await apiService.logout();
     setIsAuthenticated(false);
     setUser(null);
-  };
+  }, []);
+
+  const value = useMemo(() => ({
+    isAuthenticated,
+    user,
+    login,
+    logout,
+    loading
+  }), [isAuthenticated, user, login, logout, loading]);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, loading }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );

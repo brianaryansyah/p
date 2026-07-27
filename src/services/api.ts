@@ -6,8 +6,27 @@ const STORAGE_KEYS = {
   SKILLS: 'brian_porto_skills',
   PROJECTS: 'brian_porto_projects',
   MESSAGES: 'brian_porto_messages',
-  AUTH: 'brian_porto_auth_token'
+  AUTH: 'brian_porto_auth_token',
+  AUTH_EXPIRY: 'brian_porto_auth_expiry'
 };
+
+const TOKEN_EXPIRY_MS = 24 * 60 * 60 * 1000;
+const MAX_LOGIN_ATTEMPTS = 5;
+const LOGIN_LOCKOUT_MS = 15 * 60 * 1000;
+
+function generateId(): string {
+  return crypto.randomUUID();
+}
+
+function safeJsonParse<T>(key: string, fallback: T): T {
+  try {
+    const data = localStorage.getItem(key);
+    return data ? JSON.parse(data) : fallback;
+  } catch {
+    localStorage.removeItem(key);
+    return fallback;
+  }
+}
 
 const initializeStorage = (): void => {
   if (!localStorage.getItem(STORAGE_KEYS.PROFILE)) {
@@ -28,8 +47,7 @@ initializeStorage();
 
 export const apiService = {
   getProfile: async (): Promise<ProfileData> => {
-    const data = localStorage.getItem(STORAGE_KEYS.PROFILE);
-    return data ? JSON.parse(data) : initialProfileData;
+    return safeJsonParse(STORAGE_KEYS.PROFILE, initialProfileData);
   },
 
   updateProfile: async (newProfile: Partial<ProfileData>): Promise<ProfileData> => {
@@ -40,13 +58,12 @@ export const apiService = {
   },
 
   getSkills: async (): Promise<SkillItem[]> => {
-    const data = localStorage.getItem(STORAGE_KEYS.SKILLS);
-    return data ? JSON.parse(data) : initialSkillsData;
+    return safeJsonParse(STORAGE_KEYS.SKILLS, initialSkillsData);
   },
 
   addSkill: async (skill: Omit<SkillItem, 'id'>): Promise<SkillItem> => {
     const current = await apiService.getSkills();
-    const newSkill: SkillItem = { ...skill, id: `sk-${Date.now()}` };
+    const newSkill: SkillItem = { ...skill, id: `sk-${generateId()}` };
     const updated = [newSkill, ...current];
     localStorage.setItem(STORAGE_KEYS.SKILLS, JSON.stringify(updated));
     return newSkill;
@@ -67,13 +84,12 @@ export const apiService = {
   },
 
   getProjects: async (): Promise<ProjectItem[]> => {
-    const data = localStorage.getItem(STORAGE_KEYS.PROJECTS);
-    return data ? JSON.parse(data) : initialProjectsData;
+    return safeJsonParse(STORAGE_KEYS.PROJECTS, initialProjectsData);
   },
 
   addProject: async (project: Omit<ProjectItem, 'id'>): Promise<ProjectItem> => {
     const current = await apiService.getProjects();
-    const newProject: ProjectItem = { ...project, id: `proj-${Date.now()}` };
+    const newProject: ProjectItem = { ...project, id: `proj-${generateId()}` };
     const updated = [newProject, ...current];
     localStorage.setItem(STORAGE_KEYS.PROJECTS, JSON.stringify(updated));
     return newProject;
@@ -94,15 +110,14 @@ export const apiService = {
   },
 
   getMessages: async (): Promise<MessageItem[]> => {
-    const data = localStorage.getItem(STORAGE_KEYS.MESSAGES);
-    return data ? JSON.parse(data) : initialMessagesData;
+    return safeJsonParse(STORAGE_KEYS.MESSAGES, initialMessagesData);
   },
 
   sendMessage: async (msg: { name: string; email: string; subject: string; message: string }): Promise<MessageItem> => {
     const current = await apiService.getMessages();
     const newMsg: MessageItem = {
       ...msg,
-      id: `msg-${Date.now()}`,
+      id: `msg-${generateId()}`,
       date: new Date().toISOString(),
       read: false
     };
@@ -119,23 +134,53 @@ export const apiService = {
   },
 
   login: async (username: string, password: string) => {
-    const validUsername = import.meta.env.VITE_ADMIN_USERNAME || 'admin';
-    const validPassword = import.meta.env.VITE_ADMIN_PASSWORD || 'admin123';
+    const attemptsData = safeJsonParse<{ count: number; lockedUntil: number }>('brian_porto_login_attempts', { count: 0, lockedUntil: 0 });
+
+    if (attemptsData.lockedUntil > Date.now()) {
+      const remainingMin = Math.ceil((attemptsData.lockedUntil - Date.now()) / 60000);
+      throw new Error(`Terlalu banyak percobaan gagal. Coba lagi dalam ${remainingMin} menit.`);
+    }
+
+    const validUsername = import.meta.env.VITE_ADMIN_USERNAME;
+    const validPassword = import.meta.env.VITE_ADMIN_PASSWORD;
+
+    if (!validUsername || !validPassword) {
+      throw new Error('Konfigurasi autentikasi tidak ditemukan!');
+    }
 
     if (username === validUsername && password === validPassword) {
-      const token = 'jwt_brian_' + Date.now();
+      const token = `bp_${generateId()}`;
+      const expiry = Date.now() + TOKEN_EXPIRY_MS;
       localStorage.setItem(STORAGE_KEYS.AUTH, token);
-      return { success: true, token, user: { username: 'brian', role: 'admin', name: 'Brian Aryansyah' } };
+      localStorage.setItem(STORAGE_KEYS.AUTH_EXPIRY, String(expiry));
+      localStorage.removeItem('brian_porto_login_attempts');
+      return { success: true, token, user: { username: validUsername, role: 'admin', name: 'Brian Aryansyah' } };
     }
+
+    const newCount = attemptsData.count + 1;
+    if (newCount >= MAX_LOGIN_ATTEMPTS) {
+      localStorage.setItem('brian_porto_login_attempts', JSON.stringify({ count: 0, lockedUntil: Date.now() + LOGIN_LOCKOUT_MS }));
+      throw new Error('Terlalu banyak percobaan gagal. Akun dikunci selama 15 menit.');
+    }
+    localStorage.setItem('brian_porto_login_attempts', JSON.stringify({ count: newCount, lockedUntil: 0 }));
     throw new Error('Username atau password tidak valid!');
   },
 
   logout: async () => {
     localStorage.removeItem(STORAGE_KEYS.AUTH);
+    localStorage.removeItem(STORAGE_KEYS.AUTH_EXPIRY);
     return true;
   },
 
   isAuthenticated: (): boolean => {
-    return !!localStorage.getItem(STORAGE_KEYS.AUTH);
+    const token = localStorage.getItem(STORAGE_KEYS.AUTH);
+    const expiry = localStorage.getItem(STORAGE_KEYS.AUTH_EXPIRY);
+    if (!token) return false;
+    if (expiry && Number(expiry) < Date.now()) {
+      localStorage.removeItem(STORAGE_KEYS.AUTH);
+      localStorage.removeItem(STORAGE_KEYS.AUTH_EXPIRY);
+      return false;
+    }
+    return true;
   }
 };

@@ -5,8 +5,8 @@ import { Shield, Lock, User, ArrowRight, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 export const LoginPage: React.FC = () => {
-  const [username, setUsername] = useState('admin');
-  const [password, setPassword] = useState('admin123');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -21,8 +21,8 @@ export const LoginPage: React.FC = () => {
     try {
       await login(username, password);
       navigate('/admin');
-    } catch (err: any) {
-      setError(err.message || 'Login gagal!');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Login gagal!');
     } finally {
       setLoading(false);
     }
@@ -49,11 +49,6 @@ export const LoginPage: React.FC = () => {
           <p className="text-xs text-zinc-400 font-mono mt-1">
             Portal Kelola Konten Portofolio Brian Aryansyah
           </p>
-        </div>
-
-        <div className="mb-6 p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 text-xs text-emerald-400 flex items-center justify-between font-mono font-semibold">
-          <span>Demo Access:</span>
-          <span>admin / admin123</span>
         </div>
 
         {error && (
