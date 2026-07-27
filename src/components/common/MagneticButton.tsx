@@ -1,8 +1,8 @@
-import React, { useRef, ReactNode, MouseEvent } from 'react';
+import { useRef, useCallback } from 'react';
 import gsap from 'gsap';
 
 interface MagneticButtonProps {
-  children: ReactNode;
+  children: React.ReactNode;
   className?: string;
   onClick?: () => void;
 }
@@ -10,7 +10,7 @@ interface MagneticButtonProps {
 export const MagneticButton: React.FC<MagneticButtonProps> = ({ children, className = '', onClick }) => {
   const ref = useRef<HTMLDivElement | null>(null);
 
-  const handleMouse = (e: MouseEvent<HTMLDivElement>) => {
+  const handleMouse = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!ref.current) return;
     const { clientX, clientY } = e;
     const { height, width, left, top } = ref.current.getBoundingClientRect();
@@ -24,9 +24,9 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({ children, classN
       duration: 0.4,
       ease: 'power2.out',
     });
-  };
+  }, []);
 
-  const reset = () => {
+  const reset = useCallback(() => {
     if (!ref.current) return;
     gsap.to(ref.current, {
       x: 0,
@@ -35,7 +35,7 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({ children, classN
       duration: 0.8,
       ease: 'elastic.out(1.1, 0.4)',
     });
-  };
+  }, []);
 
   return (
     <div
@@ -44,9 +44,9 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({ children, classN
       onMouseLeave={reset}
       className="inline-block"
     >
-      <div onClick={onClick} className={className}>
+      <button onClick={onClick} className={className} type="button">
         {children}
-      </div>
+      </button>
     </div>
   );
 };

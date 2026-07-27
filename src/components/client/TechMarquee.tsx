@@ -190,7 +190,7 @@ const TechBadge: React.FC<{ tech: TechItem }> = ({ tech }) => {
 
 export const TechMarquee: React.FC = () => {
   return (
-    <section className="py-20 relative z-10 bg-[#08080a] border-t border-white/5 overflow-hidden">
+    <section aria-hidden="true" className="py-20 relative z-10 bg-[#08080a] border-t border-white/5 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
         <div className="text-center">
           <span className="text-xs font-mono uppercase tracking-widest text-zinc-400 font-extrabold">

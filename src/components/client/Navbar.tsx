@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { MagneticButton } from '../common/MagneticButton';
@@ -7,11 +7,12 @@ export const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [activeSection, setActiveSection] = useState('');
+  const rafRef = useRef<number>(0);
 
-  useEffect(() => {
-    const handleScroll = () => {
+  const handleScroll = useCallback(() => {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(() => {
       setScrolled(window.scrollY > 25);
-
       const sections = ['experience', 'terminal', 'projects', 'github', 'contact'];
       const current = sections.find(section => {
         const el = document.getElementById(section);
@@ -22,11 +23,25 @@ export const Navbar: React.FC = () => {
         return false;
       });
       if (current) setActiveSection(current);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    });
   }, []);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [handleScroll]);
+
+  useEffect(() => {
+    if (!mobileMenu) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileMenu(false);
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [mobileMenu]);
 
   const navLinks = [
     { name: 'Pengalaman', href: '#experience', id: 'experience' },
@@ -51,7 +66,11 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center justify-between">
           
           {/* Logo / Brand */}
-          <a href="#" className="flex items-center gap-3 group">
+          <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-emerald-500 focus:text-white focus:rounded-lg">
+            Lewati ke konten utama
+          </a>
+
+          <a href="#" className="flex items-center gap-3 group" aria-label="Kembali ke atas">
             <span className="font-extrabold text-2xl tracking-tighter text-white group-hover:text-zinc-200 transition-colors">
               brian<span className="font-serif-italic font-normal text-zinc-400">.folio</span>
             </span>
@@ -99,6 +118,7 @@ export const Navbar: React.FC = () => {
           <button
             onClick={() => setMobileMenu(!mobileMenu)}
             aria-label="Toggle Navigation Menu"
+            aria-expanded={mobileMenu}
             className="md:hidden p-3 rounded-2xl text-zinc-200 border border-white/10 bg-white/5 active:scale-95 transition-transform"
           >
             {mobileMenu ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -113,6 +133,8 @@ export const Navbar: React.FC = () => {
               animate={{ opacity: 1, y: 0, height: 'auto' }}
               exit={{ opacity: 0, y: -10, height: 0 }}
               className="md:hidden mt-4 p-6 rounded-3xl bg-[#111115] border border-white/10 flex flex-col gap-3 shadow-2xl backdrop-blur-2xl"
+              role="navigation"
+              aria-label="Mobile navigation"
             >
               {navLinks.map((link) => (
                 <a

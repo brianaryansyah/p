@@ -20,7 +20,7 @@ export const HomePage: React.FC = () => {
       <CursorGlow />
       <ParticleBackground />
       <Navbar />
-      <main className="relative z-10">
+      <main id="main-content" className="relative z-10">
         <Hero />
         <TechMarquee />
         <ExperienceTimeline />
