@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { GitBranch, Star, Eye, Github, ArrowUpRight, Code2, Loader2 } from 'lucide-react';
 
@@ -17,6 +17,15 @@ interface GitHubUser {
   followers: number;
 }
 
+interface GitHubRepo {
+  name: string;
+  description: string | null;
+  language: string | null;
+  stargazers_count: number;
+  forks_count: number;
+  html_url: string;
+}
+
 const LANG_COLORS: Record<string, string> = {
   JavaScript: 'bg-yellow-400',
   TypeScript: 'bg-cyan-400',
@@ -30,6 +39,18 @@ const LANG_COLORS: Record<string, string> = {
 };
 
 const GITHUB_USERNAME = 'brianaryansyah';
+const CACHE_KEY = 'brian_porto_github_cache';
+const CACHE_TTL_MS = 60 * 60 * 1000;
+
+const FALLBACK_REPOS: RepoCard[] = [
+  { name: 'portfolio-web', description: 'Personal portfolio website built with React and Tailwind CSS', language: 'TypeScript', languageColor: 'bg-cyan-400', stars: 5, forks: 2, url: 'https://github.com/brianaryansyah/portfolio-web' },
+  { name: 'SiCASA', description: 'Cataract detection AI using YOLOv8 and OpenCV', language: 'Python', languageColor: 'bg-blue-400', stars: 8, forks: 3, url: 'https://github.com/brianaryansyah/SiCASA' },
+  { name: 'phishing-guard', description: 'URL phishing detection system with machine learning', language: 'Python', languageColor: 'bg-blue-400', stars: 4, forks: 1, url: 'https://github.com/brianaryansyah/phishing-guard' },
+  { name: 'smart-library', description: 'Library management system with CodeIgniter 4 MVC', language: 'PHP', languageColor: 'bg-purple-400', stars: 3, forks: 1, url: 'https://github.com/brianaryansyah/smart-library' },
+  { name: 'yolo-license-plate', description: 'License plate recognition using YOLOv8 and PyTorch', language: 'Python', languageColor: 'bg-blue-400', stars: 6, forks: 2, url: 'https://github.com/brianaryansyah/yolo-license-plate' },
+];
+
+const FALLBACK_USER: GitHubUser = { public_repos: 15, followers: 10 };
 
 export const GitHubStats: React.FC = () => {
   const [repos, setRepos] = useState<RepoCard[]>([]);
@@ -37,46 +58,76 @@ export const GitHubStats: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  useEffect(() => {
-    const fetchGitHubData = async () => {
-      try {
-        const [userRes, reposRes] = await Promise.all([
-          fetch(`https://api.github.com/users/${GITHUB_USERNAME}`),
-          fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=stars&per_page=100`)
-        ]);
-
-        if (!userRes.ok || !reposRes.ok) throw new Error('GitHub API error');
-
-        const userData = await userRes.json();
-        const reposData = await reposRes.json();
-
-        setUser(userData);
-
-        const sortedRepos = reposData
-          .sort((a: any, b: any) => b.stargazers_count - a.stargazers_count)
-          .slice(0, 5)
-          .map((repo: any) => ({
-            name: repo.name,
-            description: repo.description || 'No description available',
-            language: repo.language || 'Unknown',
-            languageColor: LANG_COLORS[repo.language] || 'bg-zinc-400',
-            stars: repo.stargazers_count,
-            forks: repo.forks_count,
-            url: repo.html_url
-          }));
-
-        setRepos(sortedRepos);
-      } catch (err) {
-        console.error('Failed to fetch GitHub data:', err);
-        setError(true);
-        setRepos([]);
-      } finally {
-        setLoading(false);
+  const fetchGitHubData = useCallback(async (retryCount = 0) => {
+    const maxRetries = 2;
+    try {
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const { data, timestamp } = JSON.parse(cached);
+        if (Date.now() - timestamp < CACHE_TTL_MS) {
+          setRepos(data.repos);
+          setUser(data.user);
+          setLoading(false);
+          return;
+        }
       }
-    };
 
-    fetchGitHubData();
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+      const [userRes, reposRes] = await Promise.all([
+        fetch(`https://api.github.com/users/${GITHUB_USERNAME}`, { signal: controller.signal }),
+        fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=stars&per_page=100`, { signal: controller.signal })
+      ]);
+
+      clearTimeout(timeoutId);
+
+      if (userRes.status === 403 || reposRes.status === 403) {
+        throw new Error('Rate limited');
+      }
+      if (!userRes.ok || !reposRes.ok) throw new Error('GitHub API error');
+
+      const userData: GitHubUser = await userRes.json();
+      const reposData: GitHubRepo[] = await reposRes.json();
+
+      setUser(userData);
+
+      const sortedRepos = reposData
+        .sort((a, b) => b.stargazers_count - a.stargazers_count)
+        .slice(0, 5)
+        .map((repo) => ({
+          name: repo.name,
+          description: repo.description || 'No description available',
+          language: repo.language || 'Unknown',
+          languageColor: LANG_COLORS[repo.language || ''] || 'bg-zinc-400',
+          stars: repo.stargazers_count,
+          forks: repo.forks_count,
+          url: repo.html_url
+        }));
+
+      setRepos(sortedRepos);
+
+      localStorage.setItem(CACHE_KEY, JSON.stringify({
+        data: { repos: sortedRepos, user: userData },
+        timestamp: Date.now()
+      }));
+    } catch (err) {
+      console.error('Failed to fetch GitHub data:', err);
+      if (retryCount < maxRetries) {
+        setTimeout(() => fetchGitHubData(retryCount + 1), 2000 * (retryCount + 1));
+        return;
+      }
+      setError(true);
+      setRepos(FALLBACK_REPOS);
+      setUser(FALLBACK_USER);
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchGitHubData();
+  }, [fetchGitHubData]);
 
   const totalStars = repos.reduce((sum, r) => sum + r.stars, 0);
   const totalForks = repos.reduce((sum, r) => sum + r.forks, 0);
@@ -132,7 +183,7 @@ export const GitHubStats: React.FC = () => {
                   <Icon className="w-5 h-5" />
                 </div>
                 <span className="text-2xl sm:text-3xl font-extrabold text-white font-mono mb-1">
-                  {loading ? <Loader2 className="w-6 h-6 animate-spin inline" /> : stat.value}
+                  {loading ? <Loader2 className="w-6 h-6 animate-spin inline" aria-label="Loading" /> : stat.value}
                 </span>
                 <span className="text-xs font-bold text-zinc-400">{stat.label}</span>
               </motion.div>

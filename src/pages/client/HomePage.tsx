@@ -1,17 +1,24 @@
-import React from 'react';
+import { lazy, Suspense } from 'react';
 import { Navbar } from '../../components/client/Navbar';
 import { Hero } from '../../components/client/Hero';
 import { TechMarquee } from '../../components/client/TechMarquee';
 import { ExperienceTimeline } from '../../components/client/ExperienceTimeline';
-import { InteractiveTerminal } from '../../components/client/InteractiveTerminal';
-import { ProjectsSection } from '../../components/client/ProjectsSection';
-import { GitHubStats } from '../../components/client/GitHubStats';
-import { ContactSection } from '../../components/client/ContactSection';
 import { Footer } from '../../components/client/Footer';
 import { Toast } from '../../components/common/Toast';
 import { CursorGlow } from '../../components/common/CursorGlow';
 import { ScrollProgress } from '../../components/common/ScrollProgress';
 import { ParticleBackground } from '../../components/common/ParticleBackground';
+
+const InteractiveTerminal = lazy(() => import('../../components/client/InteractiveTerminal').then(m => ({ default: m.InteractiveTerminal })));
+const ProjectsSection = lazy(() => import('../../components/client/ProjectsSection').then(m => ({ default: m.ProjectsSection })));
+const GitHubStats = lazy(() => import('../../components/client/GitHubStats').then(m => ({ default: m.GitHubStats })));
+const ContactSection = lazy(() => import('../../components/client/ContactSection').then(m => ({ default: m.ContactSection })));
+
+const SectionLoader = () => (
+  <div className="py-20 flex items-center justify-center">
+    <div className="w-6 h-6 border-2 border-emerald-400 border-t-transparent rounded-full animate-spin" />
+  </div>
+);
 
 export const HomePage: React.FC = () => {
   return (
@@ -24,10 +31,12 @@ export const HomePage: React.FC = () => {
         <Hero />
         <TechMarquee />
         <ExperienceTimeline />
-        <InteractiveTerminal />
-        <ProjectsSection />
-        <GitHubStats />
-        <ContactSection />
+        <Suspense fallback={<SectionLoader />}>
+          <InteractiveTerminal />
+          <ProjectsSection />
+          <GitHubStats />
+          <ContactSection />
+        </Suspense>
       </main>
       <Footer />
       <Toast />
