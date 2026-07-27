@@ -1,6 +1,6 @@
-import React, { useState, FormEvent } from 'react';
+import { useState, useEffect, useRef, FormEvent } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Send, Github, Linkedin, Instagram, MapPin, CheckCircle2 } from 'lucide-react';
+import { Mail, Send, Github, Linkedin, Instagram, MapPin, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 
 export const ContactSection: React.FC = () => {
@@ -8,19 +8,28 @@ export const ContactSection: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [sending, setSending] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
     setSending(true);
+    setError('');
     try {
       await sendMessage(formData);
       setSubmitted(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => setSubmitted(false), 5000);
+      timeoutRef.current = setTimeout(() => setSubmitted(false), 5000);
     } catch (err) {
-      console.error(err);
+      setError(err instanceof Error ? err.message : 'Gagal mengirim pesan. Silakan coba lagi.');
     } finally {
       setSending(false);
     }
@@ -102,31 +111,34 @@ export const ContactSection: React.FC = () => {
               </span>
               <div className="flex items-center gap-4">
                 {profile?.github && (
-                  <a
-                    href={profile.github}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="p-4 rounded-2xl bg-white/5 border border-white/10 text-zinc-300 hover:text-white hover:border-white/30 transition-all hover:scale-105"
-                  >
-                    <Github className="w-5 h-5" />
-                  </a>
-                )}
-                {profile?.linkedin && (
-                  <a
-                    href={profile.linkedin}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="p-4 rounded-2xl bg-white/5 border border-white/10 text-zinc-300 hover:text-white hover:border-white/30 transition-all hover:scale-105"
-                  >
-                    <Linkedin className="w-5 h-5" />
-                  </a>
-                )}
-                {profile?.instagram && (
-                  <a
-                    href={profile.instagram}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="p-4 rounded-2xl bg-white/5 border border-white/10 text-zinc-300 hover:text-white hover:border-white/30 transition-all hover:scale-105"
+                <a
+                  href={profile.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="GitHub profile"
+                  className="p-4 rounded-2xl bg-white/5 border border-white/10 text-zinc-300 hover:text-white hover:border-white/30 transition-all hover:scale-105"
+                >
+                  <Github className="w-5 h-5" />
+                </a>
+              )}
+              {profile?.linkedin && (
+                <a
+                  href={profile.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="LinkedIn profile"
+                  className="p-4 rounded-2xl bg-white/5 border border-white/10 text-zinc-300 hover:text-white hover:border-white/30 transition-all hover:scale-105"
+                >
+                  <Linkedin className="w-5 h-5" />
+                </a>
+              )}
+              {profile?.instagram && (
+                <a
+                  href={profile.instagram}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Instagram profile"
+                  className="p-4 rounded-2xl bg-white/5 border border-white/10 text-zinc-300 hover:text-white hover:border-white/30 transition-all hover:scale-105"
                   >
                     <Instagram className="w-5 h-5" />
                   </a>
@@ -155,12 +167,21 @@ export const ContactSection: React.FC = () => {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
+                {error && (
+                  <div className="p-3.5 rounded-2xl bg-red-500/10 border border-red-500/20 text-xs text-red-400 flex items-center gap-2 font-mono font-semibold">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    <span>{error}</span>
+                  </div>
+                )}
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2 font-bold">Nama Lengkap *</label>
+                    <label htmlFor="contact-name" className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2 font-bold">Nama Lengkap *</label>
                     <input
+                      id="contact-name"
                       type="text"
                       required
+                      maxLength={100}
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="Masukkan nama Anda..."
@@ -168,10 +189,12 @@ export const ContactSection: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2 font-bold">Alamat Email *</label>
+                    <label htmlFor="contact-email" className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2 font-bold">Alamat Email *</label>
                     <input
+                      id="contact-email"
                       type="email"
                       required
+                      maxLength={254}
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="nama@domain.com"
@@ -181,8 +204,9 @@ export const ContactSection: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2 font-bold">Subjek Diskusi</label>
+                  <label htmlFor="contact-subject" className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2 font-bold">Subjek Diskusi</label>
                   <input
+                    id="contact-subject"
                     type="text"
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
@@ -192,20 +216,24 @@ export const ContactSection: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2 font-bold">Pesan Anda *</label>
+                  <label htmlFor="contact-message" className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2 font-bold">Pesan Anda *</label>
                   <textarea
+                    id="contact-message"
                     rows={5}
                     required
+                    maxLength={2000}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Tuliskan rincian kebutuhan projek atau pertanyaan Anda di sini..."
                     className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-4 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500/50 transition-colors font-medium resize-none"
                   />
+                  <span className="text-[10px] font-mono text-zinc-500 mt-1 block text-right">{formData.message.length}/2000</span>
                 </div>
 
                 <button
                   type="submit"
                   disabled={sending}
+                  aria-busy={sending}
                   className="btn-white-pill w-full inline-flex items-center justify-center gap-2.5 px-8 py-4.5 text-xs tracking-wider uppercase font-extrabold"
                 >
                   {sending ? (
