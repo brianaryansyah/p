@@ -1,9 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Home, ArrowLeft, AlertTriangle } from 'lucide-react';
 
 export const NotFoundPage: React.FC = () => {
+  const location = useLocation();
+
   return (
     <div className="min-h-screen bg-[#08080a] flex items-center justify-center px-4">
       <motion.div
@@ -13,14 +14,19 @@ export const NotFoundPage: React.FC = () => {
         className="text-center max-w-lg"
       >
         <div className="w-20 h-20 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mx-auto mb-8">
-          <AlertTriangle className="w-9 h-9 text-amber-400" />
+          <AlertTriangle className="w-9 h-9 text-amber-400" aria-hidden="true" />
         </div>
 
         <h1 className="text-7xl sm:text-8xl font-black text-white mb-4 font-mono">404</h1>
         <h2 className="text-xl sm:text-2xl font-extrabold text-white mb-4">Halaman Tidak Ditemukan</h2>
-        <p className="text-sm text-zinc-400 leading-relaxed mb-10 max-w-md mx-auto">
+        <p className="text-sm text-zinc-400 leading-relaxed mb-3 max-w-md mx-auto">
           Sepertinya halaman yang kamu cari sudah dipindahkan, dihapus, atau tidak pernah ada. Mari kita kembali ke halaman utama.
         </p>
+        {location.pathname !== '/' && (
+          <p className="text-xs font-mono text-zinc-500 mb-8">
+            URL yang diminta: <span className="text-zinc-400">{location.pathname}</span>
+          </p>
+        )}
 
         <div className="flex items-center justify-center gap-4">
           <Link

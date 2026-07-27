@@ -1,9 +1,9 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, AlertCircle, Info } from 'lucide-react';
+import { CheckCircle2, AlertCircle, Info, X } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 
 export const Toast: React.FC = () => {
-  const { toast } = useData();
+  const { toast, dismissToast } = useData();
 
   const isSuccess = toast?.type === 'success';
   const isError = toast?.type === 'error';
@@ -31,9 +31,16 @@ export const Toast: React.FC = () => {
             {isError && <AlertCircle className="w-5 h-5" />}
             {!isSuccess && !isError && <Info className="w-5 h-5" />}
           </div>
-          <p className="text-xs font-semibold text-zinc-100 leading-snug">
+          <p className="text-xs font-semibold text-zinc-100 leading-snug flex-1">
             {toast.message}
           </p>
+          <button
+            onClick={dismissToast}
+            aria-label="Tutup notifikasi"
+            className="p-1 rounded-full text-zinc-400 hover:text-white hover:bg-white/10 transition-colors shrink-0"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
         </motion.div>
       )}
     </AnimatePresence>

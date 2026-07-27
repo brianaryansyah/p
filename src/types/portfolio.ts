@@ -76,4 +76,5 @@ export interface DataContextType {
   sendMessage: (msg: { name: string; email: string; subject: string; message: string }) => Promise<void>;
   deleteMessage: (id: string) => Promise<void>;
   showToast: (message: string, type?: 'success' | 'error' | 'info') => void;
+  dismissToast: () => void;
 }

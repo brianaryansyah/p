@@ -65,7 +65,16 @@ export const ProjectsSection: React.FC = () => {
         {/* Main Projects Grid */}
         <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
           <AnimatePresence>
-            {filteredProjects.map((project, index) => (
+            {filteredProjects.length === 0 ? (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="col-span-full py-20 text-center"
+              >
+                <p className="text-sm text-zinc-400 font-mono">Tidak ada proyek yang cocok dengan filter ini.</p>
+              </motion.div>
+            ) : (
+            filteredProjects.map((project, index) => (
               <motion.div
                 key={project.id || project.title}
                 layout
@@ -162,6 +171,7 @@ export const ProjectsSection: React.FC = () => {
                 </div>
               </motion.div>
             ))}
+            )}
           </AnimatePresence>
         </motion.div>
 

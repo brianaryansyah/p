@@ -162,6 +162,10 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     }
   }, [showToast]);
 
+  const dismissToast = useCallback(() => {
+    setToast(null);
+  }, []);
+
   const value = useMemo(() => ({
     profile: profile || defaultProfile,
     skills,
@@ -169,6 +173,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     messages,
     toast,
     showToast,
+    dismissToast,
     updateProfile,
     addProject,
     updateProject,
@@ -178,7 +183,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     deleteSkill,
     sendMessage,
     deleteMessage
-  }), [profile, skills, projects, messages, toast, showToast, updateProfile, addProject, updateProject, deleteProject, addSkill, updateSkill, deleteSkill, sendMessage, deleteMessage]);
+  }), [profile, skills, projects, messages, toast, showToast, dismissToast, updateProfile, addProject, updateProject, deleteProject, addSkill, updateSkill, deleteSkill, sendMessage, deleteMessage]);
 
   return (
     <DataContext.Provider value={value}>
