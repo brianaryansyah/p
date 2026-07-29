@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform, MotionValue } from 'framer-motion';
 import { 
   Briefcase, 
   GraduationCap, 
@@ -7,10 +7,7 @@ import {
   Terminal, 
   Rocket, 
   ShieldCheck, 
-  Cpu, 
-  Sparkles,
-  ExternalLink,
-  ChevronRight
+  Cpu
 } from 'lucide-react';
 
 interface TimelineItem {
@@ -137,6 +134,132 @@ const timelineData: TimelineItem[] = [
   }
 ];
 
+interface TimelineItemRowProps {
+  item: TimelineItem;
+  index: number;
+  total: number;
+  smoothProgress: MotionValue<number>;
+}
+
+const TimelineItemRow: React.FC<TimelineItemRowProps> = ({ item, index, total, smoothProgress }) => {
+  const isEven = index % 2 === 0;
+  const Icon = item.icon;
+
+  // Calculate precise checkpoint progress threshold along timeline line
+  const startProgress = total > 1 ? (index / (total - 0.2)) * 0.85 : 0;
+  const endProgress = startProgress + 0.05;
+
+  // Motion transforms tied to scroll progress line (Bi-directional for Scroll Down & Scroll Up)
+  const cardOpacity = useTransform(smoothProgress, [startProgress, endProgress], [0, 1]);
+  const cardY = useTransform(smoothProgress, [startProgress, endProgress], [45, 0]);
+  const cardScale = useTransform(smoothProgress, [startProgress, endProgress], [0.92, 1]);
+  const cardX = useTransform(smoothProgress, [startProgress, endProgress], [isEven ? -30 : 30, 0]);
+
+  const nodeScale = useTransform(smoothProgress, [startProgress, endProgress], [0.3, 1]);
+  const nodeOpacity = useTransform(smoothProgress, [startProgress, endProgress], [0.2, 1]);
+  const nodeRotate = useTransform(smoothProgress, [startProgress, endProgress], [-60, 0]);
+
+  return (
+    <div
+      className={`relative flex items-start gap-8 md:gap-0 ${
+        isEven ? 'md:flex-row' : 'md:flex-row-reverse'
+      }`}
+    >
+      {/* Content Card with Bi-Directional Scroll Progress Animation */}
+      <div className={`flex-1 pl-16 md:pl-0 md:w-1/2 ${isEven ? 'md:pr-14' : 'md:pl-14'}`}>
+        <motion.div
+          style={{
+            opacity: cardOpacity,
+            y: cardY,
+            x: cardX,
+            scale: cardScale,
+            perspective: 1000
+          }}
+          whileHover={{ y: -8, scale: 1.02, rotateY: isEven ? -2 : 2 }}
+          className={`relative rounded-3xl p-7 sm:p-8 bg-[#111116]/90 border border-white/10 backdrop-blur-xl transition-all duration-500 group shadow-2xl overflow-hidden ${item.borderGlow}`}
+        >
+          {/* Ambient Gradient Glow Fill on Hover */}
+          <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${item.glowColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0`} />
+
+          <div className="relative z-10">
+            {/* Card Header: Icon & Date Badge */}
+            <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
+              <div className="flex items-center gap-3">
+                <motion.div
+                  whileHover={{ rotate: 12, scale: 1.15 }}
+                  className={`p-3 rounded-2xl ${item.badgeBg} border shadow-md flex items-center justify-center transition-transform duration-300`}
+                >
+                  <Icon className={`w-5 h-5 ${item.color}`} />
+                </motion.div>
+
+                <span className={`text-[11px] font-mono font-extrabold uppercase tracking-wider px-3 py-1 rounded-full ${item.badgeBg}`}>
+                  {item.type}
+                </span>
+              </div>
+
+              <span className="text-xs font-mono text-zinc-400 font-bold bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-full shadow-inner">
+                {item.date}
+              </span>
+            </div>
+
+            {/* Title & Organization */}
+            <h3 className="text-xl sm:text-2xl font-extrabold text-white mb-2 group-hover:text-emerald-400 transition-colors tracking-tight">
+              {item.title}
+            </h3>
+
+            <div className="flex items-center gap-2 mb-4">
+              <span className={`text-sm font-bold font-mono ${item.color}`}>
+                {item.organization}
+              </span>
+            </div>
+
+            {/* Description */}
+            <p className="text-sm text-zinc-300 leading-relaxed font-normal mb-6">
+              {item.description}
+            </p>
+
+            {/* Tech & Skill Badges */}
+            {item.tags && (
+              <div className="flex flex-wrap gap-2 pt-2 border-t border-white/5">
+                {item.tags.map(tag => (
+                  <motion.span
+                    key={tag}
+                    whileHover={{ scale: 1.08, y: -2 }}
+                    className="px-3 py-1.5 rounded-xl text-[11px] font-mono bg-white/5 text-zinc-300 border border-white/10 font-bold group-hover:border-white/20 transition-colors hover:text-white hover:bg-white/10 cursor-default"
+                  >
+                    {tag}
+                  </motion.span>
+                ))}
+              </div>
+            )}
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Interactive Timeline Center Node Circle */}
+      <div className="absolute left-6 md:left-1/2 -translate-x-1/2 z-20 top-6">
+        <motion.div
+          style={{
+            scale: nodeScale,
+            opacity: nodeOpacity,
+            rotate: nodeRotate
+          }}
+          whileHover={{ scale: 1.25, rotate: 15 }}
+          className={`w-11 h-11 rounded-2xl bg-[#0f0f14] border-2 border-white/20 flex items-center justify-center shadow-[0_0_25px_rgba(52,211,153,0.3)] cursor-pointer group/node backdrop-blur-md`}
+        >
+          {/* Pulsing Outer Ring */}
+          <span className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${item.accentGradient} opacity-30 group-hover/node:opacity-80 transition-opacity blur-xs`} />
+          
+          <Icon className={`w-5 h-5 ${item.color} relative z-10 transform group-hover/node:scale-110 transition-transform`} />
+        </motion.div>
+      </div>
+
+      {/* Spacer for Desktop Alternating Layout */}
+      <div className="hidden md:block flex-1 md:w-1/2" />
+    </div>
+  );
+};
+
 export const ExperienceTimeline: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -224,148 +347,15 @@ export const ExperienceTimeline: React.FC = () => {
 
           {/* Timeline Items List */}
           <div className="space-y-14 md:space-y-20">
-            {timelineData.map((item, index) => {
-              const Icon = item.icon;
-              const isEven = index % 2 === 0;
-
-              return (
-                <div
-                  key={item.id}
-                  className={`relative flex items-start gap-8 md:gap-0 ${
-                    isEven ? 'md:flex-row' : 'md:flex-row-reverse'
-                  }`}
-                >
-                  {/* Content Card with Swipe Reveal Animation (Mengusap) */}
-                  <div className={`flex-1 pl-16 md:pl-0 md:w-1/2 ${isEven ? 'md:pr-14' : 'md:pl-14'}`}>
-                    <motion.div
-                      initial={{
-                        opacity: 0,
-                        y: 45,
-                        x: isEven ? -40 : 40,
-                        scale: 0.94
-                      }}
-                      whileInView={{
-                        opacity: 1,
-                        y: 0,
-                        x: 0,
-                        scale: 1
-                      }}
-                      viewport={{ once: true, margin: '0px 0px -80px 0px', amount: 0.15 }}
-                      transition={{
-                        duration: 0.7,
-                        ease: [0.16, 1, 0.3, 1]
-                      }}
-                      whileHover={{ y: -8, scale: 1.02, rotateY: isEven ? -2 : 2 }}
-                      style={{ perspective: 1000 }}
-                      className={`relative rounded-3xl p-7 sm:p-8 bg-[#111116]/90 border border-white/10 backdrop-blur-xl transition-all duration-500 group shadow-2xl overflow-hidden ${item.borderGlow}`}
-                    >
-                      {/* Interactive Light Shimmer Flare */}
-                      <motion.div
-                        initial={{ x: '-100%', opacity: 0 }}
-                        whileInView={{ x: '200%', opacity: [0, 0.4, 0] }}
-                        viewport={{ once: true, margin: '0px 0px -80px 0px' }}
-                        transition={{ duration: 1.1, delay: 0.2, ease: 'easeInOut' }}
-                        className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 pointer-events-none z-20"
-                      />
-
-                      {/* Point Arrival Ambient Flash Glow */}
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: [0, 0.4, 0.08] }}
-                        viewport={{ once: true, margin: '0px 0px -80px 0px' }}
-                        transition={{ duration: 1.4, delay: 0.1 }}
-                        className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${item.glowColor} pointer-events-none z-0`}
-                      />
-
-                      {/* Ambient Gradient Glow Fill on Hover */}
-                      <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${item.glowColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0`} />
-
-                      <div className="relative z-10">
-                        {/* Card Header: Icon & Date Badge */}
-                        <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
-                          <div className="flex items-center gap-3">
-                            <motion.div
-                              whileHover={{ rotate: 12, scale: 1.15 }}
-                              className={`p-3 rounded-2xl ${item.badgeBg} border shadow-md flex items-center justify-center transition-transform duration-300`}
-                            >
-                              <Icon className={`w-5 h-5 ${item.color}`} />
-                            </motion.div>
-
-                            <span className={`text-[11px] font-mono font-extrabold uppercase tracking-wider px-3 py-1 rounded-full ${item.badgeBg}`}>
-                              {item.type}
-                            </span>
-                          </div>
-
-                          <span className="text-xs font-mono text-zinc-400 font-bold bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-full shadow-inner">
-                            {item.date}
-                          </span>
-                        </div>
-
-                        {/* Title & Organization */}
-                        <h3 className="text-xl sm:text-2xl font-extrabold text-white mb-2 group-hover:text-emerald-400 transition-colors tracking-tight">
-                          {item.title}
-                        </h3>
-
-                        <div className="flex items-center gap-2 mb-4">
-                          <span className={`text-sm font-bold font-mono ${item.color}`}>
-                            {item.organization}
-                          </span>
-                        </div>
-
-                        {/* Description */}
-                        <p className="text-sm text-zinc-300 leading-relaxed font-normal mb-6">
-                          {item.description}
-                        </p>
-
-                        {/* Tech & Skill Badges */}
-                        {item.tags && (
-                          <div className="flex flex-wrap gap-2 pt-2 border-t border-white/5">
-                            {item.tags.map(tag => (
-                              <motion.span
-                                key={tag}
-                                whileHover={{ scale: 1.08, y: -2 }}
-                                className="px-3 py-1.5 rounded-xl text-[11px] font-mono bg-white/5 text-zinc-300 border border-white/10 font-bold group-hover:border-white/20 transition-colors hover:text-white hover:bg-white/10 cursor-default"
-                              >
-                                {tag}
-                              </motion.span>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </motion.div>
-                  </div>
-
-                  {/* Interactive Timeline Center Node Circle */}
-                  <div className="absolute left-6 md:left-1/2 -translate-x-1/2 z-20 top-6">
-                    <motion.div
-                      initial={{ scale: 0, opacity: 0, rotate: -90 }}
-                      whileInView={{ scale: [0, 1.25, 1], opacity: [0, 1, 1], rotate: 0 }}
-                      viewport={{ once: true, margin: '0px 0px -80px 0px' }}
-                      transition={{ duration: 0.6, ease: [0.175, 0.885, 0.32, 1.275] }}
-                      whileHover={{ scale: 1.25, rotate: 15 }}
-                      className={`w-11 h-11 rounded-2xl bg-[#0f0f14] border-2 border-white/20 flex items-center justify-center shadow-[0_0_25px_rgba(52,211,153,0.3)] cursor-pointer group/node backdrop-blur-md`}
-                    >
-                      {/* Active Arrival Pulsing Beacon Ring */}
-                      <motion.span
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        whileInView={{ opacity: [0.8, 0], scale: [1, 1.8] }}
-                        viewport={{ once: true, margin: '0px 0px -80px 0px' }}
-                        transition={{ duration: 1.2, ease: 'easeOut' }}
-                        className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${item.accentGradient} pointer-events-none`}
-                      />
-
-                      {/* Pulsing Outer Ring */}
-                      <span className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${item.accentGradient} opacity-30 group-hover/node:opacity-80 transition-opacity blur-xs`} />
-                      
-                      <Icon className={`w-5 h-5 ${item.color} relative z-10 transform group-hover/node:scale-110 transition-transform`} />
-                    </motion.div>
-                  </div>
-
-                  {/* Spacer for Desktop Alternating Layout */}
-                  <div className="hidden md:block flex-1 md:w-1/2" />
-                </div>
-              );
-            })}
+            {timelineData.map((item, index) => (
+              <TimelineItemRow
+                key={item.id}
+                item={item}
+                index={index}
+                total={timelineData.length}
+                smoothProgress={smoothProgress}
+              />
+            ))}
           </div>
         </div>
       </div>
