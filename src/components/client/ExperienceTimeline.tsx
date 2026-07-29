@@ -240,21 +240,19 @@ export const ExperienceTimeline: React.FC = () => {
                     <motion.div
                       initial={{
                         opacity: 0,
-                        x: isEven ? -80 : 80,
-                        scale: 0.92,
-                        clipPath: isEven 
-                          ? 'polygon(0 0, 0 0, 0 100%, 0 100%)' 
-                          : 'polygon(100% 0, 100% 0, 100% 100%, 100% 100%)'
+                        y: 45,
+                        x: isEven ? -40 : 40,
+                        scale: 0.94
                       }}
                       whileInView={{
                         opacity: 1,
+                        y: 0,
                         x: 0,
-                        scale: 1,
-                        clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)'
+                        scale: 1
                       }}
                       viewport={{ once: true, margin: '0px 0px -220px 0px' }}
                       transition={{
-                        duration: 0.75,
+                        duration: 0.7,
                         ease: [0.16, 1, 0.3, 1]
                       }}
                       whileHover={{ y: -6, scale: 1.015 }}
