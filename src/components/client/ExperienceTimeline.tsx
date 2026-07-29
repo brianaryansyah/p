@@ -149,12 +149,12 @@ const TimelineItemRow: React.FC<TimelineItemRowProps> = ({ item, index }) => {
   // Track physical DOM scroll arrival of this row's node relative to middle of viewport
   const { scrollYProgress: rowProgress } = useScroll({
     target: rowRef,
-    offset: ['start 55%', 'start 38%']
+    offset: ['start 60%', 'start 50%']
   });
 
   const smoothRowProgress = useSpring(rowProgress, {
-    stiffness: 160,
-    damping: 30,
+    stiffness: 200,
+    damping: 25,
     restDelta: 0.001
   });
 
@@ -287,7 +287,7 @@ export const ExperienceTimeline: React.FC = () => {
   // Scroll Progress Driven Line Animation
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ['start 55%', 'end 75%']
+    offset: ['start center', 'end center']
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
