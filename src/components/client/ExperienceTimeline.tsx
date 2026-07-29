@@ -31,19 +31,19 @@ interface TimelineItem {
 
 const timelineData: TimelineItem[] = [
   {
-    id: 'tl-1',
-    type: 'experience',
-    title: 'Fullstack Web Developer Intern',
-    organization: 'PT Tech Indonesia',
-    date: 'Jan 2025 - Present',
-    description: 'Mengembangkan dan memelihara arsitektur microservices berbasis CodeIgniter 4 MVC dengan integrasi RESTful API endpoint untuk sistem manajemen akademis berskala enterprise.',
-    tags: ['CodeIgniter 4', 'MySQL', 'React', 'REST API'],
-    icon: Terminal,
-    color: 'text-emerald-400',
-    badgeBg: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-300',
-    borderGlow: 'group-hover:border-emerald-500/50',
-    glowColor: 'from-emerald-500/20 via-emerald-500/5 to-transparent',
-    accentGradient: 'from-emerald-400 to-teal-500'
+    id: 'tl-smp',
+    type: 'education',
+    title: 'Junior High School Education',
+    organization: 'SMPN 3 Pemalang',
+    date: '2018 - 2021',
+    description: 'Completed foundational secondary education with an emphasis on mathematics, natural sciences, and analytical problem-solving. Developed early passion for computer technology and digital systems.',
+    tags: ['Mathematics', 'Basic Science', 'Digital Literacy', 'Problem Solving'],
+    icon: GraduationCap,
+    color: 'text-amber-400',
+    badgeBg: 'bg-amber-500/10 border-amber-500/20 text-amber-300',
+    borderGlow: 'group-hover:border-amber-500/50',
+    glowColor: 'from-amber-500/20 via-amber-500/5 to-transparent',
+    accentGradient: 'from-amber-400 to-orange-500'
   },
   {
     id: 'tl-2',
