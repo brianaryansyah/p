@@ -250,7 +250,7 @@ export const ExperienceTimeline: React.FC = () => {
                         x: 0,
                         scale: 1
                       }}
-                      viewport={{ once: true, margin: '0px 0px -220px 0px' }}
+                      viewport={{ once: true, margin: '0px 0px -80px 0px', amount: 0.15 }}
                       transition={{
                         duration: 0.7,
                         ease: [0.16, 1, 0.3, 1]
@@ -262,7 +262,7 @@ export const ExperienceTimeline: React.FC = () => {
                       <motion.div
                         initial={{ x: '-100%', opacity: 0 }}
                         whileInView={{ x: '200%', opacity: [0, 0.4, 0] }}
-                        viewport={{ once: true, margin: '0px 0px -220px 0px' }}
+                        viewport={{ once: true, margin: '0px 0px -80px 0px' }}
                         transition={{ duration: 1.1, delay: 0.2, ease: 'easeInOut' }}
                         className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 pointer-events-none z-20"
                       />
@@ -271,7 +271,7 @@ export const ExperienceTimeline: React.FC = () => {
                       <motion.div
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: [0, 0.4, 0.08] }}
-                        viewport={{ once: true, margin: '0px 0px -220px 0px' }}
+                        viewport={{ once: true, margin: '0px 0px -80px 0px' }}
                         transition={{ duration: 1.4, delay: 0.1 }}
                         className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${item.glowColor} pointer-events-none z-0`}
                       />
@@ -338,7 +338,7 @@ export const ExperienceTimeline: React.FC = () => {
                     <motion.div
                       initial={{ scale: 0, opacity: 0, rotate: -90 }}
                       whileInView={{ scale: [0, 1.25, 1], opacity: [0, 1, 1], rotate: 0 }}
-                      viewport={{ once: true, margin: '0px 0px -220px 0px' }}
+                      viewport={{ once: true, margin: '0px 0px -80px 0px' }}
                       transition={{ duration: 0.6, ease: [0.175, 0.885, 0.32, 1.275] }}
                       whileHover={{ scale: 1.25, rotate: 15 }}
                       className={`w-11 h-11 rounded-2xl bg-[#0f0f14] border-2 border-white/20 flex items-center justify-center shadow-[0_0_25px_rgba(52,211,153,0.3)] cursor-pointer group/node backdrop-blur-md`}
@@ -347,7 +347,7 @@ export const ExperienceTimeline: React.FC = () => {
                       <motion.span
                         initial={{ opacity: 0, scale: 0.8 }}
                         whileInView={{ opacity: [0.8, 0], scale: [1, 1.8] }}
-                        viewport={{ once: true, margin: '0px 0px -220px 0px' }}
+                        viewport={{ once: true, margin: '0px 0px -80px 0px' }}
                         transition={{ duration: 1.2, ease: 'easeOut' }}
                         className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${item.accentGradient} pointer-events-none`}
                       />
