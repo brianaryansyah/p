@@ -255,10 +255,11 @@ export const ExperienceTimeline: React.FC = () => {
                         duration: 0.7,
                         ease: [0.16, 1, 0.3, 1]
                       }}
-                      whileHover={{ y: -6, scale: 1.015 }}
+                      whileHover={{ y: -8, scale: 1.02, rotateY: isEven ? -2 : 2 }}
+                      style={{ perspective: 1000 }}
                       className={`relative rounded-3xl p-7 sm:p-8 bg-[#111116]/90 border border-white/10 backdrop-blur-xl transition-all duration-500 group shadow-2xl overflow-hidden ${item.borderGlow}`}
                     >
-                      {/* Interactive Swipe Light Shimmer Flare */}
+                      {/* Interactive Light Shimmer Flare */}
                       <motion.div
                         initial={{ x: '-100%', opacity: 0 }}
                         whileInView={{ x: '200%', opacity: [0, 0.4, 0] }}
@@ -284,7 +285,7 @@ export const ExperienceTimeline: React.FC = () => {
                         <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
                           <div className="flex items-center gap-3">
                             <motion.div
-                              whileHover={{ rotate: 12, scale: 1.1 }}
+                              whileHover={{ rotate: 12, scale: 1.15 }}
                               className={`p-3 rounded-2xl ${item.badgeBg} border shadow-md flex items-center justify-center transition-transform duration-300`}
                             >
                               <Icon className={`w-5 h-5 ${item.color}`} />
@@ -320,12 +321,13 @@ export const ExperienceTimeline: React.FC = () => {
                         {item.tags && (
                           <div className="flex flex-wrap gap-2 pt-2 border-t border-white/5">
                             {item.tags.map(tag => (
-                              <span
+                              <motion.span
                                 key={tag}
-                                className="px-3 py-1.5 rounded-xl text-[11px] font-mono bg-white/5 text-zinc-300 border border-white/10 font-bold group-hover:border-white/20 transition-colors hover:text-white"
+                                whileHover={{ scale: 1.08, y: -2 }}
+                                className="px-3 py-1.5 rounded-xl text-[11px] font-mono bg-white/5 text-zinc-300 border border-white/10 font-bold group-hover:border-white/20 transition-colors hover:text-white hover:bg-white/10 cursor-default"
                               >
                                 {tag}
-                              </span>
+                              </motion.span>
                             ))}
                           </div>
                         )}
