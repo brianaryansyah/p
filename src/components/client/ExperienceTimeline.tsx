@@ -330,12 +330,21 @@ export const ExperienceTimeline: React.FC = () => {
                   <div className="absolute left-6 md:left-1/2 -translate-x-1/2 z-20 top-6">
                     <motion.div
                       initial={{ scale: 0, opacity: 0, rotate: -90 }}
-                      whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
+                      whileInView={{ scale: [0, 1.25, 1], opacity: [0, 1, 1], rotate: 0 }}
                       viewport={{ once: true, margin: '0px 0px -220px 0px' }}
-                      transition={{ type: 'spring', stiffness: 350, damping: 20 }}
+                      transition={{ duration: 0.6, ease: [0.175, 0.885, 0.32, 1.275] }}
                       whileHover={{ scale: 1.25, rotate: 15 }}
-                      className={`w-11 h-11 rounded-2xl bg-[#0f0f14] border-2 border-white/20 flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.8)] cursor-pointer group/node backdrop-blur-md`}
+                      className={`w-11 h-11 rounded-2xl bg-[#0f0f14] border-2 border-white/20 flex items-center justify-center shadow-[0_0_25px_rgba(52,211,153,0.3)] cursor-pointer group/node backdrop-blur-md`}
                     >
+                      {/* Active Arrival Pulsing Beacon Ring */}
+                      <motion.span
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: [0.8, 0], scale: [1, 1.8] }}
+                        viewport={{ once: true, margin: '0px 0px -220px 0px' }}
+                        transition={{ duration: 1.2, ease: 'easeOut' }}
+                        className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${item.accentGradient} pointer-events-none`}
+                      />
+
                       {/* Pulsing Outer Ring */}
                       <span className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${item.accentGradient} opacity-30 group-hover/node:opacity-80 transition-opacity blur-xs`} />
                       
