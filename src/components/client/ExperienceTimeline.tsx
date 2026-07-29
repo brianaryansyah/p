@@ -240,7 +240,8 @@ export const ExperienceTimeline: React.FC = () => {
                     <motion.div
                       initial={{
                         opacity: 0,
-                        x: isEven ? -70 : 70,
+                        x: isEven ? -80 : 80,
+                        scale: 0.92,
                         clipPath: isEven 
                           ? 'polygon(0 0, 0 0, 0 100%, 0 100%)' 
                           : 'polygon(100% 0, 100% 0, 100% 100%, 100% 100%)'
@@ -248,12 +249,12 @@ export const ExperienceTimeline: React.FC = () => {
                       whileInView={{
                         opacity: 1,
                         x: 0,
+                        scale: 1,
                         clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)'
                       }}
-                      viewport={{ once: true, margin: '-60px' }}
+                      viewport={{ once: true, margin: '0px 0px -220px 0px' }}
                       transition={{
-                        duration: 0.85,
-                        delay: index * 0.05,
+                        duration: 0.75,
                         ease: [0.16, 1, 0.3, 1]
                       }}
                       whileHover={{ y: -6, scale: 1.015 }}
@@ -263,8 +264,8 @@ export const ExperienceTimeline: React.FC = () => {
                       <motion.div
                         initial={{ x: '-100%', opacity: 0 }}
                         whileInView={{ x: '200%', opacity: [0, 0.4, 0] }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1.2, delay: 0.3 + index * 0.1, ease: 'easeInOut' }}
+                        viewport={{ once: true, margin: '0px 0px -220px 0px' }}
+                        transition={{ duration: 1.1, delay: 0.2, ease: 'easeInOut' }}
                         className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 pointer-events-none z-20"
                       />
 
@@ -328,10 +329,10 @@ export const ExperienceTimeline: React.FC = () => {
                   {/* Interactive Timeline Center Node Circle */}
                   <div className="absolute left-6 md:left-1/2 -translate-x-1/2 z-20 top-6">
                     <motion.div
-                      initial={{ scale: 0, rotate: -90 }}
-                      whileInView={{ scale: 1, rotate: 0 }}
-                      viewport={{ once: true, margin: '-40px' }}
-                      transition={{ type: 'spring', stiffness: 350, damping: 20, delay: index * 0.08 }}
+                      initial={{ scale: 0, opacity: 0, rotate: -90 }}
+                      whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
+                      viewport={{ once: true, margin: '0px 0px -220px 0px' }}
+                      transition={{ type: 'spring', stiffness: 350, damping: 20 }}
                       whileHover={{ scale: 1.25, rotate: 15 }}
                       className={`w-11 h-11 rounded-2xl bg-[#0f0f14] border-2 border-white/20 flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.8)] cursor-pointer group/node backdrop-blur-md`}
                     >
