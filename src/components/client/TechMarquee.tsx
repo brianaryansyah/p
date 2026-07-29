@@ -205,11 +205,11 @@ export const TechMarquee: React.FC = () => {
         <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#08080a] to-transparent z-10 pointer-events-none" />
         
         <motion.div
-          animate={{ x: ['0%', '-50%'] }}
+          animate={{ x: ['0%', '-25%'] }}
           transition={{ duration: 24, repeat: Infinity, ease: 'linear' }}
           className="flex gap-4 w-max"
         >
-          {[...firstRowStack, ...firstRowStack].map((tech, i) => (
+          {[...firstRowStack, ...firstRowStack, ...firstRowStack, ...firstRowStack].map((tech, i) => (
             <TechBadge key={`row1-${i}`} tech={tech} />
           ))}
         </motion.div>
@@ -221,11 +221,11 @@ export const TechMarquee: React.FC = () => {
         <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#08080a] to-transparent z-10 pointer-events-none" />
         
         <motion.div
-          animate={{ x: ['-50%', '0%'] }}
+          animate={{ x: ['-25%', '0%'] }}
           transition={{ duration: 26, repeat: Infinity, ease: 'linear' }}
           className="flex gap-4 w-max"
         >
-          {[...secondRowStack, ...secondRowStack].map((tech, i) => (
+          {[...secondRowStack, ...secondRowStack, ...secondRowStack, ...secondRowStack].map((tech, i) => (
             <TechBadge key={`row2-${i}`} tech={tech} />
           ))}
         </motion.div>
