@@ -141,30 +141,40 @@ interface TimelineItemRowProps {
   smoothProgress: MotionValue<number>;
 }
 
-const TimelineItemRow: React.FC<TimelineItemRowProps> = ({ item, index, total, smoothProgress }) => {
+const TimelineItemRow: React.FC<TimelineItemRowProps> = ({ item, index }) => {
   const isEven = index % 2 === 0;
   const Icon = item.icon;
+  const rowRef = useRef<HTMLDivElement>(null);
 
-  // Calculate precise checkpoint progress threshold along timeline line
-  const startProgress = total > 1 ? (index / (total - 0.2)) * 0.85 : 0;
-  const endProgress = startProgress + 0.05;
+  // Track physical DOM scroll arrival of this row's node relative to middle of viewport
+  const { scrollYProgress: rowProgress } = useScroll({
+    target: rowRef,
+    offset: ['start 50%', 'start 35%']
+  });
 
-  // Motion transforms tied to scroll progress line (Bi-directional for Scroll Down & Scroll Up)
-  const cardOpacity = useTransform(smoothProgress, [startProgress, endProgress], [0, 1]);
-  const cardY = useTransform(smoothProgress, [startProgress, endProgress], [40, 0]);
-  const cardScale = useTransform(smoothProgress, [startProgress, endProgress], [0.91, 1]);
-  const cardX = useTransform(smoothProgress, [startProgress, endProgress], [isEven ? -35 : 35, 0]);
-  const cardPointerEvents = useTransform(smoothProgress, (v) => (v >= startProgress ? 'auto' : 'none'));
+  const smoothRowProgress = useSpring(rowProgress, {
+    stiffness: 140,
+    damping: 28,
+    restDelta: 0.001
+  });
 
-  const nodeScale = useTransform(smoothProgress, [startProgress, endProgress], [0.2, 1]);
-  const nodeOpacity = useTransform(smoothProgress, [startProgress, endProgress], [0.15, 1]);
-  const nodeRotate = useTransform(smoothProgress, [startProgress, endProgress], [-90, 0]);
+  // Motion transforms tied directly to this row's physical scroll arrival (Bi-directional for Scroll Down & Scroll Up)
+  const cardOpacity = useTransform(smoothRowProgress, [0, 1], [0, 1]);
+  const cardY = useTransform(smoothRowProgress, [0, 1], [40, 0]);
+  const cardScale = useTransform(smoothRowProgress, [0, 1], [0.91, 1]);
+  const cardX = useTransform(smoothRowProgress, [0, 1], [isEven ? -35 : 35, 0]);
+  const cardPointerEvents = useTransform(smoothRowProgress, (v) => (v > 0.1 ? 'auto' : 'none'));
 
-  const beaconOpacity = useTransform(smoothProgress, [startProgress - 0.01, startProgress + 0.02, endProgress + 0.03], [0, 0.9, 0]);
-  const beaconScale = useTransform(smoothProgress, [startProgress - 0.01, startProgress + 0.02, endProgress + 0.03], [0.8, 1.8, 1]);
+  const nodeScale = useTransform(smoothRowProgress, [0, 1], [0.2, 1]);
+  const nodeOpacity = useTransform(smoothRowProgress, [0, 1], [0.15, 1]);
+  const nodeRotate = useTransform(smoothRowProgress, [0, 1], [-90, 0]);
+
+  const beaconOpacity = useTransform(smoothRowProgress, [0.05, 0.5, 0.95], [0, 0.9, 0]);
+  const beaconScale = useTransform(smoothRowProgress, [0.05, 0.5, 0.95], [0.8, 1.8, 1]);
 
   return (
     <div
+      ref={rowRef}
       className={`relative flex items-start gap-8 md:gap-0 ${
         isEven ? 'md:flex-row' : 'md:flex-row-reverse'
       }`}
