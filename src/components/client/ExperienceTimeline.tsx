@@ -287,7 +287,7 @@ export const ExperienceTimeline: React.FC = () => {
   // Scroll Progress Driven Line Animation
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ['start 65%', 'end 75%']
+    offset: ['start 55%', 'end 75%']
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
