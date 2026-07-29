@@ -22,7 +22,11 @@ export const Navbar: React.FC = () => {
         }
         return false;
       });
-      if (current) setActiveSection(current);
+      if (current) {
+        setActiveSection(current);
+      } else if (window.scrollY < 150) {
+        setActiveSection('');
+      }
     });
   }, []);
 
