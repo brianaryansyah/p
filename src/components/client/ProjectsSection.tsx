@@ -175,32 +175,6 @@ export const ProjectsSection: React.FC = () => {
           </AnimatePresence>
         </motion.div>
 
-        {/* Gallery Tile Snapshot Grid */}
-        <div className="pt-14 border-t border-white/5">
-          <div className="flex items-center justify-between mb-8">
-            <span className="text-xs font-mono uppercase tracking-widest text-zinc-400 flex items-center gap-2 font-bold">
-              <Sparkles className="w-4 h-4 text-emerald-400 animate-pulse" />
-              <span>Snapshot Galeri Visual & Eksplorasi Kode</span>
-            </span>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4">
-            {galleryTiles.map((tile, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ scale: 1.08, y: -6, rotateZ: i % 2 === 0 ? 1.5 : -1.5 }}
-                transition={{ type: "spring", stiffness: 280, damping: 20 }}
-                className="relative rounded-2xl overflow-hidden aspect-square border border-white/10 bg-black group cursor-pointer shadow-lg"
-              >
-                <img src={tile.image} alt={tile.title} loading="lazy" decoding="async" className="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
-                  <span className="text-xs font-mono text-white font-bold line-clamp-1">{tile.title}</span>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
       </div>
 
       {/* Detail Modal */}
