@@ -160,6 +160,9 @@ const TimelineItemRow: React.FC<TimelineItemRowProps> = ({ item, index, total, s
   const nodeOpacity = useTransform(smoothProgress, [startProgress, endProgress], [0.15, 1]);
   const nodeRotate = useTransform(smoothProgress, [startProgress, endProgress], [-90, 0]);
 
+  const beaconOpacity = useTransform(smoothProgress, [startProgress - 0.01, startProgress + 0.02, endProgress + 0.03], [0, 0.9, 0]);
+  const beaconScale = useTransform(smoothProgress, [startProgress - 0.01, startProgress + 0.02, endProgress + 0.03], [0.8, 1.8, 1]);
+
   return (
     <div
       className={`relative flex items-start gap-8 md:gap-0 ${
@@ -249,6 +252,12 @@ const TimelineItemRow: React.FC<TimelineItemRowProps> = ({ item, index, total, s
           whileHover={{ scale: 1.25, rotate: 15 }}
           className={`w-11 h-11 rounded-2xl bg-[#0f0f14] border-2 border-white/20 flex items-center justify-center shadow-[0_0_25px_rgba(52,211,153,0.3)] cursor-pointer group/node backdrop-blur-md`}
         >
+          {/* Active Checkpoint Arrival Pulse Beacon */}
+          <motion.span
+            style={{ opacity: beaconOpacity, scale: beaconScale }}
+            className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${item.accentGradient} pointer-events-none`}
+          />
+
           {/* Pulsing Outer Ring */}
           <span className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${item.accentGradient} opacity-30 group-hover/node:opacity-80 transition-opacity blur-xs`} />
           
