@@ -151,13 +151,14 @@ const TimelineItemRow: React.FC<TimelineItemRowProps> = ({ item, index, total, s
 
   // Motion transforms tied to scroll progress line (Bi-directional for Scroll Down & Scroll Up)
   const cardOpacity = useTransform(smoothProgress, [startProgress, endProgress], [0, 1]);
-  const cardY = useTransform(smoothProgress, [startProgress, endProgress], [45, 0]);
-  const cardScale = useTransform(smoothProgress, [startProgress, endProgress], [0.92, 1]);
-  const cardX = useTransform(smoothProgress, [startProgress, endProgress], [isEven ? -30 : 30, 0]);
+  const cardY = useTransform(smoothProgress, [startProgress, endProgress], [40, 0]);
+  const cardScale = useTransform(smoothProgress, [startProgress, endProgress], [0.91, 1]);
+  const cardX = useTransform(smoothProgress, [startProgress, endProgress], [isEven ? -35 : 35, 0]);
+  const cardPointerEvents = useTransform(smoothProgress, (v) => (v >= startProgress ? 'auto' : 'none'));
 
-  const nodeScale = useTransform(smoothProgress, [startProgress, endProgress], [0.3, 1]);
-  const nodeOpacity = useTransform(smoothProgress, [startProgress, endProgress], [0.2, 1]);
-  const nodeRotate = useTransform(smoothProgress, [startProgress, endProgress], [-60, 0]);
+  const nodeScale = useTransform(smoothProgress, [startProgress, endProgress], [0.2, 1]);
+  const nodeOpacity = useTransform(smoothProgress, [startProgress, endProgress], [0.15, 1]);
+  const nodeRotate = useTransform(smoothProgress, [startProgress, endProgress], [-90, 0]);
 
   return (
     <div
@@ -173,6 +174,7 @@ const TimelineItemRow: React.FC<TimelineItemRowProps> = ({ item, index, total, s
             y: cardY,
             x: cardX,
             scale: cardScale,
+            pointerEvents: cardPointerEvents,
             perspective: 1000
           }}
           whileHover={{ y: -8, scale: 1.02, rotateY: isEven ? -2 : 2 }}
