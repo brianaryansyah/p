@@ -46,6 +46,21 @@ const timelineData: TimelineItem[] = [
     accentGradient: 'from-amber-400 to-orange-500'
   },
   {
+    id: 'tl-sma',
+    type: 'education',
+    title: 'Senior High School - MIPA',
+    organization: 'SMAN 1 Pemalang',
+    date: '2021 - 2024',
+    description: 'Graduated from Mathematics and Natural Sciences (MIPA) program. Specialized in advanced algebra, physics, logical reasoning, and computational thinking, establishing a strong foundation for web technology and software engineering.',
+    tags: ['MIPA', 'Mathematics', 'Physics', 'Computational Logic'],
+    icon: GraduationCap,
+    color: 'text-indigo-400',
+    badgeBg: 'bg-indigo-500/10 border-indigo-500/20 text-indigo-300',
+    borderGlow: 'group-hover:border-indigo-500/50',
+    glowColor: 'from-indigo-500/20 via-indigo-500/5 to-transparent',
+    accentGradient: 'from-indigo-400 to-purple-500'
+  },
+  {
     id: 'tl-2',
     type: 'education',
     title: 'Teknik Informatika - Semester 4',
