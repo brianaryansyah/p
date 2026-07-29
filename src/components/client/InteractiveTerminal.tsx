@@ -28,7 +28,10 @@ export const InteractiveTerminal: React.FC = () => {
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    // Only scroll terminal container into view when new commands are executed, not on initial mount
+    if (history.length > 1) {
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
   }, [history]);
 
   const handleCommand = (cmd: string) => {
