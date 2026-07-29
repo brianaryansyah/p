@@ -149,21 +149,21 @@ const TimelineItemRow: React.FC<TimelineItemRowProps> = ({ item, index }) => {
   // Track physical DOM scroll arrival of this row's node relative to middle of viewport
   const { scrollYProgress: rowProgress } = useScroll({
     target: rowRef,
-    offset: ['start 50%', 'start 35%']
+    offset: ['start 55%', 'start 38%']
   });
 
   const smoothRowProgress = useSpring(rowProgress, {
-    stiffness: 140,
-    damping: 28,
+    stiffness: 160,
+    damping: 30,
     restDelta: 0.001
   });
 
   // Motion transforms tied directly to this row's physical scroll arrival (Bi-directional for Scroll Down & Scroll Up)
-  const cardOpacity = useTransform(smoothRowProgress, [0, 1], [0, 1]);
-  const cardY = useTransform(smoothRowProgress, [0, 1], [40, 0]);
-  const cardScale = useTransform(smoothRowProgress, [0, 1], [0.91, 1]);
-  const cardX = useTransform(smoothRowProgress, [0, 1], [isEven ? -35 : 35, 0]);
-  const cardPointerEvents = useTransform(smoothRowProgress, (v) => (v > 0.1 ? 'auto' : 'none'));
+  const cardOpacity = useTransform(smoothRowProgress, [0, 0.95], [0, 1]);
+  const cardY = useTransform(smoothRowProgress, [0, 0.95], [45, 0]);
+  const cardScale = useTransform(smoothRowProgress, [0, 0.95], [0.9, 1]);
+  const cardX = useTransform(smoothRowProgress, [0, 0.95], [isEven ? -40 : 40, 0]);
+  const cardPointerEvents = useTransform(smoothRowProgress, (v) => (v > 0.08 ? 'auto' : 'none'));
 
   const nodeScale = useTransform(smoothRowProgress, [0, 1], [0.2, 1]);
   const nodeOpacity = useTransform(smoothRowProgress, [0, 1], [0.15, 1]);
