@@ -170,7 +170,7 @@ export const ProjectsSection: React.FC = () => {
                   </div>
                 </div>
               </motion.div>
-            ))}
+            ))
             )}
           </AnimatePresence>
         </motion.div>
