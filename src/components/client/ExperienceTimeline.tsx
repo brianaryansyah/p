@@ -269,7 +269,16 @@ export const ExperienceTimeline: React.FC = () => {
                         className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 pointer-events-none z-20"
                       />
 
-                      {/* Ambient Gradient Glow Fill */}
+                      {/* Point Arrival Ambient Flash Glow */}
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: [0, 0.4, 0.08] }}
+                        viewport={{ once: true, margin: '0px 0px -220px 0px' }}
+                        transition={{ duration: 1.4, delay: 0.1 }}
+                        className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${item.glowColor} pointer-events-none z-0`}
+                      />
+
+                      {/* Ambient Gradient Glow Fill on Hover */}
                       <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${item.glowColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0`} />
 
                       <div className="relative z-10">
